@@ -1,0 +1,1 @@
+lambda_chipass_healpix_r10.fits filter=lfs diff=lfs merge=lfs -text

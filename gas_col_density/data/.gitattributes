@@ -1,0 +1,4 @@
+HFI_CompMap_ThermalDustModel_2048_R1.20.fits filter=lfs diff=lfs merge=lfs -text
+planck_mask.fits filter=lfs diff=lfs merge=lfs -text
+COM_Mask_Likelihood_2048_R1.10.fits filter=lfs diff=lfs merge=lfs -text
+mask_g35g45g56.fits filter=lfs diff=lfs merge=lfs -text

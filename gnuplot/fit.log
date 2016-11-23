@@ -1,0 +1,687 @@
+
+
+*******************************************************************************
+Fri Mar 11 16:45:50 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-70.0000 : 50.0000]
+        #datapoints = 745
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 5487.15           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 16.2065
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3348.68
+rel. change during last iteration : -1.83291e-06
+
+degrees of freedom    (FIT_NDF)                        : 740
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.12726
+variance of residuals (reduced chisquare) = WSSR/ndf   : 4.52524
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = -0.00278043      +/- 0.002255     (81.1%)
+b               = 0.913125         +/- 0.08644      (9.466%)
+c               = 52.33            +/- 0.4857       (0.9282%)
+d               = -4.74424         +/- 0.02823      (0.5951%)
+e               = 7.03503          +/- 0.1531       (2.176%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.281  1.000 
+c              -0.020 -0.121  1.000 
+d              -0.030 -0.009 -0.000  1.000 
+e              -0.034 -0.207 -0.535  0.002  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 16:50:42 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-70.0000 : 50.0000]
+        #datapoints = 745
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 38254.2           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 16.2097
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3348.69
+rel. change during last iteration : -3.75322e-06
+
+degrees of freedom    (FIT_NDF)                        : 740
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.12726
+variance of residuals (reduced chisquare) = WSSR/ndf   : 4.52525
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = -0.00278724      +/- 0.002255     (80.91%)
+b               = 0.911994         +/- 0.08645      (9.479%)
+c               = 52.314           +/- 0.4855       (0.9281%)
+d               = -4.74336         +/- 0.02825      (0.5956%)
+e               = 2.65415          +/- 0.02888      (1.088%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.281  1.000 
+c              -0.020 -0.122  1.000 
+d              -0.030 -0.009 -0.000  1.000 
+e              -0.034 -0.208 -0.534  0.002  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 16:51:02 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-70.0000 : 50.0000]
+        #datapoints = 745
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 38254.2           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 16.2097
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3348.69
+rel. change during last iteration : -3.75322e-06
+
+degrees of freedom    (FIT_NDF)                        : 740
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.12726
+variance of residuals (reduced chisquare) = WSSR/ndf   : 4.52525
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = -0.00278724      +/- 0.002255     (80.91%)
+b               = 0.911994         +/- 0.08645      (9.479%)
+c               = 52.314           +/- 0.4855       (0.9281%)
+d               = -4.74336         +/- 0.02825      (0.5956%)
+e               = 2.65415          +/- 0.02888      (1.088%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.281  1.000 
+c              -0.020 -0.122  1.000 
+d              -0.030 -0.009 -0.000  1.000 
+e              -0.034 -0.208 -0.534  0.002  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 16:57:41 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-70.0000 : 50.0000]
+        #datapoints = 745
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x) [-20:20]
+fitted parameters initialized with current variable values
+
+
+
+*******************************************************************************
+Fri Mar 11 16:59:00 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-20.0000 : 20.0000]
+        #datapoints = 248
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 37766.1           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 5.85486
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 2818.21
+rel. change during last iteration : -8.94495e-06
+
+degrees of freedom    (FIT_NDF)                        : 243
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 3.40552
+variance of residuals (reduced chisquare) = WSSR/ndf   : 11.5976
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = -0.0293737       +/- 0.01984      (67.54%)
+b               = 2.46468          +/- 0.2685       (10.89%)
+c               = 51.6828          +/- 0.8255       (1.597%)
+d               = -4.77741         +/- 0.04476      (0.9368%)
+e               = 2.48206          +/- 0.04872      (1.963%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b              -0.176  1.000 
+c               0.122 -0.244  1.000 
+d              -0.149  0.026 -0.019  1.000 
+e               0.198 -0.398 -0.399 -0.029  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 17:00:03 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-20.0000 : 20.0000]
+        #datapoints = 248
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 37766.1           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 5.85486
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 2818.21
+rel. change during last iteration : -8.94495e-06
+
+degrees of freedom    (FIT_NDF)                        : 243
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 3.40552
+variance of residuals (reduced chisquare) = WSSR/ndf   : 11.5976
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = -0.0293737       +/- 0.01984      (67.54%)
+b               = 2.46468          +/- 0.2685       (10.89%)
+c               = 51.6828          +/- 0.8255       (1.597%)
+d               = -4.77741         +/- 0.04476      (0.9368%)
+e               = 2.48206          +/- 0.04872      (1.963%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b              -0.176  1.000 
+c               0.122 -0.244  1.000 
+d              -0.149  0.026 -0.019  1.000 
+e               0.198 -0.398 -0.399 -0.029  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 17:03:28 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-40.0000 : 25.0000]
+        #datapoints = 404
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 38004.8           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 9.31408
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3036.78
+rel. change during last iteration : -5.59058e-06
+
+degrees of freedom    (FIT_NDF)                        : 399
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.7588
+variance of residuals (reduced chisquare) = WSSR/ndf   : 7.61097
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 0.00448556       +/- 0.00735      (163.9%)
+b               = 1.68819          +/- 0.1661       (9.837%)
+c               = 52.0757          +/- 0.6443       (1.237%)
+d               = -4.76595         +/- 0.03632      (0.7621%)
+e               = 2.573            +/- 0.03784      (1.471%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.367  1.000 
+c              -0.028 -0.168  1.000 
+d              -0.073 -0.027  0.001  1.000 
+e              -0.048 -0.283 -0.494  0.004  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 17:15:07 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-40.0000 : 25.0000]
+        #datapoints = 404
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 38004.8           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 9.31408
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3036.78
+rel. change during last iteration : -5.59058e-06
+
+degrees of freedom    (FIT_NDF)                        : 399
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.7588
+variance of residuals (reduced chisquare) = WSSR/ndf   : 7.61097
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 0.00448556       +/- 0.00735      (163.9%)
+b               = 1.68819          +/- 0.1661       (9.837%)
+c               = 52.0757          +/- 0.6443       (1.237%)
+d               = -4.76595         +/- 0.03632      (0.7621%)
+e               = 2.573            +/- 0.03784      (1.471%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.367  1.000 
+c              -0.028 -0.168  1.000 
+d              -0.073 -0.027  0.001  1.000 
+e              -0.048 -0.283 -0.494  0.004  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 17:15:19 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-40.0000 : 25.0000]
+        #datapoints = 404
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 38004.8           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 9.31408
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3036.78
+rel. change during last iteration : -5.59058e-06
+
+degrees of freedom    (FIT_NDF)                        : 399
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.7588
+variance of residuals (reduced chisquare) = WSSR/ndf   : 7.61097
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 0.00448556       +/- 0.00735      (163.9%)
+b               = 1.68819          +/- 0.1661       (9.837%)
+c               = 52.0757          +/- 0.6443       (1.237%)
+d               = -4.76595         +/- 0.03632      (0.7621%)
+e               = 2.573            +/- 0.03784      (1.471%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.367  1.000 
+c              -0.028 -0.168  1.000 
+d              -0.073 -0.027  0.001  1.000 
+e              -0.048 -0.283 -0.494  0.004  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 17:16:08 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-40.0000 : 25.0000]
+        #datapoints = 404
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 38004.8           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 9.31408
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3036.78
+rel. change during last iteration : -5.59058e-06
+
+degrees of freedom    (FIT_NDF)                        : 399
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.7588
+variance of residuals (reduced chisquare) = WSSR/ndf   : 7.61097
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 0.00448556       +/- 0.00735      (163.9%)
+b               = 1.68819          +/- 0.1661       (9.837%)
+c               = 52.0757          +/- 0.6443       (1.237%)
+d               = -4.76595         +/- 0.03632      (0.7621%)
+e               = 2.573            +/- 0.03784      (1.471%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.367  1.000 
+c              -0.028 -0.168  1.000 
+d              -0.073 -0.027  0.001  1.000 
+e              -0.048 -0.283 -0.494  0.004  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 17:16:24 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-40.0000 : 25.0000]
+        #datapoints = 404
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 38004.8           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 9.31408
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3036.78
+rel. change during last iteration : -5.59058e-06
+
+degrees of freedom    (FIT_NDF)                        : 399
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.7588
+variance of residuals (reduced chisquare) = WSSR/ndf   : 7.61097
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 0.00448556       +/- 0.00735      (163.9%)
+b               = 1.68819          +/- 0.1661       (9.837%)
+c               = 52.0757          +/- 0.6443       (1.237%)
+d               = -4.76595         +/- 0.03632      (0.7621%)
+e               = 2.573            +/- 0.03784      (1.471%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.367  1.000 
+c              -0.028 -0.168  1.000 
+d              -0.073 -0.027  0.001  1.000 
+e              -0.048 -0.283 -0.494  0.004  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 17:17:06 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "CTA21"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-40.0000 : 25.0000]
+        #datapoints = 404
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 162239            delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 9.31408
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 7 iterations the fit converged.
+final sum of squares of residuals : 8947.61
+rel. change during last iteration : -2.86062e-06
+
+degrees of freedom    (FIT_NDF)                        : 399
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 4.73551
+variance of residuals (reduced chisquare) = WSSR/ndf   : 22.4251
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 0.0358494        +/- 0.01402      (39.1%)
+b               = 1.40114          +/- 0.3664       (26.15%)
+c               = 68.8566          +/- 0.8124       (1.18%)
+d               = 1.09807          +/- 0.06848      (6.236%)
+e               = 5.17911          +/- 0.07773      (1.501%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.532  1.000 
+c              -0.183 -0.326  1.000 
+d              -0.225 -0.120  0.041  1.000 
+e              -0.288 -0.513 -0.301  0.065  1.000 
+
+
+*******************************************************************************
+Fri Mar 11 17:22:51 2016
+
+
+FIT:    data read from '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0)
+        format = x:z
+        x range restricted to [-40.0000 : 25.0000]
+        #datapoints = 404
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 38004.8           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 9.31408
+
+initial set of free parameter values
+
+a               = 0.01
+b               = 0.01
+c               = 58
+d               = -5
+e               = 5
+
+After 9 iterations the fit converged.
+final sum of squares of residuals : 3036.78
+rel. change during last iteration : -5.59058e-06
+
+degrees of freedom    (FIT_NDF)                        : 399
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 2.7588
+variance of residuals (reduced chisquare) = WSSR/ndf   : 7.61097
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 0.00448556       +/- 0.00735      (163.9%)
+b               = 1.68819          +/- 0.1661       (9.837%)
+c               = 52.0757          +/- 0.6443       (1.237%)
+d               = -4.76595         +/- 0.03632      (0.7621%)
+e               = 2.573            +/- 0.03784      (1.471%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      e      
+a               1.000 
+b               0.367  1.000 
+c              -0.028 -0.168  1.000 
+d              -0.073 -0.027  0.001  1.000 
+e              -0.048 -0.283 -0.494  0.004  1.000 

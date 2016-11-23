@@ -1,0 +1,254 @@
+DUST: 353GHz = 3.53E+11 Hz
+0. 3c18 BLRG FRII
+Equatorial (J2000.0)   10.210293   10.056317 00h40m50.470s +10d03m22.74s
+Galactic              118.622245  -52.726715         
+
+22 GHz (VLA)	   68.2	+/- 0.9	milliJy	2.24E+10Hz
+160 microns (MIPS) <37.8	milliJy	1.92E+12Hz
+
+Note: good agreement I353 and Tau353
+
+1. 3c33 Radio Galaxy 3C33
+Equatorial (J2000.0)  17.2202442  13.3372789 01h08m52.858s +13d20m14.20s
+Galactic             129.4484150 -49.3136182   
+70 microns (MIPS)    145.5 milliJy	4.20E+12Hz
+108.746 GHz (CARMA)  31.8+/- 0.4 milliJy 1.09E+11Hz
+
+2. 3c64 
+Equatorial (J2000.0)   35.493959    8.451562 02h21m58.550s +08d27m05.62s
+Galactic              157.762234  -48.202224
+
+10.7 GHz (NRAO)	0.50	+/- 0.03	Jy	1.07E+10Hz
+8400 MHz	0.34	...		Jy	8.40E+09
+
+3. 3c78 WLRG, Radio-loud Sy 1 AGN, FR-I
+Equatorial (J2000.0)  47.1092658   4.1109167 03h08m26.2238s +04d06m39.300s
+Ecliptic   (J2000.0)  45.8370607 -12.9976340   
+Galactic             174.8581271 -44.5133457  
+
+IRAS 100 microns	475.	         	milliJy	3.00E+12Hz
+143 GHz (Planck)	0.61	+/- 0.06	Jy	1.43E+11Hz
+ 
+
+4. 3c98 
+Equatorial (J2000.0)  59.7268408  10.4341758 03h58m54.442s +10d26m03.03s
+Galactic             179.8368889 -31.0530445
+
+FRII radio galaxy 3C98.
+<Fig>
+1 mm (IRAM 30m)	6.18+/- 1.54 milliJy	3.00E+11
+
+
+5. 3c109 BLRG, powerful RG
+Equatorial (J2000.0)   63.418208   11.203833  04h13m40.37s  +11d12m13.8s
+Galactic              181.826630  -27.776511 
+
+1300 microns	 10.5	+/- 2.0	milliJy	2.31E+11Hz
+IRAS 100 microns <1200.	 	milliJy	3.00E+12Hz
+
+Note: good agreement I353 and Tau353
+
+
+6. 3c120
+Nearby BLRG has been extensively studied (Baldwin et al. 1980). Its optical spectrum is quasar like: broad Balmer and FeII lines/ blends and strong [O III] λλ5007, 4959 lines with a blue continuum.
+Active galaxy 3C120.
+
+Equatorial (J2000.0)  68.2962313   5.3543389 04h33m11.0955s +05d21m15.620s
+Galactic             190.3729102 -27.3967909
+
+375 GHz	                1.00	+/- 0.20	Jy	3.75E+11Hz
+850 microns (JCMT)	1821.3	...		milliJy	3.53E+11Hz
+850 microns (JCMT)	821.5	...		milliJy	3.53E+11
+
+7. 3c132 - RG
+Equatorial (J2000.0)  74.1793969  22.8228346 04h56m43.055s +22d49m22.20s
+Galactic             178.8595786 -12.5218663
+
+14900 MHz	0.38	+/- .03	Jy	1.49E+10Hz
+
+8. 3c138 -  quasar 3C138, active galaxy 3C138
+
+Equatorial (J2000.0)  80.2911917  16.6394586 05h21m09.8860s +16d38m22.051s
+Galactic             187.4049922 -11.3434214  
+
+230 GHz			191	+/- 26	milliJy	2.30E+11Hz
+170 microns (ISO)	27	+/- 39	milliJy	1.72E+12
+
+9. 3c142.1 - RG
+Equatorial (J2000.0)   82.872398    6.506941 05h31m29.375s +06d30m24.99s
+Galactic              197.616212  -14.511286 
+10.7 GHz (NRAO)	0.46	+/- 0.13	Jy	1.07E+10Hz
+
+10. p0531+19
+P0531+19 l/b 186.760 −7.110
+
+11. 3c192 - Radio Source, Radio galaxy
+Equatorial (J2000.0)  121.374500   24.167889 08h05m29.880s +24d10m04.40s
+Galactic              197.903916   26.393490
+
+70 microns (MIPS)	15.1	...		milliJy	4.20E+12Hz
+10.7 GHz (NRAO)		1.27	+/- 0.09	Jy	1.07E+10Hz
+
+
+12. 3c237 - FRII type 3C 237 radio galaxy 
+Equatorial (J2000.0) 152.0001248   7.5045406 10h08m00.030s +07d30m16.35s
+Galactic             232.1171115  46.6273394
+
+31400 MHz	0.2	+/- .05	Jy	3.14E+10
+14900 MHz	0.56	+/- .01	Jy	1.49E+10
+
+13. 3c245 - quasar 3C245
+
+Equatorial (J2000.0) 160.6858550  12.0586844 10h42m44.6052s +12d03m31.264s
+Galactic             233.1243711  56.3004893   
+
+31400 MHz	0.94	+/- .15		Jy	3.14E+10
+14900 MHz	0.850	+/- 0.010	Jy	1.49E+10
+
+14. p1055+20
+
+15. 3c273 - Extensively studied flat-spectrum, radio-loud quasar – the first quasar to be optically identified (Schmidt et al. 1963). Our Gemini-S image shows the prominent optical jet well.
+
+Equatorial (J2000.0) 187.2779154   2.0523883 12h29m06.6997s +02d03m08.598s
+Galactic             289.9508894  64.3599708
+
+850 microns (JCMT)	2268.2	...	milliJy	3.53E+11Hz
+850 microns (JCMT)	16209.7	...	milliJy	3.53E+11Hz
+
+
+Note: I353 Not agreed with Tau353
+
+16. 3c274.1  - RG
+
+Equatorial (J2000.0)  188.861118   21.342990 12h35m26.668s +21d20m34.76s
+Galactic              269.868888   83.163065  
+
+10.7 GHz (NRAO)	0.42	+/- 0.04	Jy	1.07E+10Hz
+15 microns (IRS)	...	<0.9	milliJy	2.00E+13
+
+17. 3c310 -  radio galaxy 3C310, 3C310 is also a powerful radio galaxy at z = 0.054
+Equatorial (J2000.0)   226.23833    26.01500   15h04m57.2s    +26d00m54s
+Galactic                38.49573    60.21357 
+
+10700 MHz	0.338	+/- 0.028	Jy	1.07E+10
+15 microns (Spitzer)	0.84	+/- 0.06	milliJy	2.00E+13
+
+18. 3c315 - X-shaped peculiar radio galaxy 3C315, GPair
+Equatorial (J2000.0)  228.416983   26.125335 15h13m40.076s +26d07m31.21s
+Galactic               39.361345   58.304052 
+
+IRAS 100 microns <280.			milliJy	3.00E+12Hz
+10700 MHz	 0.694	+/- 0.047	Jy	1.07E+10Hz
+
+19. 3c318 radio-loud quasar 3C318, a radio-loud quasar at z=1.574
+Equatorial (J2000.0) 230.0227005  20.2682671 15h20m05.448s +20d16m05.76s
+Galactic              29.6418647  55.4157115    
+
+850 microns (SCUBA)	7.78	+/- 1.00	milliJy	3.53E+11
+
+20. 3c333 - RG
+Equatorial (J2000.0) 244.3156116  21.1246620 16h17m15.747s +21d07m28.78s
+Galactic              37.2988291  42.9713670 
+
+5000 MHz	0.550	...	Jy	5.00E+09Hz
+4.85 GHz	560	+/- 75	milliJy	4.85E+09Hz
+
+21. 3C348 - Hercules A. Radio Galaxy.
+
+Equatorial (J2000.0)  252.783945    4.992588 16h51m08.147s +04d59m33.32s
+Galactic               23.048963   28.947074  
+
+94 GHz (WMAP)		0.2	+/- 0.4		Jy	9.40E+10Hz
+160 microns (MIPS)	134.3	+/- 15.8	milliJy	1.92E+12Hz
+
+22. 4c13.65 RadioS
+
+Equatorial (J2000.0)  269.629389   13.476240 17h58m31.053s +13d28m34.46s
+Galactic               39.316093   17.718532           
+
+5000 MHz	0.760	...	Jy	5.00E+09hz
+4.85 GHz	803	+/- 110	milliJy	4.85E+09
+
+23. 3c409 -  Radio Source Galactic background 3C409
+Equatorial (J2000.0) 303.6149855  23.5813630 20h14m27.596s +23d34m52.91s
+Galactic              63.3980666  -6.1216013
+
+2 keV (Einstein)	-6.72	+/- 13.6%	log (Jy)	4.84E+17Hz
+10.7 GHz (NRAO)		1.30	+/- 0.05	Jy		1.07E+10
+5000 MHz		3.010	...		Jy		5.00E+09
+
+24. 3c433 - unusual double-lobed radio galaxy 3C433
+Equatorial (J2000.0)  320.935559   25.069967 21h23m44.534s +25d04m11.88s
+Galactic               74.476428  -17.694500  
+
+3 mm (IRAM 30m)		91.29	+/- 0.76	milliJy	9.99E+10Hz
+IRAS 100 microns	1200.			milliJy	3.00E+12Hz
+
+25. 3c454.0 - Quasar
+Equatorial (J2000.0) 342.8947335  18.8111431 22h51m34.736s +18d48m40.12s
+Galactic              87.3534755 -35.6484527      
+
+14900 MHz	0.300	+/- 0.010	Jy	1.49E+10
+10700 MHz	0.394	+/- 0.028	Jy	1.07E+10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+sudo apt-get install git
+git config --global user.name "kiemhieplangtu"
+git config --global user.email "nguyenvanhiepiop@gmail.com"
+git init Mytest # = mkdir
+cd Mytest
+
+passwd: Hoanglaota_ns
+
+git add README      # 1 file
+git add *           # all file + folder
+git add <folder>/*  # add folder
+
+git commit -m "some_message"
+git remote add origin https://github.com/kiemhieplangtu/dark.git
+git push -u origin master
+
+# For large files
+git lfs install
+git lfs track "*.psd"
+git add file.psd
+git commit -m "Add design file"
+git push -u origin master
+
+# Pull from Repository
+git pull
+
+
+for FILENAME in *; do mv $FILENAME Unix_$FILENAME; done 
+
+if(nloop eq 3) then begin
+print, nloop
+print, sfullcol
+print, sfull
+print, size(sfull)
+endif
+
+if(nloop eq 3) then begin
+print, nloop
+print, sfullcol
+print, sfull_to_s
+print, size(sfull_to_s)
+print, s
+print, size(s)
+endif

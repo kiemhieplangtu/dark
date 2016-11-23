@@ -1,0 +1,63 @@
+#  
+#   VizieR Astronomical Server vizier.cfa.harvard.edu
+#    Date: 2014-04-24T06:17:12 [V1.99+ (14-Oct-2013)]
+#   In case of problem, please report to: cds-question@unistra.fr
+# 
+#   
+#Coosys J2000: eq_FK5 J2000 
+#INFO votable-version=1.99+ (14-Oct-2013) 
+#INFO -ref=VIZ53583f593619 
+#INFO -out.max=unlimited 
+#INFO queryParameters=20 
+#-oc.form=sexa
+#-out.max=unlimited
+#-order=I
+#-nav=cat:J/ApJS/145/329&tab:{J/ApJS/145/329/table1}&key:source=J/ApJS/145/329/sources&HTTPPRM:&&-ref=VIZ53583f593619&-out.max=50&-out.form=HTML Table&-oc.form=sexa&-c.eq=J2000&-c.r=360&-c.u=deg&-c.geom=b&-order=I&-out=Name&-out=RAB1950&-out=DEB1950&-out=Ta&-out=Sp&-ignore=Sp=*&Sp=Sp&-out=Fit&Fit=Fit&-out=_RA.icrs&-out=_DE.icrs&-file=.&-meta.ucd=2&-meta=1&-meta.foot=1&-usenav=1&-bmark=POST&-out.src=J/ApJS/145/329/sources&
+#-source= J/ApJS/145/329/table1
+#-c.eq=J2000
+#-c.r=360
+#-c.u=deg
+#-c.geom=b
+#-order=I
+#-out=Name
+#-out=RAB1950
+#-out=DEB1950
+#-out=Ta
+#-out=Sp
+#-out=Fit
+#Fit=Fit
+#-out=_RA.icrs
+#-out=_DE.icrs
+#-out.src=J/ApJS/145/329/sources
+#
+
+#RESOURCE=yCat_21450329
+#Name: J/ApJS/145/329
+#Title: Millennium Arecibo 21-cm Survey (Heiles+, 2003)
+#Table J_ApJS_145_329_table1:
+#Name: J/ApJS/145/329/table1
+#Title: Derived spectra for all sources
+#---Details of Columns:
+    Name                  (a9)    Source name [ucd=meta.id;meta.main]
+    ChVel (km/s)          (F7.2)  Channel velocity [ucd=phys.veloc]
+    EProf (K)             (F11.6) Expected profile (antenna temperature at source position) (1) [ucd=spect.line.profile]
+    dTa/da (K/arcmin)     (F7.4)  Derivative of Ta with respect to right ascension in Kelvins per great-circle arcminute [ucd=stat.fit.param]
+    dTa/dd (K/arcmin)     (F7.4)  Derivative of Ta with respect to declination in Kelvins per arcminute [ucd=stat.fit.param]
+    d2Ta/da2 (K/arcmin2)  (F7.5)  ? Second derivative of Ta with respect to right ascension in Kelvins per arcminute^2^ (2) [ucd=stat.fit.param]
+    d2Ta/dadd (K/arcmin2) (F7.5)  ? Second derivative of Ta with respect to right ascension and declination in Kelvins per arcminute^2^ (2) [ucd=stat.fit.param]
+    d2Ta/dd2 (K/arcmin2)  (F7.5)  ? Second derivative of Ta with respect to declination in Kelvins per arcminute^2^ (2) [ucd=stat.fit.param]
+    OProf                 (F9.6)  The opacity profile (exp^-tau^) [ucd=phys.absorption.coeff]
+--------- ------- ----------- ------- ------- ------- ------- ------- ---------
+                              dTa     dTa     d2Ta/d  d2Ta/da d2Ta/d           
+          ChVel               /da (K/ /dd (K/ a2 (K/a dd (K/a d2 (K/a          
+Name      (km/s)  EProf (K)   arcmin) arcmin) rcmin2) rcmin2) rcmin2) OProf    
+--------- ------- ----------- ------- ------- ------- ------- ------- ---------
+3C18       165.95    0.196901 -0.0052  0.0248                          0.998776
+3C18       165.79   -0.159901 -0.0062 -0.0163                          1.000479
+3C18       165.63   -0.176662 -0.0015  0.0048                          1.004054
+3C33-1     129.88    0.196131 -0.0534  0.0385 0.00417 0.01255 -0.0222  1.004147
+3C33-1     129.72   -0.938852  0.0778  0.1722 0.03848 0.04902 0.05865  0.950176
+3C33-1     129.56   -2.596322 -0.0473 -0.0856 -0.0130 -0.0348 -0.0488  1.023949
+3C33-1     129.40   -0.395167  0.0186 -0.0087 0.01422 -0.0243 -0.0175  0.982863
+3C33-1     129.24   -0.132157 -0.1036  0.0200 -0.0243 -0.0217 -0.0096  0.998599
+

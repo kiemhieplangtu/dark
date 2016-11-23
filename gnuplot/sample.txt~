@@ -1,0 +1,14 @@
+#set multiplot
+set title 'aaa'
+set xrange [-70:50]
+set yrange [-5:60]
+
+f1(x) = a*x+b+c*exp(-0.5*((x-d)/e)**2)
+
+a = 0.01; b = 0.01; c = 58; d = -5; e = 5;
+
+#plot '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0) with lines title 'data'
+fit [-40:25] f1(x) '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0) via a,b,c,d,e
+
+plot '/home/vnguyen/Hiep/python/millennium_specs.txt' using 2:(stringcolumn(1) eq "3C318"? column(3) : 1/0) with points, \
+a*x+b+c*exp(-0.5*((x-d)/e)**2)
