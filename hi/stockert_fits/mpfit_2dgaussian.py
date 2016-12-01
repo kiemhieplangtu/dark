@@ -77,6 +77,7 @@ ylen = shape[2]
 print 'Mean: ',np.mean(hdu.data)
 # print hdu.header
 plt.imshow(hdu.data[0,:,:], origin='lower')
+plt.title(file)
 plt.show()
 
 
@@ -135,7 +136,7 @@ print 'Offset: ', "%f +/- %f" % (p[0]/1000.,per[0]/1000.)
 print 'Amplitude: ', "%f +/- %f" % (p[1]/1000.,per[1]/1000.)
 
 
-sys.exit()
+# sys.exit()
 
 
 # Plot the original, fit & residual

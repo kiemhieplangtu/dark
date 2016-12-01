@@ -35,7 +35,17 @@ edge    = dbeam/40. # To plot a rectangle about the source
 print 'mmm: ', 2.8+6.32*(1420./1665.402)**2.8
 print 'mmm: ', 2.8+22.6*(408./1665.402)**2.8
 
-hdulist = fits.open('fitsp042820_17min.bin')
+# hdulist = fits.open('data/old/fitsp042820_17min.bin')
+# hdu = hdulist[0]
+
+# print hdu.data.shape
+# print hdu.data
+# print np.mean(hdu.data)
+# # print hdu.header
+# plt.imshow(hdu.data[0,:,:], origin='lower')
+# plt.show()
+
+hdulist = fits.open('data/fitsp042820.bin')
 hdu = hdulist[0]
 
 print hdu.data.shape

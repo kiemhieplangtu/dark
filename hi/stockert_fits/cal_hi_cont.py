@@ -1,4 +1,4 @@
-import sys
+import sys, os
 sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
 import matplotlib.pyplot as plt
 import numpy             as np
@@ -81,7 +81,6 @@ def read_tbg408_healpy(fname='../../oh/result/bg408_to_compare.txt'):
 # Author Van Hiep
 ##	
 def plot_patches(src_num, info):
-
 	# Define constants #
 	deg2rad   = np.pi/180.
 	# Define the width of area #
@@ -90,15 +89,18 @@ def plot_patches(src_num, info):
 	offset = dbeam          # degree
 
 	# HI continuum map and resolution #
-	cont  = hp.read_map('../data/lambda_chipass_healpix_r10.fits', field = 0, h=False)
+	cont  = hp.read_map(os.getenv("HOME")+'/hdata/hi/lambda_chipass_healpix_r10.fits', field = 0, h=False)
 	nside = hp.get_nside(cont)
 	res   = hp.nside2resol(nside, arcmin=False)
 	dd    = res/deg2rad/5.0
 
 	# OK - Go #
 	tb    = {}
-
 	for i in range(0,src_num):
+		if(i ==2): continue
+		if(i ==3): continue
+		if(i ==6): continue
+		if(i ==11): continue
 		## Find the values of Continuum temperature #
 		tb[i] = []
 		
@@ -113,11 +115,15 @@ def plot_patches(src_num, info):
 		if (l>180):
 			ll = ll-360.
 
-		f = 0.1
+		f = 10.
 		# if (i == sr):
-		hp.cartview(cont, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+')', coord='G', unit='',
-				norm='hist', xsize=800, lonra=[ll-offset-f*offset,ll+offset+f*offset], latra=[b-offset-f*offset,b+offset+f*offset],
+		proj = hp.cartview(cont, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+')', coord='G', unit='',
+				norm=None, xsize=1920, lonra=[ll-0.5,ll+0.5], latra=[b-0.5,b+0.5],
 				return_projected_map=True)
+
+		# hp.cartview(cont, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+')', coord='G', unit='',
+		# 		norm='hist', xsize=800, lonra=[ll-offset-f*offset,ll+offset+f*offset], latra=[b-offset-f*offset,b+offset+f*offset],
+		# 		return_projected_map=True)
 
 		# hp.orthview(cont, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+')', coord='G', unit='',
 		# 		norm='hist', xsize=800, return_projected_map=True)
@@ -127,6 +133,9 @@ def plot_patches(src_num, info):
 
 		# hp.mollzoom(cont, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+')',
 		# 	coord='G', unit='', rot=[0,0,0], norm=None, min=4599., max=4600.)
+
+		print proj
+		print proj.shape
 
 		# Cal. #
 		theta = (90.0-b)*deg2rad
@@ -144,9 +153,11 @@ def plot_patches(src_num, info):
 					theta = (90.0 - y)*deg2rad
 					phi   = x*deg2rad
 					pix   = hp.ang2pix(nside, theta, phi, nest=False)
-					hp.projtext(x, y, '.'+str(pix)+str(cont[pix]), lonlat=True, coord='G')
+					# hp.projtext(x, y, '.'+str(pix)+str(cont[pix]), lonlat=True, coord='G')
+					# hp.projtext(x, y, '.'+str(cont[pix]), lonlat=True, coord='G')
+					hp.projtext(x, y, '.', lonlat=True, coord='G')
 
-	plt.show()
+		plt.show()
 
 ##================= MAIN ========================##
 ## Read Tbg408 from Haslam, Read infor of 23 OH src ##
@@ -162,13 +173,15 @@ dbeam   = beam/60./2.    # Beam = 3.5' -> dbeam = beam/60/2 in degree
 offset  = dbeam          # degree
 
 # HI continuum map and resolution #
-cont  = hp.read_map('../data/lambda_chipass_healpix_r10.fits', field = 0, h=False)
+cont  = hp.read_map(os.getenv("HOME")+'/hdata/hi/lambda_chipass_healpix_r10.fits', field = 0, h=False)
 nside = hp.get_nside(cont)
 res   = hp.nside2resol(nside, arcmin=False)
 dd    = res/deg2rad/5.0
 
-# num_of_src = len(info['src'])
-# plot_patches(num_of_src, info)
+num_of_src = len(info['src'])
+plot_patches(num_of_src, info)
+
+sys.exit()
 
 # Product Name
 # CHIPASS 1.4 GHz Continuum Map

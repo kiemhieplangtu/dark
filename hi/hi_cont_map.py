@@ -1,4 +1,4 @@
-import sys
+import sys, os
 sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
 import matplotlib.pyplot as plt
 import numpy             as np
@@ -42,7 +42,7 @@ info    = read_23oh_src('../oh/result/23src_with_oh.txt')
 # 14.4 arcmin
 # Original Data Source ATNF
 
-himap = hp.read_map('data/lambda_chipass_healpix_r10.fits', field = 0, h=False)
+himap = hp.read_map(os.getenv('HOME')+'/hdata/hi/lambda_chipass_healpix_r10.fits', field = 0, h=False)
 nside = hp.get_nside(himap)
 
 print himap[5278191]
@@ -66,7 +66,7 @@ for i in range(len(info['src'])):
 	val   = himap[pix]
 	print src, l,b,pix, val
 	hp.projplot(l, b, 'bx', lonlat=True, coord='G')
-	hp.projtext(l, b, src+','+str(l)+','+str(b), lonlat=True, coord='G')
+	hp.projtext(l, b, src+','+str(val)+','+str(l)+','+str(b), lonlat=True, coord='G')
 	# hp.projtext(l, b, src+','+str(val), lonlat=True, coord='G')
 	# hp.projtext(l, b, src, lonlat=True, coord='G')
 
