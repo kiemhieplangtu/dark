@@ -10,12 +10,13 @@ from numpy    import array
 from restore  import restore
 from plotting import cplot
 
+# S: source, L: lens, O: observer
 # sigmas is the ratio between the lens radius and the lens-source distance
 # sigmao is the ratio between the lens radius and the lens-observer distance
 # lambda is the ratio between the Schwarzschild radius of the lens and its radius
 # zeta is the angular resolution of detector/observer
 # omega is the angle between the lens-observer and the lens-source lines
-# theta is the angle between the light-ray and the lens-source line, called Polar angle
+# theta is the angle between the light-ray and the lens-source line, called Polar angle (like a cone)
 # define: k = 1. / (1 + sigmaO/sigmaS)
 # all variables above are given in microradians (or ppm)
 
@@ -27,7 +28,7 @@ from plotting import cplot
 ## In plane (beta), the origine is O, so, coordinates of M are: 
 ## csi = rm*cos(phi) - w/sigmaO
 ## eta = rm*sin(phi)
-## phi is azimuth angle
+## phi is azimuth angle, angle between light-ray and (SLO) plane
 
 
 ## Define constant & params
@@ -86,7 +87,7 @@ for j in range(len(omegas)):
 		csi    = rm*cphi-omega/sigmao
 		eta    = rm*sphi
 
-		if(csi**2+eta**2 > zeta2): ## 2nd condition
+		if( (csi**2+eta**2) > zeta2): ## 2nd condition
 			continue
 
 		ring   = xk*thetak*sigmao/sigmas
@@ -100,11 +101,12 @@ for j in range(len(omegas)):
 
 
 	plt.subplot(3, 3, j+1)
-	plt.plot(x,y,'b.', ms=1.)
-	plt.title(str(omega) + ' ppm')
+	plt.plot(x,y,'b.', ms=5.)
+	plt.title('w= ' + str(omega) + ' ppm')
 	if(j==3): plt.ylabel('y')
 	if(j==7): plt.xlabel('x')
-	plt.xlim(-1.5,3.0)
+	plt.text(1., 1., 'Detector is moving ->\n w= ' + str(omega) + ' ppm', color='k', fontsize=10)
+	plt.xlim(-1.5,2.0)
 	plt.ylim(-1.5,1.5)
 	plt.grid()
 

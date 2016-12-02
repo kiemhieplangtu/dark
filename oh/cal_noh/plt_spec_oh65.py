@@ -388,11 +388,11 @@ def read_tbg_cont(fname='../../hi/stockert_fits/result/tbg_cont_from_1420.txt'):
 	src  = restore(fname, 5, cols, fmt)
 	info = src.read()
 
-	src = info['src']
-	gl  = info['l']
-	gb  = info['b']
-	tc1 = info['tbc1']
-	tc2 = info['tbc2']
+	src  = info['src']
+	gl   = info['l']
+	gb   = info['b']
+	tc1  = info['tbc1']
+	tc2  = info['tbc2']
 
 	ret1 = {}
 	ret2 = {}

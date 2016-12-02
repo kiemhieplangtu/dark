@@ -1,4 +1,4 @@
-import sys
+import sys,os
 sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
 
 import matplotlib.pyplot as plt
@@ -44,7 +44,7 @@ def plot_haslam_408mhz_map():
 	# lambda_chipass_healpix_r10.fits
 
 	# Define constants #
-	map_file = 'data/haslam408_dsds_Remazeilles2014.fits'
+	map_file = os.getenv("HOME")+'/hdata/oh/haslam408_dsds_Remazeilles2014.fits'
 	deg2rad  = np.pi/180.
 	factor   = (408./1665.)**2.8
 
@@ -156,7 +156,7 @@ def plot_haslam_408mhz_patch():
 	# lambda_chipass_healpix_r10.fits
 
 	# Define constants #
-	map_file = 'data/haslam408_dsds_Remazeilles2014.fits'
+	map_file = os.getenv("HOME")+'/hdata/oh/lambda_haslam408_nofilt.fits'
 	deg2rad  = np.pi/180.
 	factor   = (408./1665.)**2.8
 
@@ -185,8 +185,8 @@ def plot_haslam_408mhz_patch():
 	# hp.cartview(tb408, title='Continuum background at 408 MHz from Haslam et al. Survey', coord='G', unit='K',norm='hist', xsize=800)
 
 	for i in range(len(src)):
-		if(i != 8):
-			continue
+		# if(i < 6):
+		# 	continue
 		sl = gl[i]
 		sb = gb[i]
 
@@ -198,10 +198,10 @@ def plot_haslam_408mhz_patch():
 		if (sl>180):
 			ll = ll-360.
 
-		margin = 100.
+		offset = 1.
 		hp.cartview(tb408, title=src[i]+' (l=' + str(round(sl,2)) + ', b=' + str(round(sb,2)) + ')', coord='G', unit='K',
-				norm='hist', xsize=800, lonra=[ll-offset-margin*offset,ll+offset+margin*offset], latra=[sb-offset-margin*offset,sb+offset+margin*offset],
-				return_projected_map=True, min=11.2, max=4.04e3)
+				norm='hist', xsize=800, lonra=[ll-offset,ll+offset], latra=[sb-offset,sb+offset],
+				return_projected_map=True) #, min=11.2, max=4.04e3)
 		# End Plot cartview a/o mollview ##
 
 		theta = (90.0 - sb)*deg2rad
@@ -212,6 +212,7 @@ def plot_haslam_408mhz_patch():
 		if (tb408[pix] > 0.) : # Some pixels not defined
 			tbg_i.append(tb408[pix])
 
+		offset = dbeam
 		for x in pl.frange(sl-offset, sl+offset, dd):
 				for y in pl.frange(sb-offset, sb+offset, dd):
 					cosb = np.cos(sb*deg2rad)
