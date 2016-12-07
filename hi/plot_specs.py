@@ -6,8 +6,15 @@ from copy import copy
 
 # =========== Define Functions =============== #
 
-# Read data from file into columns #
-def read_data_from_file(file = "specs.txt"):
+## Read Spectra data from file ##
+ #
+ # params string file Filename
+ # return dict ret Name, vel, Temperature
+ #
+ # version 03/2016 
+ # author Nguyen Van Hiep
+ # DON'T CHANGE ##
+def read_data_from_file(file = "data/specs.txt"):
 	ret  = {}
 
 	name = []
@@ -32,7 +39,13 @@ def read_data_from_file(file = "specs.txt"):
 
 	return ret
 
-# Read data into structure #
+## Read Spectra data ##
+ #
+ # params NONE
+ # return dict specs Name, vel, Temperature
+ #
+ # version 03/2016 
+ # author Nguyen Van Hiep ##
 def read_specs_data():
 	a     = read_data_from_file()
 	specs = {}
@@ -53,7 +66,16 @@ def read_specs_data():
 
 	return specs
 
-# Plot spectra #
+## Plot spectra ##
+ #
+ # params dict data Spectra of sources
+ # params string src Source-name
+ # params list vrange Velocity-range
+ # params list vpixout Do Nothing :) ^^
+ # return None, just plot a spectrum
+ #
+ # version 03/2016 
+ # author Nguyen Van Hiep ##
 def plot_specs(data, src, vrange = [], vpixout = [1,2]):
 	# Get key from Source_name #
 	get_keys(data, src)
@@ -69,22 +91,42 @@ def plot_specs(data, src, vrange = [], vpixout = [1,2]):
 		vstart = 0
 		vend   = 2047
 
-	plt.plot(data[i]['v'][vstart:vend], data[i]['t'][vstart:vend], 'r-')
+	plt.plot(data[i]['v'][vstart:vend], data[i]['t'][vstart:vend], 'r-', lw=3)
 	plt.grid()
-	plt.title('Source ' + src)
-	plt.ylabel('Tb(K)')
-	plt.xlabel('v(km/s)')
+	plt.title(src, fontsize = 35)
+	plt.ylabel('$T_{b} (K)$', fontsize = 35)
+	plt.xlabel('VLSR (km/s)', fontsize = 35)
+	plt.tick_params(axis='x', labelsize=20)
+	plt.tick_params(axis='y', labelsize=20)
+	# plt.text(55, 5,string,color='b',fontsize=14)
+	# plt.legend(loc='upper right', fontsize = 18)
+	# plt.axvline(x=60., lw=4)
+	# plt.axvline(x=-90., lw=4)
 	plt.show()
 
 	if (len(vpixout) != 0) :
 		vpixout = [vstart, vend]
 
-# Get the index of a given velocity #
+## Get the index of a given velocity ##
+ #
+ # params list v_axis Velocity, vlsr
+ # params float vel: (One) Velocity value
+ # return int idx Index of velocity in List
+ #
+ # version 03/2016 
+ # author Nguyen Van Hiep ##
 def get_vel_index(v_axis, vel):
     idx = (np.abs(np.array(v_axis)-vel)).argmin()
     return idx
 
-# Get keys from value - In General #
+## Get keys from value - In General ##
+ #
+ # params dict d A dictionary
+ # params ? target Value
+ # return ? key Key of value
+ #
+ # version 03/2016 
+ # author Nguyen Van Hiep ##
 def get_keys(d, target):	
     for k, v in d.iteritems():
         path.append(k)
@@ -94,7 +136,14 @@ def get_keys(d, target):
             result.append(copy(path))
         path.pop()
 
-# Read velocity_range from file -- k, vstart, vend, source_name #
+## Read velocity_range from file -- k, vstart, vend, source_name ##
+ #
+ # params dict specs_data Spectra-data
+ # params string fname Filename
+ # return dict ret Info on vel-range
+ #
+ # version 03/2016 
+ # author Nguyen Van Hiep ##
 def read_vrange_from_file(specs_data, fname = "vrange4sources.txt"):
 	ret  = {}
 
@@ -127,12 +176,27 @@ def read_vrange_from_file(specs_data, fname = "vrange4sources.txt"):
 		ret[i]['vs_id']  = get_vel_index(specs_data[i]['v'], vend[i])
 
 	return ret
-# Get average of channel_width, vaxis, vstart_index, vend_index #
+
+## Get Channel-Width ##
+ #
+ # params list vaxis Velocity Axis
+ # params int vs_id Starting-ID
+ # params int ve_id End-ID
+ # return float ret Channel-Width
+ #
+ # version 03/2016 
+ # author Nguyen Van Hiep ##
 def av_channel_width(vaxis, vs_id, ve_id):
 	res = map(operator.sub, vaxis[vs_id:(ve_id-1)], vaxis[(vs_id+1):ve_id])
 	return round(sum(res)/float(len(res)), 2)
 
-# Get N(HI) #
+##  Cal. N(HI) in opt.thin assumption ##
+ #
+ # params list vaxis Velocity Axis
+ # return float ret N(HI)
+ #
+ # version 03/2016 
+ # author Nguyen Van Hiep ##
 def get_nhi(data):
 	vrange = read_vrange_from_file(data)
 	print('{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}'.format('#', 'Vel_start', 'Vel_end', 'Vel_start_index', 'Vel_end_index', 'N(HI) (1e20)', 'Source'))
@@ -142,20 +206,16 @@ def get_nhi(data):
 		nhi_i       = round(nhi_i, 2)
 		print('{0}\t{1}\t\t{2}\t\t{3}\t\t{4}\t\t{5}\t\t{6}'.format(i, vrange[i]['vstart'], vrange[i]['vend'], vrange[i]['ve_id'], vrange[i]['vs_id'], nhi_i, data[i]['name']))
 
-# =========== End - Define Functions =============== #
-
-
-
-# =========== MAIN =============== #
+## =========== MAIN =============== ##
 specs = read_specs_data()
 
 # Plot spectra #
 k = 0
 while k < 79:
-	src = raw_input('Enter source: ')
+	src    = raw_input('Enter source: ')
+	src    = src.upper()
 	path   = []
 	result = []
 
-	
 	plot_specs(specs, src)
 	k = k +1

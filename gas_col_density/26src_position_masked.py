@@ -1,8 +1,13 @@
+import sys, os
+sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+
 import matplotlib.pyplot as plt
+import matplotlib        as mpl
 import numpy             as np
 import healpy            as hp
 import pylab             as pl
 import operator
+from restore             import restore
 
 # Read info of 79 sources #
 #
@@ -64,144 +69,65 @@ def read_info_no_co_79(fname = '79src_info.txt'):
 			j = j + 1
 
 
-# Read info of 26 sources #
-#
-# params string fname Filename
-#
-# return void
-# 
-# Author Van Hiep
-##
+## Read info of 26 no-CO sources #
+ # l,b, nhi, and nhi_error
+ #
+ # params string fname Filename
+ # return dict info
+ # 
+ # version 11/2016
+ # Author Van Hiep ##
 def read_info_no_co(fname = '26src_no_co_info.dat'):
-	ret = {}
-
-	ret['src']      = []
-	ret['l']        = []
-	ret['b']        = []
-	ret['ra_icrs']  = []
-	ret['de_icrs']  = []
-	ret['ra_j']     = []
-	ret['de_j']     = []
-
-	ret['nhi_heiles'] = []
-
-	file = open (fname,'r')
-	file.readline() # comment line
-	file.readline() # comment line
-	for line in file:
-	    line    = line.strip()
-	    columns = line.split()
-
-	    ret['src'].append(columns[1])
-	    ret['l'].append(float(columns[2]))
-	    ret['b'].append(float(columns[3]))
-	    ret['ra_icrs'].append(float(columns[4]))
-	    ret['de_icrs'].append(float(columns[5]))
-	    ret['ra_j'].append(str(columns[6]))
-	    ret['de_j'].append(str(columns[7]))
-	    ret['nhi_heiles'].append(float(columns[8]))
-
-	file.close()
-
-	return ret	
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j','nhi','wnm','cnm','e_nhi','nhi_er','oh']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',   'f',  'f',  'f',  'f',    'f',    'f']
+	data = restore(fname, 2, cols, fmt)
+	dat  = data.read()
+	return dat
 
 #================= MAIN ========================#	
 deg2rad  = np.pi/180.
-map_file = 'data/HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
+pth      = os.getenv("HOME")+'/hdata/dust/'
+map_file = pth + 'HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
 
-info  = read_info_no_co()
-dbeam = 3.5/120.0 # Beam = 3.5' -> dbeam = beam/60/2
+info     = read_info_no_co('26src_no_co_info.dat')
+dbeam    = 3.5/120.0 # Beam = 3.5' -> dbeam = beam/60/2
 #dbeam = 0.1
 
 fukui_cf  = 2.10 #2.10e26
 planck_cf = 1.18 #1.18e26
 
-test_map = hp.read_map(map_file, field = 0)
-err_map  = hp.read_map(map_file, field = 1)
-nside    = hp.get_nside(test_map)
-res      = hp.nside2resol(nside, arcmin = False)
-dd       = res/deg2rad/2.0
+tau_map   = hp.read_map(map_file, field = 0)
+err_map   = hp.read_map(map_file, field = 1)
+nside     = hp.get_nside(tau_map)
+res       = hp.nside2resol(nside, arcmin = False)
+dd        = res/deg2rad/2.0
 
 #============= For Mask ========= #
 offset = 2.0 #degree
 
-for i in range(0,26):
+#====== For Plotting ======#
+hp.mollview(tau_map, title=r'$\tau_{353}$', coord='G', unit='', norm='hist', min=7e-10,max=0.025)
 
+for i in range(0,26):
+	src   = info['src'][i]
 	l     = info['l'][i]
 	b     = info['b'][i]
 
 	theta = (90.0 - b)*deg2rad
 	phi   = l*deg2rad
 	pix   = hp.ang2pix(nside, theta, phi, nest=False)
-	test_map[pix] = hp.UNSEEN
+	val   = tau_map[pix]
+	print src, l,b,pix, val
+	hp.projplot(l, b, 'bo', lonlat=True, coord='G')
+	# hp.projtext(l, b, src+','+str(l)+','+str(b), lonlat=True, coord='G')
+	if (b<60):
+		hp.projtext(l, b, src, lonlat=True, coord='G', fontsize=13, weight='bold')
+	else:
+		hp.projtext(l, b, src, lonlat=True, coord='G', fontsize=13, color='r', weight='bold')
 
-	for x in pl.frange(l-offset, l+offset, dd):
-		for y in pl.frange(b-offset, b+offset, dd):
-			theta = (90.0 - y)*deg2rad
-			phi   = x*deg2rad
-			pix   = hp.ang2pix(nside, theta, phi, nest=False)
-			if (test_map[pix] > -1.0e30) : # Some pixels not defined
-				test_map[pix] = hp.UNSEEN
+	if(src == '3C109'):
+		hp.projtext(l, b, src, lonlat=True, coord='G', fontsize=13, color='b', weight='bold')
 
-
-#====== For Plotting ======#
-hp.ma(test_map)
-hp.mollview(test_map, title='Masked map demo', 
-	coord='G', unit='K', norm='hist', 
-	min=7e-10,max=0.025, xsize=800)
-
-# hp.cartview(test_map, title=map_file, coord='G', unit='K', rot=[0,0],
-# 	norm='hist', min=7e-10,max=0.025, xsize=800)
-# 	, lonra=[118.,119.], latra=[-53,-51])
-
+mpl.rcParams.update({'font.size':30})
 plt.grid()
 plt.show()
-
-
-
-
-
-
-
-
-
-
-#==================== An Example for Mask ==========#
-# l = 118.6
-# b = -52.7
-
-# theta = (90.0 - b)*deg2rad
-# phi   = l*deg2rad
-# pix   = hp.ang2pix(nside, theta, phi, nest=False)
-# test_map[pix] = hp.UNSEEN
-
-# for x in pl.frange(l-offset, l+offset, dd):
-# 	for y in pl.frange(b-offset, b+offset, dd):
-# 		theta = (90.0 - y)*deg2rad
-# 		phi   = x*deg2rad
-# 		pix   = hp.ang2pix(nside, theta, phi, nest=False)
-# 		#print x, y, test_map[pix]
-# 		if (test_map[pix] > -1.0e30) :
-# 			test_map[pix] = hp.UNSEEN
-
-
-#============== Use cartview to average the Tau353 ========#
-	# if (sl > 180.) :
-	# 	sl = sl - 360.
-
-	# long1 = sl - dbeam
-	# long2 = sl + dbeam
-
-	# lat1  = sb - dbeam
-	# lat2  = sb + dbeam
-
-	
-	# tmap  = hp.cartview(test_map, title=map_file, coord='G', unit='K', rot=[sl,sb],
-	# 			norm='hist', min=1e-7,max=1e-3, xsize=800, lonra=[-dbeam,dbeam], latra=[-dbeam,dbeam],
-	# 			return_projected_map=True)
-
-	# #print np.shape(tmap)
-	# t353 = np.average(tmap)
-	# nh   = cf*t353
-	
-	# print("{:2d}\t{:s}\t\t{:.2e}".format(i, info['src'][i], t353))

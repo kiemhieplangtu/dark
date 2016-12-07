@@ -1,0 +1,28 @@
+set weight e
+set unit v f
+set mode x auto
+set mode y auto
+
+set angle sec
+
+
+file in co_data.14m
+
+set source 3c123-f
+set telescope b5us
+set line 12co(1-0)
+
+find
+consistency
+
+average
+
+set mod x -5 15
+pl
+
+sic output test_av.dat
+
+for i 1 to found
+say 'i+1' /format g12.4
+next
+sic output

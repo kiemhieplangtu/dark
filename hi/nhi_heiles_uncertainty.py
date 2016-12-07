@@ -30,8 +30,8 @@ def read_fit_params(fname = 'result/component_fit_params.txt'):
 	fmt   = ['f',     'f',          'f',  'f',      'f', 'f',     'f',    'f',         'f',      'f',         'f',     'f',   'i',    'f',   'f',        's']
 	dat   = restore(fname, 3, cols, fmt)
 	inf   = dat.read()
-	src   = inf['src']
 
+	src       = inf['src']
 	frac      = inf['frac']
 	nhi       = inf['nhi']
 	err_tau   = inf['err_tau']

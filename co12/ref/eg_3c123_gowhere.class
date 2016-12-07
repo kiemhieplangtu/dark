@@ -1,0 +1,18 @@
+set weight e
+set unit v f
+set mode x auto
+set mode y auto
+
+set angle sec
+
+
+file in ../../../program/class/co_data.14m
+
+set source 3c410-f
+
+find
+
+go where /colour telescope
+
+device image
+hardcopy gowhere_60observations.eps

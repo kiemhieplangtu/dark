@@ -1,0 +1,24 @@
+To run a .class script
+------------
+set weight e
+set unit v f
+set mode x auto
+set mode y auto
+
+set angle sec
+
+file in co_data.14m
+
+set line 12co(1-0)
+------------
+
+Run the command:
+CLASS @<name>.class
+
+eg: root:~$ class @c123.class
+or: root:~$ class @c123
+
+# Read data-file in directory:
+# file in ../../program/class/co_data.14m
+
+# More infor, type: help

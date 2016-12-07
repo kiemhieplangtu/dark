@@ -1,0 +1,54 @@
+average
+plot
+set window
+draw window
+base 1 /pl
+plot # If Base is OK -> Baseline subtracted
+draw window # Just to show window
+base 1 /pl # Just to show the baseline
+method gauss # Gaussian fit
+lines 1 "0 A 0 x0 0 sigma"
+minimize
+visualize /pen 2
+
+swap
+clear segment
+base 2/pl
+
+# Save img
+device image
+hardcopy <aaa>.eps
+
+# set and find
+set unit v f
+set mode y auto
+set mode y -3 5
+find
+set line 12co(1-0)
+set telescope <B2us>
+find
+go where /colour telescope
+get first
+plot
+get next
+plot
+
+# Some commands
+go browse
+-> then press 'N' or 'P'
+-> press 'E' to end
+
+####
+file out <name> single /over
+write
+smooth box 4
+
+
+############
+sic output <name.dat>
+for i 1 to channels
+say 'rx[i]' 'ry[i]' /format g12.4 g12.4
+next
+sic ouput
+
+

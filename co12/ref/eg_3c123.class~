@@ -1,0 +1,27 @@
+set weight e
+set unit v f
+set mode x auto
+set mode y auto
+
+set angle sec
+
+
+file in ../../../program/class/co_data.14m
+
+set source 3c410-f
+set telescope b5us
+set line 12co(1-0)
+
+find
+consistency
+
+average
+
+set mod x -15 25
+pl
+
+sic output eg_3c123_spec.dat
+for i 1 to channels
+say 'rx[i]' 'ry[i]' /format g12.4 g12.4
+next
+sic ouput

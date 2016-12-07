@@ -18,8 +18,8 @@ from plotting import cplot
  # Author Van Hiep
  ##
 def read_vrange(fname = 'data/co_src_peak_vrange.txt'):
-	cols = ['src','v1','v2']
-	fmt  = ['s','f','f']
+	cols = ['file','v1','v2', 'src']
+	fmt  = ['s',    'f', 'f',  's' ]
 	data = restore(fname, 2, cols, fmt)
 	return data.read()
 
@@ -57,20 +57,21 @@ def get_vel_index(v_axis, vel):
  # params 
  # return void
  # 
- # Author Van Hiep
- ##
+ # version 12/2016
+ # Author Van Hiep  ##
 def plot_spec():
 	info = read_vrange()
 	src  = info['src']
+	fil  = info['file']
 	v1   = info['v1']
 	v2   = info['v2']
 
 	for i in range(len(src)):
 
-		if (src[i] != 't062910f.dat'):
-			continue
+		# if (src[i] != 'T0629+10'):
+		# 	continue
 
-		v,T = read_co_spec('data/' + src[i])
+		v,T = read_co_spec('data/' + fil[i])
 		
 		dv   = round((v[-1]-v[0])/len(v), 2)
 		dv   = (v[-1]-v[0])/len(v)
@@ -78,11 +79,20 @@ def plot_spec():
 		n1 = get_vel_index(v, v1[i])
 		n2 = get_vel_index(v, v2[i])
 
-		plt.plot(v[n1:n2], T[n1:n2], 'r')
+		n1 = n1 - 40
+		n2 = n2 + 40
+
+		plt.plot(v[n1:n2], T[n1:n2], 'b-', lw=2)
 		plt.grid()
-		plt.title('Spectrum: ' + src[i])
-		plt.ylabel('T(K)')
-		plt.xlabel('v(km/s')
+		plt.title(src[i], fontsize = 35)
+		plt.ylabel('$T_{b} (K)$', fontsize = 35)
+		plt.xlabel('VLSR (km/s)', fontsize = 35)
+		plt.tick_params(axis='x', labelsize=20)
+		plt.tick_params(axis='y', labelsize=20)
+		# plt.text(55, 5,string,color='b',fontsize=14)
+		# plt.legend(loc='upper right', fontsize = 18)
+		# plt.axvline(x=60., lw=4)
+		# plt.axvline(x=-90., lw=4)
 		plt.show()
 
 		print src[i], v1[i], v2[i]
@@ -92,17 +102,17 @@ def plot_spec():
  # params 
  # return void
  # 
- # Author Van Hiep
- ##
+ # Author Van Hiep ##
 def cal_wco():
 	info = read_vrange()
 	src  = info['src']
+	fil  = info['file']
 	v1   = info['v1']
 	v2   = info['v2']
 
 	for i in range(len(src)):
 
-		v,T = read_co_spec('data/' + src[i])
+		v,T = read_co_spec('data/' + fil[i])
 		
 		dv  = round((v[-1]-v[0])/len(v), 2)
 		dv  = (v[-1]-v[0])/len(v)
@@ -138,20 +148,20 @@ def cal_wco():
  # params 
  # return void
  # 
- # Author Van Hiep
- ##
+ # Author Van Hiep ##
 def plot_full_spec():
 	info = read_vrange()
 	src  = info['src']
+	fil  = info['file']
 	v1   = info['v1']
 	v2   = info['v2']
 
 	for i in range(len(src)):
 
-		if (src[i] != 'p042820f.dat'):
-			continue
+		# if (src[i] != 'T0629+10'):
+		# 	continue
 
-		v,T = read_co_spec('data/' + src[i])
+		v,T = read_co_spec('data/' + fil[i])
 		
 		dv   = round((v[-1]-v[0])/len(v), 2)
 		dv   = (v[-1]-v[0])/len(v)
@@ -205,8 +215,8 @@ def get_1sigma_co_spec():
 		plt.show()
 
 ############## MAIN ###########
-# plot_spec()
+plot_spec()
 # cal_wco()
-plot_full_spec()
+# plot_full_spec()
 # get_1sigma_co_spec()
 sys.exit()

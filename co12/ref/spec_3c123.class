@@ -1,0 +1,21 @@
+set weight e
+set unit v f
+set mode x auto
+set mode y auto
+
+set angle sec
+
+
+file in ../../../program/class/co_data.14m
+
+set source 3c123-f
+set telescope b5us
+set line 12co(1-0)
+
+find
+consistency
+
+average
+
+set mod x 0 30
+pl

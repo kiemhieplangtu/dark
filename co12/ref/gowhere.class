@@ -1,0 +1,13 @@
+set weight e
+set unit v f
+set mode x auto
+set mode y auto
+
+set angle sec
+
+file in co_data.14m
+
+set line 12co(1-0)
+
+find
+go where /colour telescope

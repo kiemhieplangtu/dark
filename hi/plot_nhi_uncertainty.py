@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 import pylab             as pl
 import copy
 
-from numpy   import array
-from restore import restore
+from numpy               import array
+from restore             import restore
 import operator
 
 ## Read N(HI) of 78 sources and its uncertainty #
@@ -37,7 +37,7 @@ def plot_hist_nhi_err_78src(data):
 	nhi_er = np.asarray(data['nhi_er'])
 	a      = 100.*nhi_er/nhi
 
-	b = list(np.where(a>50.) )
+	b = list(np.where(a>50.) ) ## 3 sources with high Uncertainties, in Galactic plane
 	b = b[0]
 	string = ''
 	for i in b:
@@ -47,15 +47,15 @@ def plot_hist_nhi_err_78src(data):
 
 	bins = np.histogram(np.hstack((a)), bins=25)[1] #get the bin edges
 
-	plt.hist(a, bins, label='Uncertainties of N(HI)', histtype='step', linewidth=2)
+	plt.hist(a, bins, label='Uncertainties of N(HI)', histtype='step', linewidth=3)
 
 	plt.xlabel('Uncertainties (%)', fontsize = 35)
 	plt.ylabel('Counts', fontsize = 35)
-	plt.title('Histogram of N(HI) uncertainties for 78 sources', fontsize = 35)
+	plt.title('Histogram of total $N_{HI}$ uncertainties for 78 lines-of-sight', fontsize = 35)
 	plt.grid(True)
 	plt.tick_params(axis='x', labelsize=20)
 	plt.tick_params(axis='y', labelsize=20)
-	plt.text(55, 5,string,color='b',fontsize=14)
+	plt.text(55, 5, string, color='b', fontsize=14)
 	plt.text(55, 35, 'Mean = ' + str(round(a.mean(),2) ) + '%',color='b',fontsize=14)
 
 	plt.legend(loc='upper right', fontsize = 18)
@@ -88,7 +88,7 @@ def plot_hist_nhi_err_26src_no_co(data):
 
 	plt.xlabel('Uncertainties (%)', fontsize = 35)
 	plt.ylabel('Counts', fontsize = 35)
-	plt.title('Histogram of N(HI) uncertainties for 26 sources without CO', fontsize = 35)
+	plt.title('Histogram of $N_{HI}$ uncertainties for 26 sources without CO', fontsize = 35)
 	plt.grid(True)
 	plt.tick_params(axis='x', labelsize=20)
 	plt.tick_params(axis='y', labelsize=20)
@@ -127,8 +127,10 @@ def plot_nhi_uncertainty(data):
 
 #================= MAIN ========================#
 
-# data = read_nhi_uncertainty('result/78src_nhi_cnm_wnm_with_err.txt')
-# plot_hist_nhi_err_78src(data)
+data = read_nhi_uncertainty('result/78src_nhi_cnm_wnm_with_err.txt')
+plot_hist_nhi_err_78src(data)
+
+sys.exit()
 
 data = read_nhi_uncertainty('result/26src_no_co_cnm_uncertainties_arcb.txt')
 plot_hist_nhi_err_26src_no_co(data)

@@ -1,0 +1,24 @@
+!
+!  Saved CLASS parameters
+!
+LAS\SET ANGLE SEC                                ! Angle unit
+LAS\SET ALIGN C I                                ! Align type for adding spectra
+LAS\SET BAD O                                    ! Bad channel checking mode
+LAS\SET BASELINE  1                              ! degree of polynomial
+LAS\SET SYSTEM AUTO                              ! Coordinate system 
+LAS\SET FORMAT L                                 ! Default header format
+LAS\SET LINE "12CO(1-0)   "                      ! Molecular transition
+LAS\SET MASK NONE                                ! no fit mask
+LAS\SET MATCH     +2.0                           ! Position match tested.
+LAS\SET MODE X   -15.00      20.00               ! Fixed mode for X
+LAS\SET MODE Y AUTO                              ! Pre-determined scale for Y
+LAS\SET OBSERVED 10-DEC-1934 15-MAY-2114         ! Range of observ. dates.
+LAS\SET RANGE   *   *   *   *                    ! Offset range.
+LAS\SET PLOT H                                   ! plot type.
+LAS\SET REDUCED 10-DEC-1934 15-MAY-2114          ! Range of reduc. dates.
+LAS\SET SOURCE "3C123-F     "                    ! Source name
+LAS\SET TELESCOPE "B5US        "                 ! Telescope name
+LAS\SET TYPE SPECTROSCOPY                        ! Data type
+LAS\SET UNIT V                                   ! Unit of x axis (vel. freq. or chan.)
+LAS\SET WEIGHT E                                 ! Weight type for summations.
+LAS\SET WINDOW 1.21 7.40

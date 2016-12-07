@@ -92,7 +92,7 @@ def plot_comp_nhi_percentage(data):
 	for i in range(0, len(nhi)):
 		per = round(100.*np.absolute(nhi[i]-nhi_heiles[i])/nhi_heiles[i],2)
 		y.append(per)
-		print('{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}'.
+		print('{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t\t{6}\t\t{7}\t\t{8}'.
 			format(i, data['vs'][i],data['ve'][i],data['vs_id'][i], data['ve_id'][i], nhi[i], nhi_heiles[i], per, data['sources'][i]))
 
 	plt.plot(x, y, 'r-')
@@ -248,5 +248,5 @@ def linear_fit(x,y):
 data = read_comp_nhi()
 #plot_comp_nhi(data)
 # plot_hist_comp_nhi(data)
-# plot_comp_nhi_percentage(data)
-plot_factor_vs_nhi(data)
+plot_comp_nhi_percentage(data)
+# plot_factor_vs_nhi(data)
