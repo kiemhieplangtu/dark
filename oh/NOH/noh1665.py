@@ -131,23 +131,23 @@ def modangle(angle, extent=360., negpos=False):
  # version 09/2016 
  # author Nguyen Van Hiep ##
 def read_tbg408_healpy(fname='../result/bg408_to_compare.txt'):
-	cols     = ['src','l','b', 'il', 'ib', 'tbg', 'l-idx','b-idx','tbg1','tbg_hpy']
-	fmt      = ['s','f','f','f','f','f','f','f','f','f']
-	src      = restore(fname, 2, cols, fmt)
-	info     = src.read()
+	cols = ['src','l','b', 'il', 'ib', 'tbg', 'l-idx','b-idx','tbg1','tbg_hpy']
+	fmt  = ['s','f','f','f','f','f','f','f','f','f']
+	src  = restore(fname, 2, cols, fmt)
+	info = src.read()
 
-	src = info['src']
-	gl  = info['l']
-	gb  = info['b']
-	il  = info['il']
-	ib  = info['ib']
-	tbg = info['tbg']
-	lid = info['l-idx']
-	bid = info['b-idx']
-	bg1 = info['tbg1']
-	bgh = info['tbg_hpy']
+	src  = info['src']
+	gl   = info['l']
+	gb   = info['b']
+	il   = info['il']
+	ib   = info['ib']
+	tbg  = info['tbg']
+	lid  = info['l-idx']
+	bid  = info['b-idx']
+	bg1  = info['tbg1']
+	bgh  = info['tbg_hpy']
 
-	ret = {}
+	ret  = {}
 	for i in range(len(src)):
 		ret[src[i]] = bgh[i]
 
@@ -278,12 +278,12 @@ def bin_up(x,t,nbin=4):
 
 ## 1-sigma Error of tb-data ##
  #
- # params xd x-data
- # params td y-data
- # params vmin1 vel-range
- # params vmax1 vel-range
- # params vmin2 vel-range
- # params vmax2 vel-range
+ # params 1-D array xd x-data
+ # params 1-D array td y-data
+ # params float vmin1 vel-range
+ # params float vmax1 vel-range
+ # params float vmin2 vel-range
+ # params float vmax2 vel-range
  #
  # return sigma
  #
@@ -342,7 +342,7 @@ def read_tex_carl(fname = '../sub_data/tex_oh1165.txt'):
 	tau  = dat['tau']
 	ts   = dat['ts_carl']
 
-	ret = {}
+	ret  = {}
 	for i in range(0,len(src)):
 		if src[i] not in ret.keys():
 			ret[src[i]] = {}
@@ -363,18 +363,18 @@ def read_tex_carl(fname = '../sub_data/tex_oh1165.txt'):
  #
  # version 08/2016 
  # author Nguyen Van Hiep ##
-def get_src_info(data,src,src_list):
-	n     = src_list.index(src)
+def get_src_info(data, src, src_list):
+	n       = src_list.index(src)
 
-	ra50  = data.la.ra1950
-	dec50 = data.la.dec1950
-	ell   = data.la.ell
-	bee   = data.la.bee
+	ra50    = data.la.ra1950
+	dec50   = data.la.dec1950
+	ell     = data.la.ell
+	bee     = data.la.bee
 
-	oh_f1  = data.la.cfr_bd1
-	vlsr1  = data.la.vlsr_bd1
-	oh_f2  = data.la.cfr_bd2
-	vlsr2  = data.la.vlsr_bd2
+	oh_f1   = data.la.cfr_bd1
+	vlsr1   = data.la.vlsr_bd1
+	oh_f2   = data.la.cfr_bd2
+	vlsr2   = data.la.vlsr_bd2
 
 	em_avg1 = correct_ctrl_chnl(data.la.i_em_avg_bd1)
 	em_med1 = correct_ctrl_chnl(data.la.i_em_med_bd1)
@@ -557,8 +557,8 @@ def cal_tex_print(data,inf408,bd=1):
 		dv       = (xmax-xmin)/num_chnl
 
 		## (FOR FUN) FIT ABSORPTION LINE FOR TAU, V0 and WIDTH ##
-		guesspar,base_range = peak_info(src,pfl)
-		lguess              = [tc1665] + guesspar
+		guesspar,base_range   = peak_info(src,pfl)
+		lguess                = [tc1665] + guesspar
 		x,etaufit,etau,\
 		abp,abper,npar,\
 		parbase,pname,parinfo = ab_fit(src,xd,td,lguess,xmin_id,xmax_id,evmin1,evmax1,evmin2,evmax2)
@@ -664,8 +664,8 @@ def cal_tex(data,inf408,bd=1):
 	 	avmin1,avmax1,avmin2,avmax2,evmin1,evmax1,evmin2,evmax2           = read_bins_to_cal_bg(n)
 	 	xmin, xmax                                                        = vel_range(n)
 
-	 	if (src != '3C75'):
-			continue
+	 	# if (src != '3C75'):
+			# continue
 		if (xmin == 0. and xmax == 0.):
 			continue
 
@@ -673,22 +673,22 @@ def cal_tex(data,inf408,bd=1):
 	 	xd  = vlsr1
 		td  = ab_avg1
 		tde = em_avg1
-		cst = 3.99757843817 # 4.1063 # 2.42114736982 # 2.39854792704 #4.1063 #
+		cst = 3.99757843817
 		frq = 1665.402
 		pfl = '../data/gauss_1665_peaks.txt'
 		if(bd == 2):
 			xd  = vlsr2
 			td  = ab_avg2
 			tde = em_avg2
-			cst = 2.21841824609 # 2.2785 # 2.23798164599 # 2.21841851219 # 2.2785 #
+			cst = 2.21841824609
 			frq = 1667.359
 			pfl = '../data/gauss_1667_peaks.txt'
 
 		# xd,td = bin_up(xd,td,nbin=1)
 
 		## Background ##
-		tbg1665    = 2.8+get_tb_408(ell,bee,inf408.tb_408)*(408./frq)**2.8 # Tbg from 408MHz
-		tbg1665    = 2.8+bg408[src]*(408./frq)**2.8 # Tbg from 408MHz
+		tbg1665 = 2.8+get_tb_408(ell,bee,inf408.tb_408)*(408./frq)**2.8 # Tbg from 408MHz
+		tbg1665 = 2.8+bg408[src]*(408./frq)**2.8 # Tbg from 408MHz
 		if(src=='3C123'):
 			tbg1665 = 26.
 
@@ -729,6 +729,8 @@ def cal_tex(data,inf408,bd=1):
 		vrange   = [xmin_id, xmax_id]
 		dv       = (xmax-xmin)/num_chnl
 		print dv
+		print dv*frq/300000.
+		print dv*2048*frq/300000.
 
 		## (FOR FUN) FIT ABSORPTION LINE FOR TAU, V0 and WIDTH ##
 		guesspar,base_range = peak_info(src,fname='../data/gauss_1665_peaks.txt')
@@ -739,12 +741,17 @@ def cal_tex(data,inf408,bd=1):
 
 		## PLOT ##
 		colors = ['m','g','b','y','c','r','purple','b']
-		plt.plot(x,etau)
-		plt.plot(x,etaufit,'r-')
+		plt.plot(x,etau, 'b.-', label='data', ms=10)
+		plt.plot(x,etaufit,'r-', label='Gaussian fit', lw=2)
 		for i in range(2,len(abp),3):
-			plt.axvline(abp[i]-abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=2,color=colors[(i-3)/4])
-			plt.axvline(abp[i]+abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=2,color=colors[(i-3)/4])
-		plt.title('Absorption fit - ' + src)
+			# plt.axvline(abp[i]-abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=2,color=colors[(i-3)/4])
+			# plt.axvline(abp[i]+abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=2,color=colors[(i-3)/4])
+			plt.axvline(abp[i]-abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=3,color='k')
+			plt.axvline(abp[i]+abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=3,color='k')
+		plt.title(src,fontsize=35)
+		plt.xlabel('$V_{lsr} (km/s)$',fontsize=35)
+		plt.ylabel(r'$e^{-\tau}$',fontsize=35)
+		plt.legend(loc='upper right')
 		plt.grid()
 		plt.show()
 
@@ -839,16 +846,21 @@ def cal_tex(data,inf408,bd=1):
 		plt.show()
 
 		## PLOT ##
-		plt.plot(xe,tex)
-		plt.plot(xe,-7000.*np.log(etaue))
+		plt.plot(xe,tex, 'r', label='$T_{ex}$', lw=2)
+		plt.plot(xe,-7000.*np.log(etaue), 'b', label=r'$7000*e^{-\tau}$', lw=2)
 		for i in range(0,len(peak),2):
-			plt.axvline(peak[i], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
-			plt.axvline(peak[i+1], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
+		# 	plt.axvline(peak[i], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
+		# 	plt.axvline(peak[i+1], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
+			plt.axvline(peak[i], ymin=-10., ymax=1000.,linewidth=3,color='k')
+			plt.axvline(peak[i+1], ymin=-10., ymax=1000.,linewidth=3,color='k')
 		# for i in range(2,len(abp),3):
 		# 	plt.axvline(abp[i]-abp[i+1]/4./np.sqrt(2),ymin=-10., ymax=1000.,linewidth=1,color='k') # Sigma range of Gaussian
 		# 	plt.axvline(abp[i]+abp[i+1]/4./np.sqrt(2),ymin=-10., ymax=1000.,linewidth=1,color='k')
 		plt.ylim(-50.,400.)
-		plt.title(src + ' - Tex')
+		plt.title(src, fontsize=35 )
+		plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+		plt.ylabel('$T_{ex} (K)$',fontsize=35)
+		plt.legend(loc='upper right')
 		plt.grid()
 		plt.show()
 
@@ -864,8 +876,8 @@ def cal_tex(data,inf408,bd=1):
 
 #============== MAIN ==============#
 data   = readsav('../data/makelines.sav') #data.la
-inf408 = readsav('../data/tb_408.sav') # l_cntr, b_cntr, tb_408
-# cal_tex(data, inf408, bd=1)
-cal_tex_print(data, inf408, bd=1)
+inf408 = readsav('../data/tb_408.sav') # l_cntr, b_cntr, tb_408, Continuum at 408MHz
+cal_tex(data, inf408, bd=1)
+# cal_tex_print(data, inf408, bd=1)
 
 sys.exit()

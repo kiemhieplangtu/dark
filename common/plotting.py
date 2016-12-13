@@ -571,6 +571,6 @@ class cplot:
         self.layout(layout)
         if(fullscreen):
             mng = plt.get_current_fig_manager()
-            mng.window.showMaximized()
+            mng.window.showMaximized()            
 
         plt.show()

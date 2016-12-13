@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy             as np
 import healpy            as hp
 import pylab             as pl
+import matplotlib        as mpl
 import operator
 
 from restore              import restore
@@ -49,22 +50,22 @@ def plot_haslam_408mhz_map():
 	factor   = (408./1665.)**2.8
 
 	# Define the width of area #
-	beam   = 3.5            # Beam = 3.5'
-	dbeam  = beam/120.0     # Beam = 3.5' -> dbeam = beam/60/2 in degree
+	beam   = 51.            # Beam for Haslam survey = 51'
+	dbeam  = beam/120.0     # Beam = 51' -> dbeam = beam/60/2 in degree
 	offset = dbeam          # degree
-	edge   = dbeam/40. # To plot a rectangle about the source
+	edge   = dbeam/40.      # To plot a rectangle about the source
 
 	info = read_src_lb()
-	src = info['src']
-	gl  = info['l']
-	gb  = info['b']
-	il  = info['il']
-	ib  = info['ib']
-	tbg = info['tbg']
-	lid = info['l-idx']
-	bid = info['b-idx']
-	bg1 = info['tbg1']
-	bgh = info['tbg_hpy']
+	src  = info['src']
+	gl   = info['l']
+	gb   = info['b']
+	il   = info['il']
+	ib   = info['ib']
+	tbg  = info['tbg']
+	lid  = info['l-idx']
+	bid  = info['b-idx']
+	bg1  = info['tbg1']
+	bgh  = info['tbg_hpy']
 
 	tb408 = hp.read_map(map_file,field=0, nest=False, hdu=1, h=False, verbose=False)
 	nside = hp.get_nside(tb408)
@@ -72,6 +73,8 @@ def plot_haslam_408mhz_map():
 	dd    = res/deg2rad/10.0
 	hp.cartview(tb408, title='Continuum background at 408 MHz from Haslam et al. Survey', coord='G', unit='K',\
 		norm='hist', xsize=800) #min=19.9,max=20.6
+
+	# hp.mollview(tb408, title='Continuum background at 408 MHz from Haslam et al. Survey', coord='G', unit='K', norm='hist', xsize=800) #min=19.9,max=20.6
 
 	for i in range(len(src)):
 		sl = gl[i]
@@ -129,11 +132,11 @@ def plot_haslam_408mhz_map():
 
 		equateur_lon = [sl-l_edge, sl+l_edge, sl+l_edge, sl-l_edge, sl-l_edge]
 		equateur_lat = [sb+b_edge, sb+b_edge, sb-b_edge, sb-b_edge, sb+b_edge]
-		hp.projplot(equateur_lon, equateur_lat, lonlat=True, coord='G')
-		hp.projplot(sl, sb, 'kx', lonlat=True, coord='G')
+		# hp.projplot(equateur_lon, equateur_lat, lonlat=True, coord='G')
+		hp.projplot(sl, sb, 'ko', lonlat=True, coord='G')
 
 		# hp.projtext(sl, sb, src[i] +' ('+ str("{0:.4e}".format(val))+')', lonlat=True, coord='G') 
-		hp.projtext(sl, sb, src[i], lonlat=True, coord='G') 
+		hp.projtext(sl, sb, src[i], lonlat=True, coord='G', fontsize=14) 
 
 	plt.show()
 
@@ -156,32 +159,32 @@ def plot_haslam_408mhz_patch():
 	# lambda_chipass_healpix_r10.fits
 
 	# Define constants #
-	map_file = os.getenv("HOME")+'/hdata/oh/lambda_haslam408_nofilt.fits'
+	map_file = os.getenv("HOME")+'/hdata/oh/haslam408_dsds_Remazeilles2014.fits'
 	deg2rad  = np.pi/180.
 	factor   = (408./1665.)**2.8
 
 	# Define the width of area #
-	beam   = 3.5            # Beam = 3.5'
-	dbeam  = beam/120.0     # Beam = 3.5' -> dbeam = beam/60/2 in degree
+	beam   = 51.            # Beam = 51'
+	dbeam  = beam/120.0     # Beam = 51' -> dbeam = beam/60/2 in degree
 	offset = dbeam          # degree
-	edge   = dbeam/40. # To plot a rectangle about the source
+	edge   = dbeam/40.      # To plot a rectangle about the source
 
 	info = read_src_lb()
-	src = info['src']
-	gl  = info['l']
-	gb  = info['b']
-	il  = info['il']
-	ib  = info['ib']
-	tbg = info['tbg']
-	lid = info['l-idx']
-	bid = info['b-idx']
-	bg1 = info['tbg1']
-	bgh = info['tbg_hpy']
+	src  = info['src']
+	gl   = info['l']
+	gb   = info['b']
+	il   = info['il']
+	ib   = info['ib']
+	tbg  = info['tbg']
+	lid  = info['l-idx']
+	bid  = info['b-idx']
+	bg1  = info['tbg1']
+	bgh  = info['tbg_hpy']
 
 	tb408 = hp.read_map(map_file,field=0, nest=False, hdu=1, h=False, verbose=False)
 	nside = hp.get_nside(tb408)
 	res   = hp.nside2resol(nside, arcmin=False)
-	dd    = res/deg2rad/10.0
+	dd    = res/deg2rad/4.0
 	# hp.cartview(tb408, title='Continuum background at 408 MHz from Haslam et al. Survey', coord='G', unit='K',norm='hist', xsize=800)
 
 	for i in range(len(src)):
@@ -198,10 +201,11 @@ def plot_haslam_408mhz_patch():
 		if (sl>180):
 			ll = ll-360.
 
-		offset = 1.
-		hp.cartview(tb408, title=src[i]+' (l=' + str(round(sl,2)) + ', b=' + str(round(sb,2)) + ')', coord='G', unit='K',
-				norm='hist', xsize=800, lonra=[ll-offset,ll+offset], latra=[sb-offset,sb+offset],
+		hp.cartview(tb408, title=src[i], coord='G', unit='K',
+				norm='hist', xsize=800, lonra=[ll-offset-0.1*offset,ll+offset+0.1*offset], latra=[sb-offset-0.1*offset,sb+offset+0.1*offset],
 				return_projected_map=True) #, min=11.2, max=4.04e3)
+		hp.projplot(ll, sb, 'bo', lonlat=True, coord='G')
+		hp.projtext(ll, sb, ' (' + str(round(ll,2)) + ',' + str(round(sb,2)) + ')', lonlat=True, coord='G', fontsize=18, weight='bold')
 		# End Plot cartview a/o mollview ##
 
 		theta = (90.0 - sb)*deg2rad
@@ -228,6 +232,7 @@ def plot_haslam_408mhz_patch():
 						if (tb408[pix] > 0.) :
 							tbg_i.append(tb408[pix])
 
+		mpl.rcParams.update({'font.size':30})
 		plt.show()
 		# tbg_i = list(set(tbg_i))
 		tbg_i = np.asarray(tbg_i, dtype = np.float32)	
@@ -241,7 +246,7 @@ def plot_haslam_408mhz_patch():
 			.format(src[i], gl[i], gb[i], il[i], ib[i], tbg[i], lid[i], bid[i], bg1[i], val)
 
 
-## Calculate Continuum Temperature of 408MHz from Haslam ##
 ## ======================= MAIN ========================== ##
+## Calculate Continuum Temperature of 408MHz from Haslam   ##
 # plot_haslam_408mhz_map()
 plot_haslam_408mhz_patch()

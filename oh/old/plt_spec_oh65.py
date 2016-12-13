@@ -216,7 +216,7 @@ def plot_1665(data):
 
 	# Plot #
 	fig    = cplot()
-	trace1 = fig.lines(v,etau1,label='OH 1665',
+	trace1 = fig.lines(v,etau1,label='OH 1665MHz',
 			prop=dict(color='b',
 				      linewidth=1,
 				      linestyle='solid',
@@ -230,7 +230,7 @@ def plot_1665(data):
 				  title_fontsize=30,
 	              grid   = True,
 	              legend = dict(loc='upper left', fontsize=18),
-	              xaxis  = dict(label='vlsr (km/s)',tick_size=18,fontsize=35,xlim=[-60.,60.]),
+	              xaxis  = dict(label='$V_{lsr} (km/s)$',tick_size=18,fontsize=35,xlim=[-30.,30.]),
 	              yaxis  = dict(label=r'$e^{-\tau}$',tick_size=18,fontsize=35),
 	              text   = [dict(loc=[-0.5,0.4],text='',color='blue',fontsize=17),
 	              			dict(loc=[-0.5,0.31],text='',color='red',fontsize=19)
@@ -240,7 +240,7 @@ def plot_1665(data):
 	fig.iplot(data,layout,fullscreen=False)
 
 	## Plot Emission line ##
-	trace1 = fig.lines(v,toff,label='OH 1665',
+	trace1 = fig.lines(v,toff,label='OH 1665MHz',
 			prop=dict(color='b',
 				      linewidth=1,
 				      linestyle='solid',
@@ -254,7 +254,7 @@ def plot_1665(data):
 				  title_fontsize=30,
 	              grid   = True,
 	              legend = dict(loc='upper left', fontsize=18),
-	              xaxis  = dict(label='vlsr (km/s)',tick_size=18,fontsize=35,xlim=[-60.,60.]),
+	              xaxis  = dict(label='$V_{lsr} (km/s)$',tick_size=18,fontsize=35,xlim=[-30.,30.]),
 	              yaxis  = dict(label=r'$T(K)$',tick_size=18,fontsize=35),
 	              text   = [dict(loc=[-0.5,0.4],text='',color='blue',fontsize=17),
 	              			dict(loc=[-0.5,0.31],text='',color='red',fontsize=19)
