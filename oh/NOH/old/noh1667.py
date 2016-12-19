@@ -131,23 +131,23 @@ def modangle(angle, extent=360., negpos=False):
  # version 09/2016 
  # author Nguyen Van Hiep ##
 def read_tbg408_healpy(fname='../result/bg408_to_compare.txt'):
-	cols = ['src','l','b', 'il', 'ib', 'tbg', 'l-idx','b-idx','tbg1','tbg_hpy']
-	fmt  = ['s','f','f','f','f','f','f','f','f','f']
-	src  = restore(fname, 2, cols, fmt)
-	info = src.read()
+	cols     = ['src','l','b', 'il', 'ib', 'tbg', 'l-idx','b-idx','tbg1','tbg_hpy']
+	fmt      = ['s','f','f','f','f','f','f','f','f','f']
+	src      = restore(fname, 2, cols, fmt)
+	info     = src.read()
 
-	src  = info['src']
-	gl   = info['l']
-	gb   = info['b']
-	il   = info['il']
-	ib   = info['ib']
-	tbg  = info['tbg']
-	lid  = info['l-idx']
-	bid  = info['b-idx']
-	bg1  = info['tbg1']
-	bgh  = info['tbg_hpy']
+	src = info['src']
+	gl  = info['l']
+	gb  = info['b']
+	il  = info['il']
+	ib  = info['ib']
+	tbg = info['tbg']
+	lid = info['l-idx']
+	bid = info['b-idx']
+	bg1 = info['tbg1']
+	bgh = info['tbg_hpy']
 
-	ret  = {}
+	ret = {}
 	for i in range(len(src)):
 		ret[src[i]] = bgh[i]
 
@@ -278,12 +278,12 @@ def bin_up(x,t,nbin=4):
 
 ## 1-sigma Error of tb-data ##
  #
- # params 1-D array xd x-data
- # params 1-D array td y-data
- # params float vmin1 vel-range
- # params float vmax1 vel-range
- # params float vmin2 vel-range
- # params float vmax2 vel-range
+ # params xd x-data
+ # params td y-data
+ # params vmin1 vel-range
+ # params vmax1 vel-range
+ # params vmin2 vel-range
+ # params vmax2 vel-range
  #
  # return sigma
  #
@@ -324,15 +324,15 @@ def vel_range(n):
 
 	return xmin, xmax
 
-# Read Tbg of 1666 from 408MHz #
-#
-# params string fname Filename
-#
-# return dict info of Tbg
-# 
-# Author Van Hiep
-##
+## Read Tbg of 1666 from 408MHz #
+ #
+ # params string fname Filename
+ #
+ # return dict info of Tbg
+ # 
+ # Author Van Hiep ##
 def read_tex_carl(fname = '../sub_data/tex_oh1165.txt'):
+
 	cols = ['idx','src','amp','v0','wid','ts1','er1','ts2','er2','tbg', 'ts_carl', 'tau']
 	fmt  = ['i','s','f','f','f','f','f','f','f','f','f','f']
 	data = restore(fname, 3, cols, fmt)
@@ -341,7 +341,7 @@ def read_tex_carl(fname = '../sub_data/tex_oh1165.txt'):
 	tau  = dat['tau']
 	ts   = dat['ts_carl']
 
-	ret  = {}
+	ret = {}
 	for i in range(0,len(src)):
 		if src[i] not in ret.keys():
 			ret[src[i]] = {}
@@ -362,28 +362,28 @@ def read_tex_carl(fname = '../sub_data/tex_oh1165.txt'):
  #
  # version 08/2016 
  # author Nguyen Van Hiep ##
-def get_src_info(data, src, src_list):
-	n       = src_list.index(src)
+def get_src_info(data,src,src_list):
+	n     = src_list.index(src)
 
-	ra50    = data.la.ra1950
-	dec50   = data.la.dec1950
-	ell     = data.la.ell
-	bee     = data.la.bee
+	ra50  = data.la.ra1950
+	dec50 = data.la.dec1950
+	ell   = data.la.ell
+	bee   = data.la.bee
 
-	oh_f1   = data.la.cfr_bd1
-	vlsr1   = data.la.vlsr_bd1
-	oh_f2   = data.la.cfr_bd2
-	vlsr2   = data.la.vlsr_bd2
+	oh_f1  = data.la.cfr_bd1
+	vlsr1  = data.la.vlsr_bd1
+	oh_f2  = data.la.cfr_bd2
+	vlsr2  = data.la.vlsr_bd2
 
-	em_avg1 = 0.5*correct_ctrl_chnl(data.la.i_em_avg_bd1)
-	em_med1 = 0.5*correct_ctrl_chnl(data.la.i_em_med_bd1)
-	ab_avg1 = 0.5*correct_ctrl_chnl(data.la.i_abs_avg_bd1)
-	ab_med1 = 0.5*correct_ctrl_chnl(data.la.i_abs_med_bd1)
+	em_avg1 = correct_ctrl_chnl(data.la.i_em_avg_bd1)
+	em_med1 = correct_ctrl_chnl(data.la.i_em_med_bd1)
+	ab_avg1 = correct_ctrl_chnl(data.la.i_abs_avg_bd1)
+	ab_med1 = correct_ctrl_chnl(data.la.i_abs_med_bd1)
 
-	em_avg2 = 0.5*correct_ctrl_chnl(data.la.i_em_avg_bd2)
-	em_med2 = 0.5*correct_ctrl_chnl(data.la.i_em_med_bd2)
-	ab_avg2 = 0.5*correct_ctrl_chnl(data.la.i_abs_avg_bd2)
-	ab_med2 = 0.5*correct_ctrl_chnl(data.la.i_abs_med_bd2)
+	em_avg2 = correct_ctrl_chnl(data.la.i_em_avg_bd2)
+	em_med2 = correct_ctrl_chnl(data.la.i_em_med_bd2)
+	ab_avg2 = correct_ctrl_chnl(data.la.i_abs_avg_bd2)
+	ab_med2 = correct_ctrl_chnl(data.la.i_abs_med_bd2)
 
 	return n,ell[n],bee[n],oh_f1[n],vlsr1[n],oh_f2[n],vlsr2[n],em_avg1[n],ab_avg1[n],em_avg2[n],ab_avg2[n]
 
@@ -402,6 +402,99 @@ def get_peak_vel_range(popt):
 		intvl += [v0-wid/2., v0+wid/2.]    # vertical lines at 1/e
 
 	return intvl
+
+## Compute the Tex spectrum from etau ##
+ #
+ # params list etau      Exp(-tau)
+ # params list velo      List of Velocity
+ # params list tb_off    List of Off-source Temperature
+ # params float tbg      CMB + Radio noise
+ # params float trx      Receiver Temperature
+ # params list popt      Fit-result parameters 
+ # params 1-D Array tau  Tau
+ # params float dv       Velocity-bin
+ # params float cst      Factor to calculate N(OH) from Tex
+ # params 1-D Array tex_sig  Uncertainties of Tex
+ # params 1-D Array tau_sig  Uncertainties of Tau
+ #
+ # return List tex       Tex spectrum
+ # return float s        Tex Mean
+ # return int count      Number of channels to compute the Tex
+ # return list tex_peak  Tex of each peak
+ # return list tex_count Number of channels to compute the Tex for each peak
+ # return list peak      Vel-range of peaks at FWHM
+ #
+ # version 08/2016 
+ # author Nguyen Van Hiep ##
+def cal_tex_from_etau(etau,velo,tb_on,tbg,trx,popt,tau,dv,cst,tex_sig,tausig,tc):
+	# Compute the Excitation Temperature #
+	ts = (tb_on-trx-(tbg+tc)*etau)/(1.-etau)
+
+	plt.plot(velo,ts)
+	plt.grid()
+	plt.show()
+
+	sys.exit()
+
+	# tex   = []
+	# tbon  = [] 
+	# for i in range(0, len(etau)):
+	# 	ts = (tb_on[i]-trx-(tbg+tc)*etau[i])/(1.-etau[i])
+	# 	tex.append(ts)
+	# 	# tboff.append(tb_off[i]-trx)
+	# 	# if (etau[i] == 1.):
+	# 	# 	tex.append(0.)
+	# 	# else:
+	# 	# 	ts = (tb_off[i]-trx-tbg*etau[i])/(1.-etau[i])
+	# 	# 	tex.append(ts)
+	
+	# Find the vel-range of the peak #
+	peak      = get_peak_vel_range(popt)
+	npeak     = len(peak)/2
+	tex_peak  = [0.]*npeak
+	stau_peak = [0.]*npeak
+	tex_count = [0]*npeak
+	ts_sig    = [0.]*npeak
+	stausig   = [0.]*npeak
+	noh_sig   = [0.]*npeak
+
+	# Cal. Tex for each peak #
+	s         = 0.
+	count     = 0
+	stau_sig  = 0.
+	for i in range(0, len(velo)):
+		for k in range(0,len(peak),2):
+			vmin = peak[0+k]
+			vmax = peak[1+k]
+			if ( (velo[i]>=vmin) and (velo[i]<=vmax) ) :
+				tex_peak[k/2]  = tex_peak[k/2] + tex[i]
+				stau_peak[k/2] = stau_peak[k/2] + tau[i]*dv
+				tex_count[k/2] = tex_count[k/2] + 1
+				ts_sig[k/2]    = ts_sig[k/2] + tex_sig[i]
+				stausig[k/2]   = stausig[k/2] + tausig[i]**2
+				s              = s + tex[i]
+				count          = count + 1
+
+	ss = 0.
+	for k in range(0,len(peak)/2):
+		if(tex_peak[k] > 0.):
+			tex_peak[k] = tex_peak[k]/tex_count[k]
+			ts_sig[k]   = ts_sig[k]/tex_count[k]
+			ds2   = stausig[k] + (stau_peak[k]/dv)**2
+			dtex2 = (ts_sig[k]/tex_peak[k])**2
+		else:
+			tex_peak[k] = 0.
+			ts_sig[k]   = 0.
+			ds2   = stausig[k] + (stau_peak[k]/dv)**2
+			dtex2 = 0.
+		
+		
+		stau_peak[k] = cst*tex_peak[k]*stau_peak[k]
+		noh_sig[k]   = stau_peak[k]*np.sqrt(ds2+dtex2)
+		ss           = ss + tex_peak[k]
+	
+	s = s/count
+	return tex,s,count,tex_peak,tex_count,peak,tboff,stau_peak,ts_sig,noh_sig
 
 ## Fit the absorption line  ##
  #
@@ -502,7 +595,7 @@ def cal_tex_print(data,inf408,bd=1):
 	 	avmin1,avmax1,avmin2,avmax2,evmin1,evmax1,evmin2,evmax2           = read_bins_to_cal_bg(n)
 	 	xmin, xmax                                                        = vel_range(n)
 
-	 	# if (src != '4C13.67'):
+	 	# if (src != '3C109'):
 			# continue
 		if (xmin == 0. and xmax == 0.):
 			continue
@@ -511,14 +604,14 @@ def cal_tex_print(data,inf408,bd=1):
 	 	xd  = vlsr1
 		td  = ab_avg1
 		tde = em_avg1
-		cst = 3.99757843817
+		cst = 3.99757843817 # 4.1063 # 2.42114736982 # 2.39854792704 #4.1063 #
 		frq = 1665.402
 		pfl = '../data/gauss_1665_peaks.txt'
 		if(bd == 2):
 			xd  = vlsr2
 			td  = ab_avg2
 			tde = em_avg2
-			cst = 2.21841824609
+			cst = 2.21841824609 # 2.2785 # 2.23798164599 # 2.21841851219 # 2.2785 #
 			frq = 1667.359
 			pfl = '../data/gauss_1667_peaks.txt'
 
@@ -527,15 +620,15 @@ def cal_tex_print(data,inf408,bd=1):
 		## Background ##
 		tbg1665    = 2.8+get_tb_408(ell,bee,inf408.tb_408)*(408./frq)**2.8 # Tbg from 408MHz
 		tbg1665    = 2.8+bg408[src]*(408./frq)**2.8 # Tbg from 408MHz
-		# if(src=='3C123'):
-		# 	tbg1665 = 18.
+		if(src=='3C123'):
+			tbg1665 = 26.
 
-		## BACKGROUNDS and THEIR UNCERTAINTIES ##
+		## BACKGROUND and THEIR UNCERTAINTIES ##
 		tc1665,tc_er        = baseline_from_linear_fit(xd, td, avmin1, avmax1, avmin2, avmax2,fit=False)
 		bg_off1665,bgoff_er = baseline_from_linear_fit(xd, tde, evmin1, evmax1, evmin2, evmax2,fit=False)
 		trx                 = bg_off1665 - tbg1665
 
-		## 1-SIGMA STANDARD DEVIATION OF Tabspt and Temmission ##
+		## 1-SIGMA STANDARD SDEVIATION OF Tabspt and Temmission ##
 		tab_sigma  = tc_er
 		tem_sigma  = bgoff_er
 		trx_sigma  = bgoff_er
@@ -556,8 +649,8 @@ def cal_tex_print(data,inf408,bd=1):
 		dv       = (xmax-xmin)/num_chnl
 
 		## (FOR FUN) FIT ABSORPTION LINE FOR TAU, V0 and WIDTH ##
-		guesspar,base_range   = peak_info(src,pfl)
-		lguess                = [tc1665] + guesspar
+		guesspar,base_range = peak_info(src,pfl)
+		lguess              = [tc1665] + guesspar
 		x,etaufit,etau,\
 		abp,abper,npar,\
 		parbase,pname,parinfo = ab_fit(src,xd,td,lguess,xmin_id,xmax_id,evmin1,evmax1,evmin2,evmax2)
@@ -571,7 +664,7 @@ def cal_tex_print(data,inf408,bd=1):
 			v0_fit.append(abp[i+1])
 			wid_fit.append(abp[i+2])
 
-		## CALCULATE Tex, CHOOSE etau_data ##
+		## CALCULATE Tex, CHOOSE etaufit OR etau ##
 		t_on     = tde + td # On-source Spectrum
 		t_on     = t_on[xmin_id:xmax_id]
 		xde      = xd[xmin_id:xmax_id]
@@ -625,16 +718,16 @@ def cal_tex_print(data,inf408,bd=1):
 					lstau_sig[k/2].append(tau_sigma**2)
 
 		for k in range(npeak):
-			# if( (len(ltex[k])>0 ) and (np.sum(ltex[k]) > 0.) ):
-			tex_peak[k]    = np.mean(ltex[k])
-			texsig_peak[k] = np.std(ltex[k])
-			noh_peak[k]    = cst*tex_peak[k]*np.sum(ltau[k])*dv
-			noh_sig[k]     = noh_peak[k]*np.sqrt( (texsig_peak[k]/tex_peak[k])**2 + np.sum(lstau_sig[k])*dv**2/(np.sum(ltau[k]))**2  )
-			# else:
-			# 	tex_peak[k]    = 0.
-			# 	noh_peak[k]    = 0.
-			# 	texsig_peak[k] = 0.
-			# 	noh_sig[k]     = 0.
+			if( (len(ltex[k])>0 ) and (np.sum(ltex[k]) > 0.) ):
+				tex_peak[k]    = np.mean(ltex[k])
+				texsig_peak[k] = np.std(ltex[k])
+				noh_peak[k]    = cst*tex_peak[k]*np.sum(ltau[k])*dv
+				noh_sig[k]     = noh_peak[k]*np.sqrt( (texsig_peak[k]/tex_peak[k])**2 + np.sum(lstau_sig[k])*dv**2/(np.sum(ltau[k]))**2  )
+			else:
+				tex_peak[k]    = 0.
+				noh_peak[k]    = 0.
+				texsig_peak[k] = 0.
+				noh_sig[k]     = 0.
 
 		for k in range(npeak):
 			if(n<79):
@@ -663,7 +756,7 @@ def cal_tex(data,inf408,bd=1):
 	 	avmin1,avmax1,avmin2,avmax2,evmin1,evmax1,evmin2,evmax2           = read_bins_to_cal_bg(n)
 	 	xmin, xmax                                                        = vel_range(n)
 
-	 	if (src != '3C123'):
+	 	if (src != '3C105'):
 			continue
 		if (xmin == 0. and xmax == 0.):
 			continue
@@ -672,24 +765,24 @@ def cal_tex(data,inf408,bd=1):
 	 	xd  = vlsr1
 		td  = ab_avg1
 		tde = em_avg1
-		cst = 3.99757843817
+		cst = 3.99757843817 # 4.1063 # 2.42114736982 # 2.39854792704 #4.1063 #
 		frq = 1665.402
 		pfl = '../data/gauss_1665_peaks.txt'
 		if(bd == 2):
 			xd  = vlsr2
 			td  = ab_avg2
 			tde = em_avg2
-			cst = 2.21841824609
+			cst = 2.21841824609 # 2.2785 # 2.23798164599 # 2.21841851219 # 2.2785 #
 			frq = 1667.359
 			pfl = '../data/gauss_1667_peaks.txt'
 
 		# xd,td = bin_up(xd,td,nbin=1)
 
 		## Background ##
-		tbg1665 = 2.8+get_tb_408(ell,bee,inf408.tb_408)*(408./frq)**2.8 # Tbg from 408MHz
-		tbg1665 = 2.8+bg408[src]*(408./frq)**2.8 # Tbg from 408MHz
+		tbg1665    = 2.8+get_tb_408(ell,bee,inf408.tb_408)*(408./frq)**2.8 # Tbg from 408MHz
+		tbg1665    = 2.8+bg408[src]*(408./frq)**2.8 # Tbg from 408MHz
 		if(src=='3C123'):
-			tbg1665 = 16.
+			tbg1665 = 26.
 
 		## BACKGROUND and THEIR UNCERTAINTIES ##
 		tc1665,tc_er        = baseline_from_linear_fit(xd, td, avmin1, avmax1, avmin2, avmax2,fit=False)
@@ -728,11 +821,9 @@ def cal_tex(data,inf408,bd=1):
 		vrange   = [xmin_id, xmax_id]
 		dv       = (xmax-xmin)/num_chnl
 		print dv
-		print dv*frq/300000.
-		print dv*2048*frq/300000.
 
 		## (FOR FUN) FIT ABSORPTION LINE FOR TAU, V0 and WIDTH ##
-		guesspar,base_range = peak_info(src,fname='../data/gauss_1665_peaks.txt')
+		guesspar,base_range = peak_info(src,fname=pfl)
 		lguess              = [tc1665] + guesspar
 		x,etaufit,etau,\
 		abp,abper,npar,\
@@ -740,17 +831,12 @@ def cal_tex(data,inf408,bd=1):
 
 		## PLOT ##
 		colors = ['m','g','b','y','c','r','purple','b']
-		plt.plot(x,etau, 'b.-', label='data', ms=10)
-		plt.plot(x,etaufit,'r-', label='Gaussian fit', lw=2)
+		plt.plot(x,etau)
+		plt.plot(x,etaufit,'r-')
 		for i in range(2,len(abp),3):
-			# plt.axvline(abp[i]-abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=2,color=colors[(i-3)/4])
-			# plt.axvline(abp[i]+abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=2,color=colors[(i-3)/4])
-			plt.axvline(abp[i]-abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=3,color='k')
-			plt.axvline(abp[i]+abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=3,color='k')
-		plt.title(src,fontsize=35)
-		plt.xlabel('$V_{lsr} (km/s)$',fontsize=35)
-		plt.ylabel(r'$e^{-\tau}$',fontsize=35)
-		plt.legend(loc='upper right')
+			plt.axvline(abp[i]-abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=2,color=colors[(i-3)/4])
+			plt.axvline(abp[i]+abp[i+1]/2.,ymin=-10., ymax=1000.,linewidth=2,color=colors[(i-3)/4])
+		plt.title('Absorption fit - ' + src)
 		plt.grid()
 		plt.show()
 
@@ -763,7 +849,7 @@ def cal_tex(data,inf408,bd=1):
 			v0_fit.append(abp[i+1])
 			wid_fit.append(abp[i+2])
 
-		## CALCULATE Tex, CHOOSE etau_data ##
+		## CALCULATE Tex, CHOOSE etaufit OR etau ##
 		t_on     = tde + td # On-source Spectrum
 		t_on     = t_on[xmin_id:xmax_id]
 		xde      = xd[xmin_id:xmax_id]
@@ -773,13 +859,15 @@ def cal_tex(data,inf408,bd=1):
 		ton      = []
 		xe       = []
 		etaue    = []
+		etauf    = []
 		tau      = []
 		for i in range(len(t_on)):
-			if(taud[i] > 3.*tau_sigma):
+			if(taud[i] > 2.*tau_sigma):
 				tau.append(taud[i])
 				ton.append(t_on[i])
 				xe.append(xde[i])
 				etaue.append(e_tau[i])
+				etauf.append(etaufit[i])
 
 		ton     = np.asarray(ton,   dtype=np.float64)
 		xe      = np.asarray(xe,    dtype=np.float64)
@@ -834,53 +922,42 @@ def cal_tex(data,inf408,bd=1):
 			print '    ',round(tex_peak[k],10),round(texsig_peak[k],10),round(noh_peak[k],10),round(noh_sig[k],10)
 
 		## PLOT On-Source LINE ##
-		plt.plot(xe,ton,'b.-', label='On-source spectrum, $T_{on}$', ms=10)
+		plt.plot(xe,ton)
 		for i in range(0,len(peak),2):
 			plt.axvline(peak[i], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
 			plt.axvline(peak[i+1], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
-		plt.title(src,fontsize=35)
-		plt.xlabel('$V_{lsr} (km/s)$',fontsize=35)
-		plt.ylabel(r'$T_{on} (K)$',fontsize=35)
-		plt.legend(loc='upper right')
+		plt.title(src + ' - On-Source line')
 		plt.grid()
 		plt.show()
 
 		## PLOT ##
-		plt.plot(xe,tex, 'r', label='$T_{ex}$', lw=2)
-		plt.plot(xe,-7000.*np.log(etaue), 'b', label=r'$7000*e^{-\tau}$', lw=2)
+		plt.plot(xe,tex)
+		plt.plot(xe,-7000.*np.log(etaue))
 		for i in range(0,len(peak),2):
-		# 	plt.axvline(peak[i], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
-		# 	plt.axvline(peak[i+1], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
-			plt.axvline(peak[i], ymin=-10., ymax=1000.,linewidth=3,color='k')
-			plt.axvline(peak[i+1], ymin=-10., ymax=1000.,linewidth=3,color='k')
+			plt.axvline(peak[i], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
+			plt.axvline(peak[i+1], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
 		# for i in range(2,len(abp),3):
 		# 	plt.axvline(abp[i]-abp[i+1]/4./np.sqrt(2),ymin=-10., ymax=1000.,linewidth=1,color='k') # Sigma range of Gaussian
 		# 	plt.axvline(abp[i]+abp[i+1]/4./np.sqrt(2),ymin=-10., ymax=1000.,linewidth=1,color='k')
 		plt.ylim(-50.,400.)
-		plt.title(src, fontsize=35 )
-		plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
-		plt.ylabel('$T_{ex} (K)$',fontsize=35)
-		plt.legend(loc='upper right')
+		plt.title(src + ' - Tex')
 		plt.grid()
 		plt.show()
 
 	    ## CALCULATE N(OH) ##
-		plt.plot(xe,-np.log(etaue), 'b', label=r'${\tau}$', lw=2)
+		plt.plot(xe,-np.log(etaue))
 		for i in range(0,len(peak),2):
 			plt.axvline(peak[i], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
 			plt.axvline(peak[i+1], ymin=-10., ymax=1000.,linewidth=1,color=colors[i/2])
 
-		plt.title(src,fontsize=35)
-		plt.xlabel('$V_{lsr} (km/s)$',fontsize=35)
-		plt.ylabel(r'${\tau}$',fontsize=35)
-		plt.legend(loc='upper right')
+		plt.title(src + ' - Opacity, tau')
 		plt.grid()
 		plt.show()
 
 #============== MAIN ==============#
 data   = readsav('../data/makelines.sav') #data.la
-inf408 = readsav('../data/tb_408.sav') # l_cntr, b_cntr, tb_408, Continuum at 408MHz
-# cal_tex(data, inf408, bd=2)
-cal_tex_print(data, inf408, bd=2)
+inf408 = readsav('../data/tb_408.sav') # l_cntr, b_cntr, tb_408
+cal_tex(data, inf408, bd=2)
+# cal_tex_print(data, inf408, bd=2)
 
 sys.exit()

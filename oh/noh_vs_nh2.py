@@ -465,8 +465,8 @@ def plot_estimate_nh_vs_nhi_nh2():
 	plt.show()
 
 #================= MAIN ========================#
-# plot_oh_vs_h2()
+plot_oh_vs_h2()
 # plot_nh_vs_nhi()
-plot_estimate_nh_vs_nhi_nh2()
+# plot_estimate_nh_vs_nhi_nh2()
 
 # plot_estimate_nh_vs_nhi() ## not correct, dont care

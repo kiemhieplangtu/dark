@@ -880,7 +880,7 @@ def cal_tex(data,inf408,bd=1):
 #============== MAIN ==============#
 data   = readsav('../data/makelines.sav') #data.la
 inf408 = readsav('../data/tb_408.sav') # l_cntr, b_cntr, tb_408, Continuum at 408MHz
-# cal_tex(data, inf408, bd=2)
-cal_tex_print(data, inf408, bd=2)
+# cal_tex(data, inf408, bd=1)
+cal_tex_print(data, inf408, bd=1)
 
 sys.exit()

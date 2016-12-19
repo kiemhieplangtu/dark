@@ -257,7 +257,10 @@ def get_vlsr(hdr1info,freq,npatt = 0):
 ## In MS, Absorption line at -7.8 (km/s)
 ## Now check in SPONGE.
 
-data     = readsav('../data/p1_claire_16feb2013-23jun_2013_a2770_bd3.sav')
+pth      = os.getenv("HOME")+'/hdata/oh/'
+file     = pth + 'p1_claire_16feb2013-23jun_2013_a2770_bd1.sav'
+
+data     = readsav(file)
 srcs     = np.asarray(data['HDRSRCNAME'])
 nr,src51 = get_src_and_nr(srcs) ## 51 sources observed
 
@@ -266,7 +269,7 @@ for i in range(len(srcs)):
 	sc_names.append(get_name(srcs[i]))
 
 sc19dat = read_19_src('sub_data/19src_to_go.txt')
-sc19 = sc19dat['src']
+sc19    = sc19dat['src']
 
 # ## Results from Claire, nhi, cnm, wnm, nhi_thin and uncertainties ##
 # res      = read_claire_res('sub_data/column_densities.txt')
@@ -295,16 +298,21 @@ stkon  = data['stkon']
 stkoff = data['stkoff']
 hdr1   = data['hdr1info']
 
-src = '3C78'
+src = '3C123'
 idx = get_idx(src,sc_names)
+
+print 'Source:'
+print src
+print 'Indexes:'
 print idx
 rc = idx[0]
 
 f0  = 1e6*hdr1[rc,5] # Center Freq
 bw  = 1e6*hdr1[rc,4] # Bandwidth
-df  = 1e6*bw/nch # Channel Separation
+df  = 1e6*bw/nch     # Channel Separation
 
-print f0, f2-f0,f3-f0
+print 'Frequeny: f0, f65-f0,f67-f0'
+print f0, f2-f0, f3-f0
 
 v0 = hdr1[rc,7]
 a  = bw/nch
@@ -320,15 +328,28 @@ v = get_vlsr(hdr1,f3,npatt=rc)
 t_on  = 0.
 t_off = 0
 for i in idx:
-	t_on  = t_on + stkon[i,0,:]
+	t_on  = t_on  + stkon[i,0,:]
 	t_off = t_off + stkoff[i,0,:]
 
 t_on  = t_on/len(idx)
 t_off = t_off/len(idx)
 
-plt.plot(v,t_on)
-plt.grid()
+plt.plot(v,t_on, 'b', label='On-source', lw=2)
 # plt.axvline(x=f2-f0, ymin=-1000., ymax = 1000., linewidth=2, color='k')
 # plt.axvline(x=f3-f0, ymin=-1000., ymax = 1000., linewidth=2, color='k')
-plt.title(src + ', f0 = ' +str(f0) )
+plt.title(src + ', f0 = ' +str(f0),fontsize=35)
+plt.xlabel('$V_{lsr} (km/s)$',fontsize=35)
+plt.ylabel(r'$T_{on} (K)$',fontsize=35)
+plt.legend(loc='upper right')
+plt.grid()
+plt.show()
+
+plt.plot(v,t_off,'b', label='Off-source', lw=2)
+# plt.axvline(x=f2-f0, ymin=-1000., ymax = 1000., linewidth=2, color='k')
+# plt.axvline(x=f3-f0, ymin=-1000., ymax = 1000., linewidth=2, color='k')
+plt.title(src + ', f0 = ' +str(f0),fontsize=35)
+plt.xlabel('$V_{lsr} (km/s)$',fontsize=35)
+plt.ylabel(r'$T_{off} (K)$',fontsize=35)
+plt.legend(loc='upper right')
+plt.grid()
 plt.show()
