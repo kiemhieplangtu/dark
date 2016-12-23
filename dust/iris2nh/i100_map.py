@@ -45,9 +45,8 @@ def read_info_no_co(fname = '../sub_data/26src_no_co_info.dat'):
 
 #================= MAIN ========================#	
 deg2rad  = np.pi/180.
-pth      = os.getenv("HOME")+'/hdata/dust/'
-map_file = pth + 'HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
-map_file = pth + 'HFI_CompMap_DustOpacity_2048_R1.10.fits'
+pth      = os.getenv("HOME")+'/hdata/iris/'
+map_file = pth + 'IRIS_NOHOLE_4_2048.fits'
 # map_file = pth + 'lambda_sfd_ebv.fits'
 # map_file = pth + 'lambda_green_dust_map_2d.fits'
 
@@ -59,16 +58,18 @@ fukui_cf  = 2.10 #2.10e26
 planck_cf = 1.18 #1.18e26
 
 ## E(B-V) map ##
-ci_map = hp.read_map(map_file, verbose=False, field = 2)
-nside  = hp.get_nside(ci_map)
+ir_map = hp.read_map(map_file, field = 0)
+nside  = hp.get_nside(ir_map)
 res    = hp.nside2resol(nside, arcmin = False)
 dd     = res/deg2rad/2.0
 
 #============= For Mask ========= #
 offset = 2.0 #degree
+# print any(x <0 for x in ir_map) ## No pixel having Negative value 
 
 #====== For Plotting ======#
-hp.mollview(ci_map, title=r'$E(B-V)$', coord='G', unit='mag', norm=None) #, min=0.,max=452)
+# hp.mollview(np.log10(ir_map), title=r'$I_{100}$', coord='G', unit='MJy/sr', norm=None) #, min=0.,max=452)
+hp.mollview(ir_map, title=r'$I_{100}$', coord='G', unit='MJy/sr', norm=None) #, min=0.,max=452)
 
 for i in range(0,26):
 	src   = info['src'][i]
@@ -78,7 +79,7 @@ for i in range(0,26):
 	theta = (90.0 - b)*deg2rad
 	phi   = l*deg2rad
 	pix   = hp.ang2pix(nside, theta, phi, nest=False)
-	val   = ci_map[pix]
+	val   = ir_map[pix]
 	print src, l,b,pix, val
 	hp.projplot(l, b, 'bo', lonlat=True, coord='G')
 	# hp.projtext(l, b, src+','+str(l)+','+str(b), lonlat=True, coord='G')
@@ -106,8 +107,8 @@ if (l>180):
 offset = 1.
 lonr = [51.25, 52.0]
 latr = [-10., -9.35]
-hp.cartview(ci_map, title='XXX', coord='G', unit='mag', min=0.1,max=0.4,
-		norm=None, xsize=800, lonra=lonr, latra=latr, #lonra=[ll-offset,ll+offset], latra=[b-offset,b+offset], min=0, max=0.4,
+m    = hp.cartview(ir_map, title='IRIS 100micron', coord='G', unit='MJy/sr', min=0.,max=26.,
+		norm=None, xsize=800, lonra=lonr, latra=latr, #lonra=[ll-offset,ll+offset], latra=[b-offset,b+offset],
 		return_projected_map=True)
 
 # hp.mollview(tau_map, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+') - '+map_file,
@@ -130,4 +131,7 @@ hp.projtext(ll, b, ' (' + str(round(ll,2)) + ',' + str(round(b,2)) + ')', lonlat
 # 			hp.projplot(x, y, 'kx', lonlat=True, coord='G')
 
 mpl.rcParams.update({'font.size':30})
+hp.graticule()
+plt.grid()
+# plt.imshow(m, origin='lower',extent=(lonr[1],lonr[0],latr[0],latr[1]), interpolation = 'none')
 plt.show()

@@ -197,6 +197,46 @@ def plot_factor_vs_nhi(data):
 	# plt.savefig("test.png",bbox_inches='tight')
 	plt.show()
 
+## plot N(HI) vs N(HI)_thin #
+ #
+ # params dict data data to plot
+ #
+ # return void
+ # 
+ # Author Van Hiep
+ ##
+def plot_nhi_vs_thin(data):
+	nhi        = data['nhi_i'] # Optically-thin assumption
+	nhi_heiles = data['ma_nhi'] # N(HI) from Carl Heiles Paper
+
+	# Fit and Plot #
+	params = linear_fit(nhi,nhi_heiles)
+	a = params['a']
+	b = params['b']
+	ea = params['ea']
+	eb = params['eb']
+
+	plt.plot(nhi, nhi_heiles, 'b^', label='data', markersize=10)
+	plt.plot(nhi, a*np.array(nhi) + b, 'r-', linewidth=4, label='Best linear fit')
+
+	a = round(a, 2)
+	b = round(b, 2)
+	ea = round(ea, 2)
+	eb = round(eb, 2)
+
+	plt.ylabel('$N_{HI} [10^{20} cm^{-2}]$', fontsize=35)
+	plt.xlabel('$N^*_{HI} [10^{20} cm^{-2}]$)', fontsize=35)
+	plt.title('Correlation between Total HI column densities $N_{HI}$ and \n HI optically thin column densities $N^*_{HI}$ along 79 Millennium Survey lines-of-sight', fontsize=30)
+	plt.grid(True)
+	plt.tick_params(axis='x', labelsize=18)
+	plt.tick_params(axis='y', labelsize=15)
+
+	plt.text(25., 5., '$N_{HI}[10^{20} cm^{-2}] = ('+str(a)+'\pm'+str(ea) +')\cdot N^*_{HI}[10^{20} cm^{-2}] + ('+str(b)+'\pm'+str(eb)+')$', color='blue', fontsize=20)
+
+	plt.legend(loc='upper right', fontsize=18)
+	# plt.savefig("test.png",bbox_inches='tight')
+	plt.show()
+
 ## linear fit #
  #
  # params x list x-data
@@ -204,8 +244,7 @@ def plot_factor_vs_nhi(data):
  #
  # return fit parameters and errors
  # 
- # Author Van Hiep
- ##
+ # Author Van Hiep ##
 def linear_fit(x,y):
 	ret ={}
 
@@ -248,5 +287,7 @@ def linear_fit(x,y):
 data = read_comp_nhi()
 #plot_comp_nhi(data)
 # plot_hist_comp_nhi(data)
-plot_comp_nhi_percentage(data)
+# plot_comp_nhi_percentage(data)
 # plot_factor_vs_nhi(data)
+
+plot_nhi_vs_thin(data)

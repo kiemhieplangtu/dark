@@ -35,10 +35,11 @@ deg2rad = np.pi/180.
 pi      = 2.0*np.arccos(0.)
 
 ## Read infor of 26 no-CO sources
-info    = read_info_no_co('../gas_col_density/26src_no_co_info.dat')
+info    = read_info_no_co('../../gas_col_density/26src_no_co_info.dat')
 
-## g35+g45+g56 Mask
-msk_file = '../gas_col_density/data/planck_mask.fits' #
+## All Masks
+pth      = os.getenv("HOME")+'/hdata/dust/'
+msk_file = pth + 'planck_mask.fits' #
 msk      = hp.read_map(msk_file, field = 0, h=False)
 title    = msk_file
 

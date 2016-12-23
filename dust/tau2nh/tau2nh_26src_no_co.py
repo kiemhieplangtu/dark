@@ -167,12 +167,12 @@ def get_gas_column_density(map_file, src_num, info):
 	fk_fact_err = 0.0 #unknown
 
 	# Define the width of area #
-	beam   = 3.5            # Beam = 3.5'
-	dbeam  = beam/120.0     # Beam = 3.5' -> dbeam = beam/60/2 in degree
+	beam   = 5.             # Beam = 5'
+	dbeam  = beam/120.0     # Beam = 5' -> dbeam = beam/60/2 in degree
 	offset = dbeam          # degree
 
 	## g35+g45+g56 Mask, to find Planck Conversion Factor (Dust opacity and Its error) ##
-	msk    = hp.read_map('../gas_col_density/data/planck_mask.fits', field = 0, h=False)
+	msk    = hp.read_map(os.getenv("HOME")+'/hdata/dust/planck_mask.fits', field = 0, h=False)
 
 	# tau353 map, err_tau353 map and resolution #
 	tau_map  = hp.read_map(map_file, field = 0)
@@ -311,11 +311,12 @@ def get_gas_column_density(map_file, src_num, info):
 
 #================= MAIN ========================#
 # Define constants #
-map_file = '../gas_col_density/data/HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
+pth      = os.getenv("HOME")+'/hdata/dust/'
+map_file = pth + 'HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
 
 # Info of 26 sources with no CO - l/b/name #
-info       = read_info_no_co('../gas_col_density/26src_no_co_info.dat')
+info       = read_info_no_co('../../gas_col_density/26src_no_co_info.dat')
 num_of_src = len(info['src'])
 
-# get_gas_column_density(map_file, num_of_src, info)
-plot_patches(map_file, num_of_src, info)
+get_gas_column_density(map_file, num_of_src, info)
+# plot_patches(map_file, num_of_src, info)

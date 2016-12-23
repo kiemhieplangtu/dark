@@ -25,6 +25,21 @@ def read_info_no_co(fname = '../sub_data/26src_no_co_info.dat'):
 	data = restore(fname, 2, cols, fmt)
 	return data.read()
 
+## Read info of 23 LOW NHI sources #
+ # l,b, nhi, and nhi_error
+ #
+ # params string fname Filename
+ # return dict info
+ # 
+ # version 12/2016
+ # Author Van Hiep ##
+def read_lownhi_23src(fname = '../rearrange/lownhi_thin_cnm_wnm.txt'):
+	cols = ['idx','src','l', 'b', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f', 'f', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
+	data = restore(fname, 2, cols, fmt)
+	dat  = data.read()
+	return dat
+
 ## Read info  #
  #
  # params string fname Filename

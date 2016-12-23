@@ -45,17 +45,15 @@ def read_info_78src(fname = '../hi/rearrange/nhi_lb_78src.txt'):
 	return dat
 
 ## Get tau353 values and err_tau353 values #
-#
-# params str map_file File of maps
-# params int src_num Number of sources
-# params dict info Information of sources
-#
-# return void
-# 
-# Author Van Hiep
-##	
+ #
+ # params str map_file File of maps
+ # params int src_num Number of sources
+ # params dict info Information of sources
+ #
+ # return void
+ # 
+ # Author Van Hiep ##	
 def plot_patches(map_file, src_num, info):
-
 	# Define constants #
 	deg2rad   = np.pi/180.
 	fukui_cf  = 2.10 #2.10e26

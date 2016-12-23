@@ -14,7 +14,7 @@ from copy import copy
 # 
 # Author Van Hiep
 ##
-def read_data_from_file(file = "specs.txt"):
+def read_data_from_file(file = "data/specs.txt"):
 	ret  = {}
 
 	name = []
@@ -141,7 +141,7 @@ def get_keys(d, target):
 # 
 # Author Van Hiep
 ##
-def read_vrange_from_file(specs_data, fname = "vrange4sources.txt"):
+def read_vrange_from_file(specs_data, fname = "data/vrange4sources.txt"):
 	ret  = {}
 
 	idx    = []
@@ -198,7 +198,7 @@ def get_nhi_thin(data):
 	print('{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}'.format('#', 'Vel_start', 'Vel_end', 'Vel_start_index', 'Vel_end_index', 'N(HI) (1e20)', 'Source'))
 	for i in range(0,79):
 		av_ch_width = av_channel_width(data[i]['v'], vrange[i]['vs_id'], vrange[i]['ve_id'])
-		nhi_i       = sum(data[i]['t'][vrange[i]['vs_id']:vrange[i]['ve_id']])*av_ch_width*0.018
+		nhi_i       = sum(data[i]['t'][vrange[i]['vs_id']:vrange[i]['ve_id']])*av_ch_width*0.018224		
 		nhi_i       = round(nhi_i, 2)
 		print('{0}\t{1}\t\t{2}\t\t{3}\t\t{4}\t\t{5}\t\t{6}'.format(i, vrange[i]['vstart'], vrange[i]['vend'], vrange[i]['ve_id'], vrange[i]['vs_id'], nhi_i, data[i]['name']))
 
