@@ -31,7 +31,7 @@ def read_comp_nhi(fname = "result/nhi2comp_with_paper_20160316.txt"):
 	ret['ma_nhi']    = []
 	ret['nhi_diff']  = []
 
-	file    = open (fname,"r")
+	file = open (fname,"r")
 	file.readline() # comment line
 	file.readline() # comment line
 	for line in file:
@@ -158,7 +158,6 @@ def plot_hist_comp_nhi(data):
  # Author Van Hiep
  ##
 def plot_factor_vs_nhi(data):
-
 	fact       = []
 	lognhi     = []
 	nhi        = data['nhi_i'] # Optically-thin assumption
@@ -171,16 +170,16 @@ def plot_factor_vs_nhi(data):
 
 	# Fit and Plot #
 	params = linear_fit(lognhi,fact)
-	a = params['a']
-	b = params['b']
-	ea = params['ea']
-	eb = params['eb']
+	a      = params['a']
+	b      = params['b']
+	ea     = params['ea']
+	eb     = params['eb']
 
 	plt.plot(lognhi, fact, 'b^', label='Ratio $f = N_{HI}$/$N^*_{HI}$', markersize=10)
 	plt.plot(lognhi, a*np.array(lognhi) + b, 'r-', linewidth=4, label='Best linear fit')
 
-	a = round(a, 2)
-	b = round(b, 2)
+	a  = round(a, 2)
+	b  = round(b, 2)
 	ea = round(ea, 2)
 	eb = round(eb, 2)
 

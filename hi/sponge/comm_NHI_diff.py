@@ -117,24 +117,35 @@ for sc in spdat:
 
 spnhi = []
 msnhi = []
+xl    = []
+xb    = []
 for i in range(len(comsc)):
 	sc = comsc[i]
 	# print sc, spdat[sc]['l'], msdat[sc]['l'], spdat[sc]['l'] - msdat[sc]['l']
 	print sc, spdat[sc]['nhi'], msdat[sc]['nhi'], 100.*(spdat[sc]['nhi'] - msdat[sc]['nhi'])/msdat[sc]['nhi']
 	spnhi.append(spdat[sc]['nhi'])
 	msnhi.append(msdat[sc]['nhi'])
+	xl.append(msdat[sc]['l'])
+	xb.append(msdat[sc]['b'])
 
 spnhi = np.asarray(spnhi)
 msnhi = np.asarray(msnhi)
-plt.plot(100.*(msnhi-spnhi)/msnhi, 'r.-', ms=8, label='$(N^{MS}_{HI}-N^{SP}_{HI})/N^{MS}_{HI} (\%)$')
+y     = 100.*(msnhi-spnhi)/msnhi
+plt.plot(y, 'r*-', ms=12, label='$[(N^{MS}_{HI}-N^{SP}_{HI})/N^{MS}_{HI}] (\%)$')
 plt.grid()
 plt.title('$N_{HI}$ Difference, SPONGE vs MS', fontsize = 35)
-plt.ylabel('$(N^{MS}_{HI}-N^{SP}_{HI})/N^{MS}_{HI} (\%)$', fontsize = 35)
+plt.ylabel('$[(N^{MS}_{HI}-N^{SP}_{HI})/N^{MS}_{HI}] (\%)$', fontsize = 35)
 plt.xlabel('Index', fontsize = 35)
 plt.tick_params(axis='x', labelsize=20)
 plt.tick_params(axis='y', labelsize=20)
-# plt.text(55, 5,string,color='b',fontsize=14)
+plt.text(0.1, 0.,'23 common sources',color='b',fontsize=18)
 plt.legend(loc='upper left', fontsize = 18)
 # plt.axvline(x=60., lw=4)
-# plt.axvline(x=-90., lw=4)
+for i in range(len(comsc)):
+	sl = str(round(xl[i],2) )
+	sb = str(round(xb[i],2) )
+	plt.annotate('('+str(comsc[i])+') '+sl+', '+sb, xy=(i, y[i]), xycoords='data',
+           xytext=(-50.,30.), textcoords='offset points',
+           arrowprops=dict(arrowstyle="->"),fontsize=18,
+           )
 plt.show()

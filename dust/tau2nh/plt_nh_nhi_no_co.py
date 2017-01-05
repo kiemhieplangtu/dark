@@ -27,7 +27,7 @@ def myfunc(p, fjac=None, x=None, y=None, err=None):
 	status = 0
 	return [status, (y - model) / err]
 
-## Read N(HI)_Heiles for each component #
+## Read N(HI)_Heiles for 26 src without CO #
  # Then calculate the uncertainties for each component
  #
  # params string fname Filename
@@ -38,6 +38,21 @@ def myfunc(p, fjac=None, x=None, y=None, err=None):
  # version 10/2016
  # Author Van Hiep ##
 def read_nhi_fukui_nh_planck(fname = 'result/26src_no_co_nhi_and_uncertainties_full.txt'):
+	cols  = ['idx','src','nhi_fk','err_fk','nh_pl','err_pl','nhi_hl','er_hl', 'err_hl', 'wnm', 'cnm', 'fk_hl', 'pl_hl', 'oh', 'nhi_thin']
+	fmt   = ['i',   's',  'f',    'f',      'f',    'f',     'f',    'f',       'f',     'f',   'f',   'f',    'f',       'f',    'f']
+	dat   = restore(fname, 4, cols, fmt)
+	inf   = dat.read()
+	return inf
+
+## Read 23 src with low N(HI) #
+ #
+ # params string fname Filename
+ #
+ # return dict Infor
+ # 
+ # version 1/2017
+ # Author Van Hiep ##
+def read_23src_lownhi(fname = 'result/23src_lownhi_nhi_and_uncertainties.txt'):
 	cols  = ['idx','src','nhi_fk','err_fk','nh_pl','err_pl','nhi_hl','er_hl', 'err_hl', 'wnm', 'cnm', 'fk_hl', 'pl_hl', 'oh', 'nhi_thin']
 	fmt   = ['i',   's',  'f',    'f',      'f',    'f',     'f',    'f',       'f',     'f',   'f',   'f',    'f',       'f',    'f']
 	dat   = restore(fname, 4, cols, fmt)
@@ -60,12 +75,14 @@ def read_cnm_err(fname = '../hi/result/26src_no_co_cnm_uncertainties_arcb.txt'):
 
 ## Plot the correlation between Factors and log(N(HI)) only from Planck #
  #
- # params dict data N(HI) of 26 sources
+ # params dict data N(HI) of 26 sources without CO
+ # params dict data N(HI) of 23 sources with Low NHI
  #
  # return Void
  # 
  # Author Van Hiep ##
-def plot_planck_factor_vs_nhi(data):
+def plot_planck_factor_vs_nhi(data, lownhi):
+	## 26 wrc without CO
 	nhi         = data['nhi_hl']
 	nhi_hl      = nhi
 	nh_pl       = data['nh_pl']
@@ -82,10 +99,17 @@ def plot_planck_factor_vs_nhi(data):
 	src         = data['src']
 	idx         = data['idx']
 
+	hi          = lownhi['nhi_hl']
+	nh          = lownhi['nh_pl']
+	err_hi      = lownhi['err_hl']
+	err_nh      = lownhi['err_pl']
+
 	print nhi
-	plt.plot(nhi,nh_pl, 'rd', label='data', ms=10)
+	# plt.plot(nhi,nh_pl, 'rd', label='data', ms=10)
+	plt.errorbar(nhi,nh_pl,xerr=err_hl, yerr=err_pl, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='data no CO')
+	plt.errorbar(hi,nh,xerr=err_hi, yerr=err_nh, color='b', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='data low $N_{HI}, N_{HI}<3.0\cdot10^{20} cm^{-2}$')
 	plt.plot([0,30],[0,30], 'k--', label='$N_{H} = N_{HI}$')
-	plt.title('Correlation between $N_{H}$ and $N_{HI}$ \nalong 26 lines-of-sight without the presence of CO line', fontsize=30)
+	plt.title('Correlation between $N_{H}$ and $N_{HI}$ \nalong 26 lines-of-sight without the presence of CO line & 23 LOS with low $N_{HI}$', fontsize=30)
 	plt.ylabel('$N_{H}[10^{20}$ cm$^{-2}]$', fontsize=35)
 	plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
 	# plt.xlim(0, 1.6)
@@ -104,12 +128,12 @@ def plot_planck_factor_vs_nhi(data):
 	               xytext=(-50.,30.), textcoords='offset points',
 	               arrowprops=dict(arrowstyle="->"),fontsize=18,
 	               )
+
 	plt.show()
 
 ## Plot the correlation between Factors and log(N(HI)_CNM) only from Planck #
  #
  # params dict data N(HI) of 26 sources
- #
  # return Void
  # 
  # Author Van Hiep ##
@@ -243,5 +267,6 @@ def uncertainty_of_factors(factr, nhi_hl, err_hl, nhi, err):
 
 #================= MAIN ========================#
 col_density = read_nhi_fukui_nh_planck('../result/26src_no_co_nhi_and_uncertainties_full.txt')
-plot_planck_factor_vs_nhi(col_density) ## Note: just use only one function at once
+lownhi      = read_23src_lownhi(fname = '../result/23src_lownhi_nhi_and_uncertainties.txt')
+plot_planck_factor_vs_nhi(col_density, lownhi) ## Note: just use only one function at once
 # plot_planck_factor_vs_nhi_cnm(col_density) ## Note: just use only one function at once 

@@ -68,8 +68,8 @@ def plot_oh_vs_h2():
 		# if( (nh[i]-nhi[i])<200. ):
 			xnoh.append(noh[i])
 			x_er.append(noh_er[i])
-			hdiff.append(nh[i]-nhi[i])
-			h2_er.append( np.sqrt( nh_er[i]**2 + nhi_er[i]**2 ) )
+			hdiff.append( (nh[i]-nhi[i])/2. )
+			h2_er.append( 0.5*np.sqrt( nh_er[i]**2 + nhi_er[i]**2 ) )
 			sc.append(src[i])
 
 
@@ -106,7 +106,7 @@ def plot_oh_vs_h2():
 	aerr  = round(a.std()/1e21,2)
 
 	# plt.plot(xdata,ydata, 'ok', ls='None', marker='.', lw=1, label='Ratio $f = N_{HI}$/$N^*_{HI}$')
-	plt.errorbar(xdata,ydata,xerr=xerr, yerr=yerr, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='$N(H_{2}) = N(H)_{Dust} - N(HI)_{MS}$')
+	plt.errorbar(xdata,ydata,xerr=xerr, yerr=yerr, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label=r'$N(H_{2}) = \frac{1}{2}[N(H)_{Dust} - N(HI)_{MS}]$')
 	plt.plot(xfit, mu, '-b', mew=2, linewidth=2, linestyle='solid', marker='o', markerfacecolor='b', markersize=0, label='MCMC linear fit')
 	plt.fill_between(xfit, mu - sig, mu + sig, color='0.5', alpha=0.5)
 	# plt.plot(xfit, alpha*xfit[:, None] + beta, c='blue', alpha=0.01)
@@ -115,8 +115,8 @@ def plot_oh_vs_h2():
 	plt.title('Correlation between $H_{2}$ column density ($N_{H_{2}}$) and OH column density ($N_{OH}$)', fontsize=30)
 	plt.ylabel('$N(H_{2}) [cm^{-2}]$', fontsize=35)
 	plt.xlabel('$N(OH) [cm^{-2}]$', fontsize=35)
-	plt.xlim(0.,4.e14)
-	plt.ylim(-2e21,9e21)
+	plt.xlim(0.0,4.0e14)
+	plt.ylim(-1.0e21,5.0e21)
 	plt.grid(True)
 	plt.tick_params(axis='x', labelsize=18)
 	plt.tick_params(axis='y', labelsize=15)
@@ -128,11 +128,11 @@ def plot_oh_vs_h2():
 	# plt.text(2.8e14,0.1e22, 'Linear fit: $N_{H_{2}} = '+str(m)+'\cdot 10^{7}N_{OH}+'+str(b)+'\cdot 10^{21}$', color='blue', fontsize=17)
 	plt.legend(loc='lower right', fontsize=18)
 	# plt.savefig("test.png",bbox_inches='tight')
-	# for i in range(len(sc)):
-	# 	plt.annotate('('+str(sc[i])+')', xy=(xdata[i], ydata[i]), xycoords='data',
-    #             xytext=(-50.,30.), textcoords='offset points',
-    #             arrowprops=dict(arrowstyle="->"),fontsize=18,
-    #             )
+	for i in range(len(sc)):
+		plt.annotate('('+str(sc[i])+')', xy=(xdata[i], ydata[i]), xycoords='data',
+                xytext=(-50.,30.), textcoords='offset points',
+                arrowprops=dict(arrowstyle="->"),fontsize=18,
+                )
 	plt.show()
 
 ## plot N(H) from Dust vs N(HI) for 19 src with OH#

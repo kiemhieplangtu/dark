@@ -32,7 +32,7 @@ def read_dust_nh_nhi(fname = ''):
  # version 9/2016
  # Author Van Hiep ##
 def nh_factor_vs_nhi():
-	data    = read_dust_nh_nhi(fname = 'result/nh_nhi_uncert_78src.txt')
+	data    = read_dust_nh_nhi(fname = '../result/nh_nhi_uncert_78src.txt')
 	src1    = data['src']
 	idx1    = np.asarray(data['indx'])
 	nhi1    = np.asarray(data['nhi'])
@@ -100,6 +100,31 @@ def nh_factor_vs_nhi():
 	# 		)
 
 	fig.iplot(data,layout)
+
+	plt.plot(nhi1,nh1, 'rd', label='data no CO', ms=10)
+	plt.plot([0,130],[0,130], 'k--', label='$N_{H} = N_{HI}$')
+	plt.title('Correlation between $N_{H}$ and $N_{HI}$ \nalong 78 lines-of-sight', fontsize=30)
+	plt.ylabel('$N_{H}[10^{20}$ cm$^{-2}]$', fontsize=35)
+	plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
+	# plt.xlim(0, 1.6)
+	# plt.ylim(0, 3)
+	plt.grid(True)
+	plt.tick_params(axis='x', labelsize=18)
+	plt.tick_params(axis='y', labelsize=18)
+
+	plt.text(15., 2., '(Available sources with the presence of OH are shown)', color='k', fontsize=17)
+	plt.text(15., 3., r'$N_{H} = 5.8\cdot10^{21}[cm^{-2}mag^{-1}]\cdot E(B-V)$', color='k', fontsize=17)
+	plt.text(15., 4., r'E(B-V) from Planck data R1.2', color='k', fontsize=17)
+
+	plt.legend(loc='upper left', fontsize=18)
+	# plt.savefig("test.png",bbox_inches='tight')
+	for i in range(len(src1)):
+		# if (oh[i] > 0) :
+		plt.annotate('('+str(src1[i])+')', xy=(nhi1[i], nh1[i]), xycoords='data',
+               xytext=(-50.,30.), textcoords='offset points',
+               arrowprops=dict(arrowstyle="->"),fontsize=18,
+               )
+	plt.show()
 
 ## Calculate the uncertainties of factors #
  #

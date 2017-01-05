@@ -12,6 +12,20 @@ from numpy    import array
 from restore  import restore
 from plotting import cplot
 
+## Read info of 78 sources #
+ # l,b, nhi, and nhi_error
+ #
+ # params string fname Filename
+ # return dict info
+ # 
+ # version 04/10/2016
+ # Author Van Hiep ##
+def read_info_78src(fname = '../../hi/rearrange/nhi_lb_78src.txt'):
+	cols = ['indx','src','l','b','nhi','nhi_er']
+	fmt  = ['i',   's',  'f','f', 'f',  'f']
+	data = restore(fname, 2, cols, fmt)
+	return data.read()	
+
 ## Cal. uncertainty in the mean #
  #
  # params list lst List of numbers
@@ -146,12 +160,8 @@ def plot_patches(map_file, info):
  # 
  # Author Van Hiep ##	
 def cal_nh_from_dust(map_file, info, lowhi):
-	src = info['src']  ## 26 src without CO
+	src = info['src']  ## 78 src
 	nhi = info['nhi']
-	oh  = info['oh']
-
-	lhi = lowhi['nhi']
-	lsc = lowhi['src'] ## 23 src with low N(HI)
 
 	# Define constants #
 	deg2rad   = np.pi/180.
@@ -231,128 +241,20 @@ def cal_nh_from_dust(map_file, info, lowhi):
 		# ebv.append(sum(ci[i])/float(cnt))
 		val = sum(vci)/float(cnt)
 		err = cal_uncertainty_in_mean(vci)
-		print val, err
-
-		# Calculate the N(HI) from Fukui factor #
-		# nhi_i = fukui_cf*tau353[i]
-		# nhi.append(nhi_i)
 	   
 		# Calculate the NH from E(B-V) #
-		# nh_i = tau353[i]/planck_cf
-		# nh.append(nh_i)
 		# n_h = val/1.44 # 1e22; (NH = 1.e22*EBV/1.44)
 		n_h = 0.58*val # 1e22
+		err = 0.58*err
 
-		# Uncertainties of mean values of tau353 #
-		# sd1_tau353 = 0.
-		# sd2_tau353 = 0.
-		# for j in range(cnt_err):
-		# 	sd1_tau353 = sd1_tau353 + (tau[i][j]-tau353[i])**2
-		# 	sd2_tau353 = sd2_tau353 + (t_err[i][j])**2
+		print("{}  {}\t{:08.4f}  {:08.4f}   {}   {}   {}   {}"
+			.format(i, src[i],l,b, info['nhi'][i], info['nhi_er'][i],  n_h*100., err*100  ))
 
-		# sd2_tau353 = (sd2_tau353**0.5)/cnt_err # Uncertainty of a Sum
-
-		# Uncertainties of mean values of N(HI) and N(H) #
-		# fukui_sd  = (sd2_tau353*fukui_cf)*1e6
-
-		# planck_sd = (sd2_tau353/tau353[i])**2 + (pl_fact_err/planck_cf)**2
-		# planck_sd = (nh_i*planck_sd**0.5)*1e6
-
-		# print("{}  {}\t{:08.4f}  {:08.4f}   {}   {}   {}   {}   {}   {}   {}   {}"
-		# 	.format(i, src[i],l,b, info['nhi'][i], info['nhi_er'][i], info['nh2'][i],info['nh2_er'][i], info['nh'][i],info['nh_er'][i], nh_i*1e6, planck_sd   ))
-
-		print src[i], val, nhi[i], n_h*100.
+		# print src[i], val, nhi[i], n_h*100.
 		nh.append(n_h*100.)
+		# cols = ['idx','src', 'l', 'b', 'nhi','nhi_er', 'nh','nh_er']
 
-	## OK - Go 2 ##
-	xebv    = []
-	xnh     = []
-
-	xci     = {}
-	xci_err = {}
-
-	for i in range(0, len(lsc)):
-		# Find the values of E(B-V)
-		xci[i] = []
-
-		l = lowhi['l'][i]
-		b = lowhi['b'][i]
-
-		# Plot cartview a/o mollview #
-		# ll = l
-		# if (l>180):
-		# 	ll = ll-360.
-
-		# hp.cartview(tau_map, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+') - '+map_file, coord='G', unit='',
-		# 		norm='hist', xsize=800, lonra=[ll-offset-0.1*offset,ll+offset+0.1*offset], latra=[b-offset-0.1*offset,b+offset+0.1*offset],
-		# 		return_projected_map=True)
-		## End Plot cartview a/o mollview ##
-
-		# Cal. #
-		theta = (90.0-b)*deg2rad
-		phi   = l*deg2rad
-		pix   = hp.ang2pix(nside, theta, phi, nest=False)
-
-		if (ci_map[pix] > -0.000001) : # Some pixels not defined
-			xci[i].append(ci_map[pix])
-
-		for x in pl.frange(l-offset, l+offset, dd):
-			for y in pl.frange(b-offset, b+offset, dd):
-				cosb = np.cos(b*deg2rad)
-				cosy = np.cos(y*deg2rad)
-
-				if ( ((x-l)**2 + (y-b)**2) <= offset**2 ):
-					# hp.projtext(x, y, '.', lonlat=True, coord='G')
-					theta = (90.0 - y)*deg2rad
-					phi   = x*deg2rad
-					pix   = hp.ang2pix(nside, theta, phi, nest=False)
-
-					if (ci_map[pix] > -0.000001) :
-						xci[i].append(ci_map[pix])
-
-		# plt.show()
-		# continue
-
-		vci = list(set(xci[i]))
-		cnt = len(vci)
-
-		# Calculate mean values of tau353 #
-		# ebv.append(sum(ci[i])/float(cnt))
-		val = sum(vci)/float(cnt)
-		err = cal_uncertainty_in_mean(vci)
-		print val, err
-
-		# Calculate the N(HI) from Fukui factor #
-		# nhi_i = fukui_cf*tau353[i]
-		# nhi.append(nhi_i)
-	   
-		# Calculate the NH from E(B-V) #
-		# nh_i = tau353[i]/planck_cf
-		# nh.append(nh_i)
-		# n_h = val/1.44 # 1e22; (NH = 1.e22*EBV/1.44)
-		# n_h = 0.69*val # 1e22, from planck 2013, EBV/NH = (1.42-1.46).1e-22 magcm2
-		n_h = 0.58*val # 1e22
-
-		# Uncertainties of mean values of tau353 #
-		# sd1_tau353 = 0.
-		# sd2_tau353 = 0.
-		# for j in range(cnt_err):
-		# 	sd1_tau353 = sd1_tau353 + (tau[i][j]-tau353[i])**2
-		# 	sd2_tau353 = sd2_tau353 + (t_err[i][j])**2
-
-		# sd2_tau353 = (sd2_tau353**0.5)/cnt_err # Uncertainty of a Sum
-
-		# Uncertainties of mean values of N(HI) and N(H) #
-		# fukui_sd  = (sd2_tau353*fukui_cf)*1e6
-
-		# planck_sd = (sd2_tau353/tau353[i])**2 + (pl_fact_err/planck_cf)**2
-		# planck_sd = (nh_i*planck_sd**0.5)*1e6
-
-		# print("{}  {}\t{:08.4f}  {:08.4f}   {}   {}   {}   {}   {}   {}   {}   {}"
-		# 	.format(i, src[i],l,b, info['nhi'][i], info['nhi_er'][i], info['nh2'][i],info['nh2_er'][i], info['nh'][i],info['nh_er'][i], nh_i*1e6, planck_sd   ))
-
-		print src[i], val, lhi[i], n_h*100.
-		xnh.append(n_h*100.)
+	
 
 	nhi = np.asarray(nhi)
 	nh  = np.asarray(nh)
@@ -374,17 +276,16 @@ def cal_nh_from_dust(map_file, info, lowhi):
 	plt.legend(loc='upper left', fontsize=18)
 	# plt.savefig("test.png",bbox_inches='tight')
 	for i in range(len(src)):
-		if (oh[i] > 0) :
-			plt.annotate('('+str(src[i])+')', xy=(x[i], y[i]), xycoords='data',
-	               xytext=(-50.,30.), textcoords='offset points',
-	               arrowprops=dict(arrowstyle="->"),fontsize=18,
-	               )
+		# if (oh[i] > 0) :
+		plt.annotate('('+str(src[i])+')', xy=(x[i], y[i]), xycoords='data',
+               xytext=(-50.,30.), textcoords='offset points',
+               arrowprops=dict(arrowstyle="->"),fontsize=18,
+               )
 	plt.show()
 
 	plt.plot(nhi,nh, 'rd', label='data no CO', ms=10)
-	plt.plot(lhi,xnh, 'b*', label='data low $N_{HI}, N_{HI}<3.0\cdot10^{20} cm^{-2}$', ms=10)
-	plt.plot([0,30],[0,30], 'k--', label='$N_{H} = N_{HI}$')
-	plt.title('Correlation between $N_{H}$ and $N_{HI}$ \nalong 26 lines-of-sight without the presence of CO line and 23 low $N_{HI}$ LOS', fontsize=30)
+	plt.plot([0,130],[0,130], 'k--', label='$N_{H} = N_{HI}$')
+	plt.title('Correlation between $N_{H}$ and $N_{HI}$ \nalong 78 lines-of-sight', fontsize=30)
 	plt.ylabel('$N_{H}[10^{20}$ cm$^{-2}]$', fontsize=35)
 	plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
 	# plt.xlim(0, 1.6)
@@ -400,21 +301,21 @@ def cal_nh_from_dust(map_file, info, lowhi):
 	plt.legend(loc='upper left', fontsize=18)
 	# plt.savefig("test.png",bbox_inches='tight')
 	for i in range(len(src)):
-		if (oh[i] > 0) :
-			plt.annotate('('+str(src[i])+')', xy=(nhi[i], nh[i]), xycoords='data',
-	               xytext=(-50.,30.), textcoords='offset points',
-	               arrowprops=dict(arrowstyle="->"),fontsize=18,
-	               )
+		# if (oh[i] > 0) :
+		plt.annotate('('+str(src[i])+')', xy=(nhi[i], nh[i]), xycoords='data',
+               xytext=(-50.,30.), textcoords='offset points',
+               arrowprops=dict(arrowstyle="->"),fontsize=18,
+               )
 	plt.show()
 
 #================= MAIN ========================#
 pth      = os.getenv("HOME")+'/hdata/dust/'
 map_file = pth + 'HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
-# map_file = pth + 'HFI_CompMap_DustOpacity_2048_R1.10.fits'
+map_file = pth + 'HFI_CompMap_DustOpacity_2048_R1.10.fits'
 # map_file = pth + 'lambda_sfd_ebv.fits'  ## E(B-V) from SFD et al. 1998
 
-## Infor of 26 src without CO && 23 Low NHI sources ##
-info     = read_info_no_co('../sub_data/26src_no_co_info.dat')
+## Infor of 78 src without CO && 23 Low NHI sources ##
+info     = read_info_78src(fname = '../../hi/rearrange/nhi_lb_78src.txt')
 lowhi    = read_lownhi_23src(fname = '../../hi/result/lownhi_thin_cnm_wnm.txt')
 
 cal_nh_from_dust(map_file, info, lowhi)

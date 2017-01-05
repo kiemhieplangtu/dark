@@ -189,7 +189,7 @@ plt.ylabel('$N_{HI}$', fontsize = 35)
 plt.tick_params(axis='x', labelsize=20)
 plt.tick_params(axis='y', labelsize=20)
 plt.text(10., 5., '$N_{HI}[10^{20} cm^{-2}] = ('+str(a)+'\pm'+str(ea) +')\cdot N^*_{HI}[10^{20} cm^{-2}] + ('+str(b)+'\pm'+str(eb)+')$', color='blue', fontsize=20)
-plt.legend(loc='upper right', fontsize=18)
+plt.legend(loc='lower right', fontsize=18)
 # plt.savefig("test.png",bbox_inches='tight')
 
 # Fit and Plot #
@@ -215,7 +215,7 @@ plt.xlabel('$N^{thin}_{HI}$', fontsize = 35)
 plt.tick_params(axis='x', labelsize=20)
 plt.tick_params(axis='y', labelsize=20)
 plt.text(10., 5., '$N_{HI}[10^{20} cm^{-2}] = ('+str(a)+'\pm'+str(ea) +')\cdot N^*_{HI}[10^{20} cm^{-2}] + ('+str(b)+'\pm'+str(eb)+')$', color='blue', fontsize=20)
-plt.legend(loc='upper right', fontsize=18)
+plt.legend(loc='lower right', fontsize=18)
 # plt.savefig("test.png",bbox_inches='tight')
 
 
@@ -225,31 +225,61 @@ plt.show()
 
 
 
-# # Fit and Plot #
-# thin2 = np.asarray(thin2)
-# hi2   = np.asarray(hi2)
-# params = linear_fit(np.log10(thin2),hi2/thin2 )
-# a      = params['a']
-# b      = params['b']
-# ea     = params['ea']
-# eb     = params['eb']
+## Fit and Plot #
+## MS 79 sources
+thin2 = np.asarray(thin2)
+hi2   = np.asarray(hi2)
+params = linear_fit(np.log10(thin2),hi2/thin2 )
+a      = params['a']
+b      = params['b']
+ea     = params['ea']
+eb     = params['eb']
 
-# # plt.subplot(2,1,2)
-# plt.plot(np.log10(thin2),hi2/thin2, 'b^', ms=10, label='$N_{HI} vs N^{thin}_{HI}$')
-# plt.plot(np.log10(thin2), a*np.array(np.log10(thin2)) + b, 'r-', linewidth=4, label='Best linear fit')
+plt.subplot(2,1,1)
+plt.plot(np.log10(thin2),hi2/thin2, 'b^', ms=10, label='$N_{HI} vs N^{thin}_{HI}$')
+plt.plot(np.log10(thin2), a*np.array(np.log10(thin2)) + b, 'r-', linewidth=4, label='Best linear fit')
 
-# a  = round(a, 2)
-# b  = round(b, 2)
-# ea = round(ea, 2)
-# eb = round(eb, 2)
+a  = round(a, 2)
+b  = round(b, 2)
+ea = round(ea, 2)
+eb = round(eb, 2)
 
-# plt.grid()
-# plt.title('$N_{HI}$ vs $N^{thin}_{HI}$, MS', fontsize = 35)
-# plt.ylabel('$N_{HI}$', fontsize = 35)
-# plt.xlabel('$N^{thin}_{HI}$', fontsize = 35)
-# plt.tick_params(axis='x', labelsize=20)
-# plt.tick_params(axis='y', labelsize=20)
-# plt.text(10., 5., '$N_{HI}[10^{20} cm^{-2}] = ('+str(a)+'\pm'+str(ea) +')\cdot N^*_{HI}[10^{20} cm^{-2}] + ('+str(b)+'\pm'+str(eb)+')$', color='blue', fontsize=20)
-# plt.text(0.2, 1.5, '$N_{HI}[10^{20} cm^{-2}] = ('+str(a)+'\pm'+str(ea) +')\cdot N^*_{HI}[10^{20} cm^{-2}] + ('+str(b)+'\pm'+str(eb)+')$', color='blue', fontsize=20)
-# plt.legend(loc='upper right', fontsize=18)
-# # plt.savefig("test.png",bbox_inches='tight')
+plt.grid()
+plt.title('$N_{HI}$ vs $N^{thin}_{HI}$, MS', fontsize = 35)
+plt.ylabel('$Ratio f = N_{HI}$/$N^*_{HI}$', fontsize=35)
+# plt.xlabel('$log_{10}(N^*_{HI}/10^{20} cm^{-2}$)', fontsize=35)
+plt.tick_params(axis='x', labelsize=20)
+plt.tick_params(axis='y', labelsize=20)
+plt.text(0.2, 1.5, '$f = ['+str(a)+'\pm'+str(ea) +']\cdot log_{10}(N^*_{HI}/10^{20}) + ['+str(b)+'\pm'+str(eb)+']$', color='blue', fontsize=20)
+plt.legend(loc='lower right', fontsize=18)
+# plt.savefig("test.png",bbox_inches='tight')
+
+## 21-SPONGE 30 src
+thin1  = np.asarray(thin1)
+hi1    = np.asarray(hi1)
+params = linear_fit(np.log10(thin1),hi1/thin1 )
+a      = params['a']
+b      = params['b']
+ea     = params['ea']
+eb     = params['eb']
+
+plt.subplot(2,1,2)
+plt.plot(np.log10(thin1),hi1/thin1, 'b^', ms=10, label='$N_{HI} vs N^{thin}_{HI}$')
+plt.plot(np.log10(thin1), a*np.array(np.log10(thin1)) + b, 'r-', linewidth=4, label='Best linear fit')
+
+a  = round(a, 2)
+b  = round(b, 2)
+ea = round(ea, 2)
+eb = round(eb, 2)
+
+plt.grid()
+plt.title('$N_{HI}$ vs $N^{thin}_{HI}$, 21-SPONGE', fontsize = 35)
+plt.ylabel('$Ratio f = N_{HI}$/$N^*_{HI}$', fontsize=35)
+plt.xlabel('$log_{10}(N^*_{HI}/10^{20} cm^{-2}$)', fontsize=35)
+plt.tick_params(axis='x', labelsize=20)
+plt.tick_params(axis='y', labelsize=20)
+plt.text(0.2, 1.5, '$f = ['+str(a)+'\pm'+str(ea) +']\cdot log_{10}(N^*_{HI}/10^{20}) + ['+str(b)+'\pm'+str(eb)+']$', color='blue', fontsize=20)
+plt.legend(loc='lower right', fontsize=18)
+# plt.savefig("test.png",bbox_inches='tight')
+
+plt.show()

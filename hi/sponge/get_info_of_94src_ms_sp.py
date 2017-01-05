@@ -117,8 +117,13 @@ for sc in spdat:
 
 for i in range(len(sc2)):
 	sc = sc2[i]
-	print ('{}    {}\t{:08.4f}  {:08.4f}  {:06.2f}  {:06.2f}  {:08.4f}  {:08.4f}  {:06.2f}  {:08.4f}  {:06.2f}  {:08.4f}'\
-		.format(i, sc, xl2[i], xb2[i], hi2[i], hi2er[i], thin2[i], thin2er[i], cnm2[i], cnm2er[i], wnm2[i], wnm2er[i]  ))         ## nhi_thin_cnm_wnm_94src.txt
+	if(sc not in comsc):
+		print ('{}    {}\t{:08.4f}  {:08.4f}  {:06.2f}  {:06.2f}  {:08.4f}  {:08.4f}  {:06.2f}  {:08.4f}  {:06.2f}  {:08.4f}'\
+			.format(i, sc, xl2[i], xb2[i], hi2[i], hi2er[i], thin2[i], thin2er[i], cnm2[i], cnm2er[i], wnm2[i], wnm2er[i]  ))         ## nhi_thin_cnm_wnm_94src.txt
+	else:
+		j = sc1.index(sc)
+		print ('{}    {}\t{:08.4f}  {:08.4f}  {:06.2f}  {:06.2f}  {:08.4f}  {:08.4f}  {:06.2f}  {:08.4f}  {:06.2f}  {:08.4f}'\
+			.format(i, sc, xl1[j], xb1[j], hi1[j], hi1er[j], thin1[j], thin1er[j], cnm1[j], cnm1er[j], wnm1[j], wnm1er[j]  ))         ## nhi_thin_cnm_wnm_94src_sponge_prior.txt
 
 for i in range(len(difsc)):
 	sc = difsc[i]
