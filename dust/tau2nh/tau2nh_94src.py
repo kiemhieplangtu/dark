@@ -11,6 +11,19 @@ import matplotlib.cm     as cm
 from restore             import restore
 from masks               import masks
 
+## Read NHI from 94src #
+ #
+ # params string fname Filename
+ # return dict info of N(HI)
+ # 
+ # version 1/2017
+ # Author Van Hiep ##
+def read_nhi_94src(fname = ''):
+	cols = ['indx', 'src', 'l', 'b', 'nhi', 'nhi_er', 'thin', 'thin_er', 'cnm', 'cnm_er', 'wnm', 'wnm_er']
+	fmt  = ['i',     's',   'f','f',  'f',   'f',     'f',     'f',        'f',   'f',      'f',   'f'   ]
+	data = restore(fname, 2, cols, fmt)
+	return data.read()
+
 ## Read info of 23 LOW NHI sources #
  # l,b, nhi, and nhi_error
  #
@@ -79,7 +92,7 @@ def plot_patches(map_file, src_num, info):
 	fk_fact_err = 0.0 #unknown
 
 	# Define the width of area #
-	beam   = 3.5            # Beam = 3.5'
+	beam   = 5.0            # Beam = map_resolution = 5'
 	dbeam  = beam/120.0     # Beam = 3.5' -> dbeam = beam/60/2 in degree
 	offset = dbeam          # degree
 
@@ -88,7 +101,7 @@ def plot_patches(map_file, src_num, info):
 	err_map  = hp.read_map(map_file, field = 1)
 	nside    = hp.get_nside(tau_map)
 	res      = hp.nside2resol(nside, arcmin=False)
-	dd       = res/deg2rad/10.0
+	dd       = res/deg2rad/5.0
 
 	# OK - Go #
 	tau353 = []
@@ -110,17 +123,14 @@ def plot_patches(map_file, src_num, info):
 		l  = info['l'][i]
 		b  = info['b'][i]
 
-		sr = 6
-
 		# Plot cartview a/o mollview #
 		ll = l
 		if (l>180):
 			ll = ll-360.
 
-		if (i == sr):
-			hp.cartview(tau_map, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+') - '+map_file, coord='G', unit='',
-					norm='hist', xsize=800, lonra=[ll-offset-0.1*offset,ll+offset+0.1*offset], latra=[b-offset-0.1*offset,b+offset+0.1*offset],
-					return_projected_map=True)
+		hp.cartview(tau_map, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+') - '+map_file, coord='G', unit='',
+				norm='hist', xsize=800, lonra=[ll-offset-0.1*offset,ll+offset+0.1*offset], latra=[b-offset-0.1*offset,b+offset+0.1*offset],
+				return_projected_map=True)
 
 		# hp.mollview(tau_map, title=info['src'][i]+'('+str(info['l'][i])+','+str(info['b'][i])+') - '+map_file,
 		# 	coord='G', unit='', rot=[l,b,0], norm='hist', min=1e-7,max=1e-3, xsize=800)
@@ -140,11 +150,11 @@ def plot_patches(map_file, src_num, info):
 			for y in pl.frange(b-offset, b+offset, dd):
 				cosb = np.cos(b*deg2rad)
 				cosy = np.cos(y*deg2rad)
-				if ( (((x-l)**2 + (y-b)**2) <= offset**2) and (i == sr) ):
+				if ( (((x-l)**2 + (y-b)**2) <= offset**2) ):
 					# hp.projtext(x, y, '.', lonlat=True, coord='G')
 					hp.projplot(x, y, 'kx', lonlat=True, coord='G')
 
-	plt.show()
+		plt.show()
 
 ## Get tau353 values and err_tau353 values #
  #
@@ -160,6 +170,11 @@ def plot_patches(map_file, src_num, info):
 def get_gas_column_density(map_file, src_num, info):
 	## Classes ##
 	msks = masks()
+
+	## Infor
+	src  = info['src']
+	hi   = info['nhi']
+	hier = info['nhi_er']
 
 	# Define constants #
 	deg2rad     = np.pi/180.
@@ -184,6 +199,7 @@ def get_gas_column_density(map_file, src_num, info):
 	# OK - Go #
 	tau353 = []
 	nh     = []
+	nher   = []
 	nhi    = []
 
 	tau    = {}
@@ -290,6 +306,7 @@ def get_gas_column_density(map_file, src_num, info):
 		fukui_sd  = fukui_sd*1.0e-20
 		nh[i]     = nh[i]*1.0e-20
 		planck_sd = planck_sd*1.0e-20
+		nher.append(planck_sd)
 
 		nhi_hi = info['nhi'][i] ## From Carl
 		rat1   = nhi[i]/nhi_hi  ## For Fukui
@@ -308,14 +325,41 @@ def get_gas_column_density(map_file, src_num, info):
 			.format(i, info['src'][i], round((nhi[i]), 4), round((fukui_sd), 4), round((nh[i]), 4), round((planck_sd), 4), \
 				nhi_hi, 0.0, info['nhi_er'][i], wnm, cnm, rat1, rat2, 0, info['thin'][i] ) )
 
+	## Plot N(H) vs N(HI)
+	# plt.xscale("log", nonposx='clip')
+	# plt.plot(hi,nh, 'rd', label='data', ms=10)
+	plt.errorbar(hi,nh,xerr=hier, yerr=nher, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='data')
+	plt.plot([0,160],[0,160], 'k--', label='$N_{H} = N_{HI}$')
+	plt.title('$N_{H}$ vs $N_{HI}$ along 94 lines-of-sight', fontsize=30)
+	plt.ylabel('$N_{H}[10^{20}$ cm$^{-2}]$', fontsize=35)
+	plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
+	plt.xlim(-10.0, 165.0)
+	# plt.ylim(0, 3)
+	plt.grid(True)
+	plt.tick_params(axis='x', labelsize=18)
+	plt.tick_params(axis='y', labelsize=18)
+
+	plt.text(100., 30., r'$N_{H} = \frac{\tau_{353}}{\sigma_{353}}$', color='k', fontsize=17)
+	plt.text(100., 10., r'$\tau_{353}$ from Planck data R1.2', color='k', fontsize=17)
+
+	plt.legend(loc='upper left', fontsize=18)
+	# plt.savefig("test.png",bbox_inches='tight')
+	# for i in range(len(src)):
+	# 	# if (oh[i] > 0) :
+	# 	plt.annotate('('+str(src[i])+')', xy=(hi[i], nh[i]), xycoords='data',
+ #               xytext=(-50.,30.), textcoords='offset points',
+ #               arrowprops=dict(arrowstyle="->"),fontsize=18,
+ #               )
+	plt.show()
+
 
 #================= MAIN ========================#
 # Define constants #
 pth      = os.getenv("HOME")+'/hdata/dust/'
 map_file = pth + 'HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
 
-# Info of 26 sources with no CO - l/b/name #
-info       = read_lownhi_23src(fname = '../../hi/result/lownhi_thin_cnm_wnm.txt')
+# Info of 94 sources - l/b/name #
+info       = read_nhi_94src(fname = '../../hi/result/nhi_thin_cnm_wnm_94src_sponge_prior.txt')
 num_of_src = len(info['src'])
 
 get_gas_column_density(map_file, num_of_src, info)

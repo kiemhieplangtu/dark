@@ -17,27 +17,28 @@ from plotting import cplot
 # 
 # Author Van Hiep
 ##
-def read_nhi_fukui_nh_planck(fname = 'result/26src_no_co_nhi_and_uncertainties_full.txt'):
-
-	cols = ['idx','src','nhi_fk','err_fk','nh_pl','err_pl','nhi_hl','er_hl','err_hl','wnm','cnm','fk_hl','pl_hl','oh','nhi_thin']
-	fmt  = ['i','s','f','f','f','f','f','f','f','f','f','f','f','f','f']
+def read_nhi_fukui_nh_planck(fname = '../result/26src_no_co_nhi_and_uncertainties_full.txt'):
+	cols = ['idx','src','nhi_fk','err_fk','nh_pl','err_pl','nhi_hl','err_hl','wnm','cnm','fk_hl','pl_hl','oh','nhi_thin']
+	fmt  = ['i','s','f','f','f','f','f','f','f','f','f','f','f','f']
 	data = restore(fname, 4, cols, fmt)
 	return data.read()
 
 #================= MAIN ========================#
 
-col_density = read_nhi_fukui_nh_planck()
-diff_fk_hl  = col_density['fk_hl']
-diff_pl_hl  = col_density['pl_hl']
+info       = read_nhi_fukui_nh_planck()
+rat_fk_hl  = info['fk_hl']
+rat_pl_hl  = info['pl_hl']
+oh         = info['oh']
+src        = info['src']
 
-fk_mean = sum(diff_fk_hl) / float(len(diff_fk_hl))
-pl_mean = sum(diff_pl_hl) / float(len(diff_pl_hl))
+fk_mean = sum(rat_fk_hl) / float(len(rat_fk_hl))
+pl_mean = sum(rat_pl_hl) / float(len(rat_pl_hl))
 
 fk_mean = round(fk_mean, 2)
 pl_mean = round(pl_mean, 2)
 
-a = np.array(diff_fk_hl)
-b = np.array(diff_pl_hl)
+a = np.array(rat_fk_hl)
+b = np.array(rat_pl_hl)
 
 # Plot histogram #
 # size = 0.25
@@ -72,13 +73,17 @@ b = np.array(diff_pl_hl)
 # 	             )
 # fig.iplot(data,layout)
 
-nbins = 16
+nbins = 12
 
 bins = np.histogram(np.hstack((a)), bins=nbins)[1] #get the bin edges
 plt.hist(a, bins, label='$N_{H}^{Fukui}/N_{HI}, mean = '+str(fk_mean)+'$', histtype='step', linewidth=4)
 
+print bins
+
 bins = np.histogram(np.hstack((b)), bins=nbins)[1] #get the bin edges
 plt.hist(b, bins, label='$N_{H}^{Dust}/N_{HI}, mean = '+str(pl_mean)+'$', histtype='step', linewidth=4)
+
+print bins
 
 plt.xlabel('$N_{H}/N_{HI}$',fontsize=35) # style.BOLD + 'This is my text string.' + style.END
 plt.ylabel('Counts',fontsize=35)
@@ -91,4 +96,16 @@ plt.tick_params(axis='y', labelsize=18)
 # plt.text(55., 14., 'Arecibo beam at 1.4GHz = 3.5\'', color='blue', fontsize=18)
 plt.legend(loc='upper right', fontsize=18)
 # plt.savefig("test.png",bbox_inches='tight')
+
+for i in range(len(src)):
+	if (oh[i] > 0) :
+		plt.annotate('('+str(src[i])+')', xy=(a[i], 0.), xycoords='data',
+               xytext=(-5.,5.+a[i]**3.5), textcoords='offset points',
+               arrowprops=dict(arrowstyle="->", color='b', lw=3),fontsize=15, color='b',
+               )
+
+		plt.annotate('('+str(src[i])+')', xy=(b[i], 0.), xycoords='data',
+	               xytext=(-90.+a[i]**3.5,40.+10*a[i]), textcoords='offset points',
+	               arrowprops=dict(arrowstyle="->", color='g', lw=3),fontsize=15, color='r',
+	               )
 plt.show()

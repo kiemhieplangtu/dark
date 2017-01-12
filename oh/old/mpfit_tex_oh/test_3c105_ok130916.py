@@ -710,18 +710,18 @@ def cal_tex(data,inf408,bd=1):
 	 	print '##########'
 	 	print src
 
-	 	## Absorption and Emission data ##
+		## Absorption and Emission data ##
 	 	xd  = vlsr1
 		td  = ab_avg1
 		tde = em_avg1
-		cst = 2.39854792704
+		cst = 3.99757843817
 		frq = 1665.402
 		pfl = '../data/gauss_1665_peaks.txt'
 		if(bd == 2):
 			xd  = vlsr2
 			td  = ab_avg2
 			tde = em_avg2
-			cst = 2.21841851219
+			cst = 2.21841824609
 			frq = 1667.359
 			pfl = '../data/gauss_1667_peaks.txt'
 
@@ -807,7 +807,7 @@ def cal_tex(data,inf408,bd=1):
 		print '0) Tex[i]*integral(tau)'
 		print '    ', stau_fit
 
-		noh_fit = 2.39854792704*stau_fit[0]  # x10^14
+		noh_fit = cst*stau_fit[0]  # x10^14
 		print '1) N(OH):'
 		print '    ', noh_fit, 'x10^14'
 

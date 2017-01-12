@@ -314,7 +314,7 @@ def get_gas_column_density(map_file, src_num, info):
 pth      = os.getenv("HOME")+'/hdata/dust/'
 map_file = pth + 'HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
 
-# Info of 26 sources with no CO - l/b/name #
+# Info of 23 sources with low NHI - l/b/name #
 info       = read_lownhi_23src(fname = '../../hi/result/lownhi_thin_cnm_wnm.txt')
 num_of_src = len(info['src'])
 

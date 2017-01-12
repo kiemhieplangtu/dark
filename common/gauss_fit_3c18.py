@@ -212,8 +212,8 @@ class gfit:
 		criterion = np.float64(0.001)
 
 		# xfact 
-		xfact = np.float64(0.5)
-		nloopmax = 100
+		xfact    = np.float64(0.5)
+		nloopmax = 210
 
 		#DFSTOP IS THE MAXIMUM WIDTH ALLOWED
 		dfstop = abs(xdata[datasize-1]-xdata[0])
@@ -226,7 +226,7 @@ class gfit:
 		texfit   = np.asarray(tex, dtype=np.float64)
 		tcontfit = np.float64(tcont) # Scalar 
 
-		nloop      = 0
+		nloop    = 0
 
 		# get Number OF GAUSSIANS TO FIT
 		ngaussians = len(tau)
@@ -251,39 +251,39 @@ class gfit:
 
 		if (zrolvyn != 0):
 			jfull_to_jcb[jcol] = int(jfullcol)
-			jcol             = jcol + 1 
+			jcol               = jcol + 1 
 
 		jfullcol = jfullcol + 1
 
 		for ng in range(ngaussians):
 			if (tauyn[ng] != 0):
 				jfull_to_jcb[jcol] = int(jfullcol)
-				jcol             = jcol + 1 
+				jcol               = jcol + 1 
 
 			jfullcol = jfullcol + 1
 
 			if (v0yn[ng] != 0):
 				jfull_to_jcb[jcol] = int(jfullcol)
-				jcol             = jcol + 1 
+				jcol               = jcol + 1 
 
 			jfullcol = jfullcol + 1
 
 			if (widyn[ng] != 0):
 				jfull_to_jcb[jcol] = int(jfullcol)
-				jcol             = jcol + 1 
+				jcol               = jcol + 1 
 
 			jfullcol = jfullcol + 1
 
 			if (texyn[ng] != 0):
 				jfull_to_jcb[jcol] = int(jfullcol)
-				jcol             = jcol + 1 
+				jcol               = jcol + 1 
 
 			jfullcol = jfullcol + 1
 
 		## THEN THE WNM PARAMETERS...
 		if (tcontyn != 0):
 			jfull_to_jcb[jcol] = int(jfullcol)
-			jcol             = jcol + 1 
+			jcol               = jcol + 1 
 		
 		jfullcol = jfullcol + 1
 
@@ -295,24 +295,24 @@ class gfit:
 			jfullcol = 0
 
 			# Tb continuum derivative
-			xdel    = np.float64(0.0000025)
-			zrolvfit = zrolvfit + xdel
+			xdel       = np.float64(0.0000025)
+			zrolvfit   = zrolvfit + xdel
 			tb_totplus = self.tb_exp(xdata, \
-				zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+				zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 			        tcontfit)
 			        
 
 			zrolvfit = zrolvfit - 2.*xdel
 			tb_totminus = self.tb_exp(xdata, \
-				zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+				zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 			        tcontfit)
 			        
 
-			zrolvfit   = zrolvfit + xdel
+			zrolvfit = zrolvfit + xdel
 			zrolvder = (tb_totplus - tb_totminus)/(2.*xdel)
 
 			jacobfull[:,jfullcol] = zrolvder				#THE CONSTANT
-			jfullcol          = jfullcol + 1
+			jfullcol              = jfullcol + 1
 
 			# WORK THROUGH GAUSSIANS...
 			for ng in range(ngaussians):
@@ -320,109 +320,109 @@ class gfit:
 				xdel = np.float64(0.0000025)
 				taufit[ng] = taufit[ng] + xdel
 				tb_totplus = self.tb_exp(xdata, \
-					zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+					zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 				        tcontfit)
 				        
 				taufit[ng] = taufit[ng] -2.* xdel
 				tb_totminus = self.tb_exp(xdata, \
-					zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+					zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 				        tcontfit)
 				        
 				taufit[ng] = taufit[ng] + xdel
 				hgtder      = (tb_totplus - tb_totminus)/(2.*xdel)
 
 				## V0 derivative:
-				xdel        = 0.0000025*widfit[ng]
-				v0fit[ng] = v0fit[ng] + xdel
+				xdel       = 0.0000025*widfit[ng]
+				v0fit[ng]  = v0fit[ng] + xdel
 				tb_totplus = self.tb_exp(xdata, \
-					zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+					zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 				        tcontfit)
 				        
-				v0fit[ng] = v0fit[ng] - 2.*xdel
+				v0fit[ng]   = v0fit[ng] - 2.*xdel
 				tb_totminus = self.tb_exp(xdata, \
-					zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+					zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 				        tcontfit)
 				        
 				v0fit[ng] = v0fit[ng] + xdel
-				cender      = (tb_totplus - tb_totminus)/(2.*xdel)
+				cender    = (tb_totplus - tb_totminus)/(2.*xdel)
 
 				## WID derivative:
-				xdel        = np.float64(0.0000025)*widfit[ng]
+				xdel       = np.float64(0.0000025)*widfit[ng]
 				widfit[ng] = widfit[ng] + xdel
 				tb_totplus = self.tb_exp(xdata, \
-					zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+					zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 				        tcontfit)
 				        
-				widfit[ng] = widfit[ng] - 2.*xdel
+				widfit[ng]  = widfit[ng] - 2.*xdel
 				tb_totminus = self.tb_exp(xdata, \
-					zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+					zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 				        tcontfit)
 				        
 				widfit[ng] = widfit[ng] + xdel
-				widder      = (tb_totplus - tb_totminus)/(2.*xdel)
+				widder     = (tb_totplus - tb_totminus)/(2.*xdel)
 
 				## Tex derivative:
-				xdel          = np.float64(0.0000025)*texfit[ng]
+				xdel       = np.float64(0.0000025)*texfit[ng]
 				texfit[ng] = texfit[ng] + xdel
 				tb_totplus = self.tb_exp(xdata, \
-					zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+					zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 				        tcontfit)
 				        
-				texfit[ng] = texfit[ng] -2.*xdel
+				texfit[ng]  = texfit[ng] -2.*xdel
 				tb_totminus = self.tb_exp(xdata, \
-					zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+					zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 				        tcontfit)
 				        
-				texfit[ng] = texfit[ng] + xdel
-				tspinder      = (tb_totplus - tb_totminus)/(2.*xdel)
+				texfit[ng]             = texfit[ng] + xdel
+				tspinder               = (tb_totplus - tb_totminus)/(2.*xdel)
 				jacobfull[:, jfullcol] = hgtder     #HGT-*/41-*/7
-				jfullcol           = jfullcol + 1
+				jfullcol               = jfullcol + 1
 
 				jacobfull[:, jfullcol] = cender     #CNTR
-				jfullcol           = jfullcol + 1
+				jfullcol               = jfullcol + 1
 
 				jacobfull[:, jfullcol] = widder     #WIDTH
-				jfullcol           = jfullcol + 1
+				jfullcol               = jfullcol + 1
 
 				jacobfull[:, jfullcol] = tspinder   #TSPIN
-				jfullcol           = jfullcol + 1
+				jfullcol               = jfullcol + 1
 
 			## Emission Offset derivative:
-			xdel = np.float64(0.0000025)
-			tcontfit = tcontfit + xdel
-			tb_totplus = self.tb_exp(xdata, \
-				zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
-			        tcontfit)
-			        
-			tcontfit = tcontfit - 2.*xdel
-			tb_totminus = self.tb_exp(xdata, \
-				zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
-			        tcontfit)
-			        
+			xdel       = np.float64(0.0000025)
 			tcontfit   = tcontfit + xdel
+			tb_totplus = self.tb_exp(xdata, \
+				zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
+			        tcontfit)
+			        
+			tcontfit    = tcontfit - 2.*xdel
+			tb_totminus = self.tb_exp(xdata, \
+				zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
+			        tcontfit)
+			        
+			tcontfit = tcontfit + xdel
 			tcontder = (tb_totplus - tb_totminus)/(2.*xdel)
 
 			jacobfull[:, jfullcol] = tcontder				#THE CONSTANT
-			jfullcol           = jfullcol + 1
+			jfullcol               = jfullcol + 1
 
 			jacob = jacobfull[:,jfull_to_jcb]
 
 			# CALCULATE T_PREDICTED...
 			t_predicted = self.tb_exp(xdata, \
-				zrolvfit, taufit, v0fit, self.listxnum(widfit,1./dp600), texfit, \
+				zrolvfit, taufit, v0fit, np.array(widfit)/dp600, texfit, \
 			        tcontfit)
 			        
 			## CREATE AND SOLVE THE NORMAL EQUATION MATRICES...
-			y    = tdata-t_predicted
+			y    = tdata - t_predicted
 			jtj  = np.dot(np.transpose(jacob),jacob)
 			jy   = np.dot(np.transpose(jacob), np.transpose(y))
 			c    = np.linalg.inv(jtj)
-			parfull[jfull_to_jcb]   = np.dot(c,jy)
+			parfull[jfull_to_jcb] = np.dot(c,jy)
 
 			## CHECK THE DERIVED CNM PARAMETERS...
 			## THE CNM AMPLITUDES...
-			delt    = parfull[ [x+1 for x in (x*4 for x in list(range(ngaussians)))]  ]
-			adelt   = [abs(x) for x in delt]
+			delt   = parfull[ [x+1 for x in (x*4 for x in list(range(ngaussians)))]  ]
+			adelt  = [abs(x) for x in delt]
 			taufit = [abs(x) for x in taufit]
 
 			for i in range(len(adelt)):
@@ -437,8 +437,8 @@ class gfit:
 					delttau.append(adelt[i])
 
 			## CNM CENTERS
-			delt    = parfull[ [x+2 for x in (x*4 for x in list(range(ngaussians)))]  ]
-			adelt   = [abs(x) for x in delt]
+			delt   = parfull[ [x+2 for x in (x*4 for x in list(range(ngaussians)))]  ]
+			adelt  = [abs(x) for x in delt]
 			widfit = [abs(x) for x in widfit]
 
 			for i in range(len(adelt)):
@@ -453,8 +453,8 @@ class gfit:
 					deltv0.append(adelt[i])
 
 			## CNM WIDTHS
-			delt    = parfull[ [x+3 for x in (x*4 for x in list(range(ngaussians)))]  ]
-			adelt   = [abs(x) for x in delt]
+			delt   = parfull[ [x+3 for x in (x*4 for x in list(range(ngaussians)))]  ]
+			adelt  = [abs(x) for x in delt]
 			widfit = [abs(x) for x in widfit]
 
 			for i in range(len(adelt)):
@@ -469,8 +469,8 @@ class gfit:
 					deltwid.append(adelt[i])
 
 			## CNM Tex
-			delt      = parfull[ [x+4 for x in (x*4 for x in list(range(ngaussians)))]  ]
-			adelt     = [abs(x) for x in delt]
+			delt   = parfull[ [x+4 for x in (x*4 for x in list(range(ngaussians)))]  ]
+			adelt  = [abs(x) for x in delt]
 			texfit = [abs(x) for x in texfit]
 
 			for i in range(len(adelt)):
@@ -521,7 +521,7 @@ class gfit:
 				break
 		
 		## CONVERT THE 1/E WIDTHS TO HALFWIDTHS...
-		widfit = self.listxnum(widfit,1./dp600)
+		widfit = np.array(widfit)/dp600
 
 		## DERIVE THE FITTED POINTS, RESIDUALS, THE ERRORS of Params
 		t_predicted = self.tb_exp(xdata, \
@@ -573,7 +573,7 @@ class gfit:
 		temp_list             = [x*4 for x in list(range(ngaussians))]
 		sigtaufit             = erarray[ [x+1 for x in temp_list] ]
 		sigv0fit              = erarray[ [x+2 for x in temp_list] ]
-		sigwidfit             = self.listxnum(erarray[ [x+3 for x in temp_list] ], 1./dp600)
+		sigwidfit             = np.array(erarray[ [x+3 for x in temp_list] ])/dp600
 		sigtexfit             = erarray[ [x+4 for x in temp_list] ]
 		sigtcontfit           = erarray[ 4*ngaussians + 1]
 

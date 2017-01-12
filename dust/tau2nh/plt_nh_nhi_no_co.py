@@ -106,10 +106,10 @@ def plot_planck_factor_vs_nhi(data, lownhi):
 
 	print nhi
 	# plt.plot(nhi,nh_pl, 'rd', label='data', ms=10)
-	plt.errorbar(nhi,nh_pl,xerr=err_hl, yerr=err_pl, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='data no CO')
-	plt.errorbar(hi,nh,xerr=err_hi, yerr=err_nh, color='b', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='data low $N_{HI}, N_{HI}<3.0\cdot10^{20} cm^{-2}$')
+	plt.errorbar(nhi,nh_pl,xerr=err_hl, yerr=err_pl, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='without CO')
+	plt.errorbar(hi,nh,xerr=err_hi, yerr=err_nh, color='b', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='low $N_{HI}, N_{HI}<3.0\cdot10^{20} cm^{-2}$')
 	plt.plot([0,30],[0,30], 'k--', label='$N_{H} = N_{HI}$')
-	plt.title('Correlation between $N_{H}$ and $N_{HI}$ \nalong 26 lines-of-sight without the presence of CO line & 23 LOS with low $N_{HI}$', fontsize=30)
+	plt.title('$N_{H}$ and $N_{HI}$ along 26 lines-of-sight without the presence of CO line & 23 LOS with low $N_{HI}$', fontsize=30)
 	plt.ylabel('$N_{H}[10^{20}$ cm$^{-2}]$', fontsize=35)
 	plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
 	# plt.xlim(0, 1.6)
@@ -119,6 +119,8 @@ def plot_planck_factor_vs_nhi(data, lownhi):
 	plt.tick_params(axis='y', labelsize=18)
 
 	plt.text(15., 2., '(Available sources with the presence of OH are shown)', color='k', fontsize=17)
+	plt.text(15., 6., r'$N_{H} = \frac{\tau_{353}}{\sigma_{353}}$', color='k', fontsize=17)
+	plt.text(15., 4., r'$\tau_{353}$ from Planck data R1.2', color='k', fontsize=17)
 
 	plt.legend(loc='upper left', fontsize=18)
 	# plt.savefig("test.png",bbox_inches='tight')

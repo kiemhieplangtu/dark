@@ -137,7 +137,7 @@ wnm1er  = sp30sc['wnm_er']
 spdat   = read2dict(sp30sc)
 
 ## 78 MS Sources
-ms78sc = read_info_ms_78src(fname = '../result/nhi_lb_thin_cnm_wnm_78src.txt')
+ms78sc  = read_info_ms_78src(fname = '../result/nhi_lb_thin_cnm_wnm_78src.txt')
 sc2     = ms78sc['src']
 xl2     = ms78sc['l']
 xb2     = ms78sc['b']

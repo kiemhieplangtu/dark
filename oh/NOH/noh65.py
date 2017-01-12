@@ -302,7 +302,7 @@ def get_tb_sigma(xd, td, vmin1, vmax1, vmin2, vmax2):
 
  	return np.std(tb)
 
-## Compute Tex for 1665 line ##
+## Velocity range ##
  #
  # params int n order of Source
  #
@@ -502,8 +502,8 @@ def cal_tex_print(data,inf408,bd=1):
 	 	avmin1,avmax1,avmin2,avmax2,evmin1,evmax1,evmin2,evmax2           = read_bins_to_cal_bg(n)
 	 	xmin, xmax                                                        = vel_range(n)
 
-	 	# if (src != '4C13.67'):
-			# continue
+	 	if (src != '3C109'):
+			continue
 		if (xmin == 0. and xmax == 0.):
 			continue
 
@@ -663,7 +663,7 @@ def cal_tex(data,inf408,bd=1):
 	 	avmin1,avmax1,avmin2,avmax2,evmin1,evmax1,evmin2,evmax2           = read_bins_to_cal_bg(n)
 	 	xmin, xmax                                                        = vel_range(n)
 
-	 	if (src != '3C123'):
+	 	if (src != '3C167'):
 			continue
 		if (xmin == 0. and xmax == 0.):
 			continue

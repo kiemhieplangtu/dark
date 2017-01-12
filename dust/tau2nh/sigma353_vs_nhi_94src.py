@@ -10,6 +10,7 @@ import matplotlib.cm     as cm
 
 from restore             import restore
 from masks               import masks
+
 ## Read NHI from 94src #
  #
  # params string fname Filename
@@ -17,11 +18,26 @@ from masks               import masks
  # 
  # version 1/2017
  # Author Van Hiep ##
-def read_nhi_94src(fname = ''):
+def read_nhi_94src(fname = '../../hi/result/nhi_thin_cnm_wnm_94src_sponge_prior.txt'):
 	cols = ['indx', 'src', 'l', 'b', 'nhi', 'nhi_er', 'thin', 'thin_er', 'cnm', 'cnm_er', 'wnm', 'wnm_er']
 	fmt  = ['i',     's',   'f','f',  'f',   'f',     'f',     'f',        'f',   'f',      'f',   'f'   ]
 	data = restore(fname, 2, cols, fmt)
 	return data.read()
+
+## Read info of 26 no-CO sources #
+ # l,b, nhi, and nhi_error
+ #
+ # params string fname Filename
+ # return dict infocd 
+ # 
+ # version 1/2017
+ # Author Van Hiep ##
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
+	data = restore(fname, 2, cols, fmt)
+	dat  = data.read()
+	return dat
 
 ## Plot the correlation between Sigma353 and NHI #
  #
@@ -42,6 +58,10 @@ def plt_sigma353_vs_nhi():
 	nhi    = info['nhi']
 	nhi_er = info['nhi_er']
 
+	## Read info of 94 src
+	info26 = read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat')
+	sc26   = info26['src']
+
 	# Define constants #
 	deg2rad  = np.pi/180.
 	pth      = os.getenv("HOME")+'/hdata/dust/'
@@ -60,15 +80,15 @@ def plt_sigma353_vs_nhi():
 	dd       = res/deg2rad/10.0
 
 	# OK - Go #
-	tau353 = []
-	nh     = []
-
+	tau353  = []
+	tau_er  = []
+	nh      = []
+	nher    = []
 	sg353   = []
 	sg353er = []
 
 	tau    = {}
 	t_err  = {}
-
 	for i in range(94):
 		# Find the values of Tau353 and Err_tau353 in small area #
 		tau[i]   = []
@@ -151,6 +171,7 @@ def plt_sigma353_vs_nhi():
 			sd_tau353 = sd_tau353 + (t_err[i][j])**2
 
 		sd_tau353 = (sd_tau353**0.5)/npix # Uncertainty of a Sum
+		tau_er.append(sd_tau353)
 
 		# Uncertainties of mean values of N(HI) and N(H) #
 		planck_sd = (sd_tau353/tau353[i])**2 + (pl_fact_err/planck_cf)**2
@@ -162,43 +183,65 @@ def plt_sigma353_vs_nhi():
 		sig353er  = uncertainty_of_ratio(tau_val, nhi[i]*1.0e20, sd_tau353, nhi_er[i]*1.0e20)
 		sg353.append(sig353/1.0e-27)
 		sg353er.append(sig353er/1.0e-27)
+		nher.append(planck_sd)
 
 		# print("{}  {}\t{}\t{}\t{}\t{}"
 		# 	.format(i, src[i], nhi[i], nhi_er[i], round((nh[i]), 4), round((planck_sd), 4) ) )
 
-	plt.plot(nhi,nh, 'rd', label='data no CO', ms=10)
-	plt.plot([0,130],[0,130], 'k--', label='$N_{H} = N_{HI}$')
-	plt.title('Correlation between $N_{H}$ and $N_{HI}$ \nalong 94 lines-of-sight', fontsize=30)
-	plt.ylabel('$N_{H}[10^{20}$ cm$^{-2}]$', fontsize=35)
-	plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
-	# plt.xlim(0, 1.6)
-	# plt.ylim(0, 3)
-	plt.grid(True)
-	plt.tick_params(axis='x', labelsize=18)
-	plt.tick_params(axis='y', labelsize=18)
+	# plt.plot(nhi,nh, 'rd', label='data no CO', ms=10)
+	# plt.errorbar(nhi,nh,xerr=nhi_er, yerr=nher, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='data')
+	# plt.plot([0,130],[0,130], 'k--', label='$N_{H} = N_{HI}$')
+	# plt.title('Correlation between $N_{H}$ and $N_{HI}$ \nalong 94 lines-of-sight', fontsize=30)
+	# plt.ylabel('$N_{H}[10^{20}$ cm$^{-2}]$', fontsize=35)
+	# plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
+	# plt.xlim(-10.0, 165.0)
+	# # plt.ylim(0, 3)
+	# plt.grid(True)
+	# plt.tick_params(axis='x', labelsize=18)
+	# plt.tick_params(axis='y', labelsize=18)
 
-	plt.text(15., 2., '(Available sources with the presence of OH are shown)', color='k', fontsize=17)
-	plt.text(15., 3., r'$N_{H} = 5.8\cdot10^{21}[cm^{-2}mag^{-1}]\cdot E(B-V)$', color='k', fontsize=17)
-	plt.text(15., 4., r'E(B-V) from Planck data R1.2', color='k', fontsize=17)
+	# plt.text(100., 30., r'$N_{H} = \tau_{353}/\sigma_{353}$', color='k', fontsize=17)
+	# plt.text(100., 10., r'$\tau_{353}$ from Planck data R1.2', color='k', fontsize=17)
 
-	plt.legend(loc='upper left', fontsize=18)
-	# plt.savefig("test.png",bbox_inches='tight')
-	for i in range(len(src)):
-		# if (oh[i] > 0) :
-		plt.annotate('('+str(src[i])+')', xy=(nhi[i], nh[i]), xycoords='data',
-               xytext=(-50.,30.), textcoords='offset points',
-               arrowprops=dict(arrowstyle="->"),fontsize=18,
-               )
-	plt.show()
+	# plt.legend(loc='upper left', fontsize=18)
+	# # plt.savefig("test.png",bbox_inches='tight')
+	# for i in range(len(src)):
+	# 	# if (oh[i] > 0) :
+	# 	plt.annotate('('+str(src[i])+')', xy=(nhi[i], nh[i]), xycoords='data',
+ #               xytext=(-50.,30.), textcoords='offset points',
+ #               arrowprops=dict(arrowstyle="->"),fontsize=18,
+ #               )
+	# plt.show()
 
+
+	##===== color for 26src without CO =====##
+	nhi26     = []
+	nhi_er26  = []
+	sg26      = []
+	sg353er26 = []
+	lsig      = []
+	for i in range(len(nhi)):
+		if(src[i] in sc26):
+			nhi26.append(nhi[i])
+			nhi_er26.append(nhi_er[i])
+			sg26.append(sg353[i])
+			sg353er26.append(sg353er[i])
+
+		if(nhi[i]<3.0):
+			lsig.append(sg353[i])
+
+	lsig_mean = np.mean(np.array(lsig))
 	## Plot Sigma353 vs NHI
 	plt.xscale("log", nonposx='clip')
-	plt.errorbar(nhi,sg353,xerr=nhi_er, yerr=sg353er, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='data')
-	plt.title('Correlation between $\sigma_{353}$ and $N_{HI}$ along 94 lines-of-sight', fontsize=30)
-	plt.ylabel('$\sigma_{353}[10^{20}$ cm$^{-2}]$', fontsize=35)
+	plt.errorbar(nhi,sg353,xerr=nhi_er, yerr=sg353er, color='r', marker='o', ls='None', markersize=12, markeredgecolor='b', markeredgewidth=1, label='data')
+	plt.errorbar(nhi26,sg26,xerr=nhi_er26, yerr=sg353er26, color='b', marker='o', ls='None', markersize=12, markeredgecolor='b', markeredgewidth=1, label='data, LOS without CO')
+	plt.plot([0,1000],[6.2,6.2], 'k-.', label='From Planck Fig.20: \nAverage values found in the low $N_{HI}$ mask', lw=3)
+	plt.plot([0,1000],[lsig_mean,lsig_mean], 'b--', label='From Hiep: \nAverage values found in the low $N_{HI}$ mask, ~' + str(round(lsig_mean,2)), lw=3 )
+	plt.title('$\sigma_{353}$ vs $N_{HI}$', fontsize=35)
+	plt.ylabel('$\sigma_{353}[10^{-27}$ cm$^{2}H^{-1}]$', fontsize=35)
 	plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
 	# plt.xlim(0, 1.6)
-	# plt.ylim(0, 3)
+	plt.ylim(0., 20.)
 	plt.grid(True)
 	plt.tick_params(axis='x', labelsize=18)
 	plt.tick_params(axis='y', labelsize=18)
@@ -206,6 +249,32 @@ def plt_sigma353_vs_nhi():
 	# plt.text(15., 2., '(Available sources with the presence of OH are shown)', color='k', fontsize=17)
 
 	plt.legend(loc='upper left', fontsize=18)
+	# plt.savefig("test.png",bbox_inches='tight')
+	# for i in range(len(src)):
+	# 	if (oh[i] > 0) :
+	# 		plt.annotate('('+str(src[i])+')', xy=(nhi[i], nh_pl[i]), xycoords='data',
+	#                xytext=(-50.,30.), textcoords='offset points',
+	#                arrowprops=dict(arrowstyle="->"),fontsize=18,
+	#                )
+
+	plt.show()
+
+	## Plot Tau353 vs NHI
+	tau353 = np.array(tau353)*1e6
+	plt.errorbar(nhi,tau353,xerr=nhi_er, yerr=tau_er, color='r', marker='o', ls='None', markersize=12, markeredgecolor='b', markeredgewidth=1, label='data')
+	plt.title(r'$\tau_{353}$ vs $N_{HI}$', fontsize=35)
+	plt.plot([0,3],[-0.02,1.89], 'k--', label='Linear fit from Planck paper', lw=3)
+	plt.ylabel(r'$\tau_{353}[10^{-6}]$', fontsize=35)
+	plt.xlabel('$N_{HI} [10^{20}$ cm$^{-2}]$', fontsize=35)
+	# plt.ylim(0., 2.5)
+	# plt.xlim(0., 3.0)
+	plt.grid(True)
+	plt.tick_params(axis='x', labelsize=18)
+	plt.tick_params(axis='y', labelsize=18)
+
+	plt.text(0.5, 0.2, r'$\tau_{353} = (6.3\pm0.1) \cdot 10^-{27} - 0.02 \cdot 10^{-6}$', color='k', fontsize=17)
+
+	plt.legend(loc='upper left', fontsize=20)
 	# plt.savefig("test.png",bbox_inches='tight')
 	# for i in range(len(src)):
 	# 	if (oh[i] > 0) :

@@ -157,14 +157,12 @@ def read_nhi_fukui_nh_planck(fname = 'result/nhi_and_uncertainties_full.txt'):
 
 	return ret
 
-# Only to rearrange data #
-#
-# params void
-#
-# return void
-# 
-# Author Van Hiep
-##
+## Only to rearrange data #
+ #
+ # params void
+ # return void
+ # 
+ # Author Van Hiep ##
 def rearrange_data():
 	inf = read_info_no_co('26src_no_co.dat')
 	dat = read_nhi_fukui_nh_planck('result/nhi_and_uncertainties_full.txt')
