@@ -1,5 +1,5 @@
 import sys, os
-sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
 
 import matplotlib.pyplot as plt
 import matplotlib        as mpl
@@ -22,18 +22,23 @@ def read_nhi_94src(fname = '../result/nhi_thin_cnm_wnm_94src_sponge_prior.txt'):
 	data = restore(fname, 2, cols, fmt)
 	return data.read()
 
-#================= MAIN ========================#	
+###================= MAIN ========================###
 deg2rad  = np.pi/180.
+dv       = 1.030571969
+cst      = 1.8224e18
+
+## Path
 pth      = os.getenv("HOME")+'/hdata/dust/LAB_Healpix/'
-pth      = os.getenv("HOME")+'/hdata/hi/'
+# pth      = os.getenv("HOME")+'/hdata/hi/'
 map_file = pth + 'LAB_fullvel.fits'
 
 info     = read_nhi_94src(fname = '../result/nhi_thin_cnm_wnm_94src_sponge_prior.txt')
-dbeam    = 30./120.0 # Beam = 0.6deg ~ 30' -> dbeam = beam/60/2
+dbeam    = 36./120.0 # Beam = 0.6deg ~ 30' -> dbeam = beam/60/2
 #dbeam = 0.1
 
 ## E(B-V) map ##
 hi_map = hp.read_map(map_file, verbose=False, field = 0)
+ch_map = hp.read_map(map_file, verbose=False, field = 1)
 nside  = hp.get_nside(hi_map)
 res    = hp.nside2resol(nside, arcmin = False)
 dd     = res/deg2rad/2.0
@@ -42,7 +47,9 @@ dd     = res/deg2rad/2.0
 offset = 2.0 #degree
 
 #====== For Plotting ======#
-hp.mollview(hi_map, title=r'$N_{HI}$', coord='G', unit='$cm^{-2}$', norm='hist') #, min=-1.6,max=1.1)
+whi = hi_map*ch_map*dv*cst
+hp.mollview(whi, title=r'$N_{HI}$', coord='G', unit='$cm^{-2}$', norm=None) #, min=-1.6,max=1.1)
+hp.mollview(np.log10(whi), title=r'$N_{HI}$', coord='G', unit='$cm^{-2}$', norm=None, min=20.,max=22.)
 
 for i in range(len(info['src'])):
 	src   = info['src'][i]

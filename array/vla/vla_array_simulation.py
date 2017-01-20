@@ -1,5 +1,5 @@
 ## IMPORT LIBRARIES ##
-import sys
+import sys, os
 import matplotlib.pyplot as plt
 import numpy             as np
 

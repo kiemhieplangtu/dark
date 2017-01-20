@@ -1,5 +1,5 @@
-import sys
-sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+import sys, os
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
 
 import numpy             as np
 import matplotlib.pyplot as plt
@@ -489,7 +489,7 @@ def cal_tex(data, inf408):
 	print 'baseline final fit:', tbaseline
 	print nloope1
 	print '1) 1665 Tex & Error:'
-	print '    ', texfit1
+	print '    ', texfite1
 	print '    ', tex_ere1
 	print '2) Baseline final fit:'
 	print '    ', tbaseline

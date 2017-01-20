@@ -1,4 +1,4 @@
-import sys
+import sys, os
 
 ## Class - Read data from file to array, column by column ##
  # 

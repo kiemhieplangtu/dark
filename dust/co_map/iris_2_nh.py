@@ -1,5 +1,5 @@
 import sys, os
-sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
 
 import matplotlib.pyplot as plt
 import numpy             as np
@@ -12,18 +12,20 @@ from numpy    import array
 from restore  import restore
 from plotting import cplot
 
-## Read info of 26 sources #
+## Read info of 26 no-CO sources #
+ # l,b, nhi, and nhi_error
  #
  # params string fname Filename
- #
- # return void
+ # return dict infocd 
  # 
+ # version 1/2017
  # Author Van Hiep ##
-def read_info_no_co(fname = '../sub_data/26src_no_co_info.dat'):
-	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j','nhi','wnm','cnm','er_nhi','err_nhi','oh', 'thin']
-	fmt  = ['i','s','f','f','f','f','s','s','f','f','f','f','f','i','f']
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
 	data = restore(fname, 2, cols, fmt)
-	return data.read()
+	dat  = data.read()
+	return dat
 
 ## Get tau353 values and err_tau353 values #
  #
@@ -270,7 +272,7 @@ pth      = os.getenv("HOME")+'/hdata/iris/'
 map_file = pth + 'IRIS_4_2048.fits'
 
 ## Infor of 26 src without CO ##
-info     = read_info_no_co('../sub_data/26src_no_co_info.dat')
+info     = read_info_no_co('../../co12/result/26src_no_co_with_sponge.dat')
 
 cal_nh_from_i100(map_file, info)
 # plot_patches(map_file, info)

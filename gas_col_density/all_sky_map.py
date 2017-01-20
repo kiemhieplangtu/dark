@@ -44,62 +44,20 @@ def read_info(fname = '79src_info.txt'):
 
 	return ret
 
-# Find 26 sources with no CO #
-#
-# params string fname Filename
-#
-# return void
-# 
-# Author Van Hiep
-##
-def read_info_no_co(fname = '79src_info.txt'):
-	info = read_info()
-	#print map(operator.sub, info['b'], info['bc'])
-
-	j=0
-	for i in range(0,79):
-		if (info['yn'][i] == 0) :
-			print('{0}\t{1}\t\t{2}\t\t{3}\t\t{4}\t\t{5}\t\t{6}\t\t{6}'.format(j, info['src'][i], info['l'][i], info['b'][i], info['ra_icrs'][i], info['de_icrs'][i], info['ra_j'][i], info['de_j'][i]))
-			j = j + 1
-
-
-# Read info of 79 sources #
-#
-# params string fname Filename
-#
-# return void
-# 
-# Author Van Hiep
-##
-def read_info_no_co(fname = '26src_no_co_info.dat'):
-	ret = {}
-
-	ret['src'] = []
-	ret['l']  = []
-	ret['b']  = []
-	ret['ra_icrs']  = []
-	ret['de_icrs']  = []
-	ret['ra_j']  = []
-	ret['de_j']  = []
-
-	file = open (fname,'r')
-	file.readline() # comment line
-	file.readline() # comment line
-	for line in file:
-	    line    = line.strip()
-	    columns = line.split()
-
-	    ret['src'].append(columns[1])
-	    ret['l'].append(float(columns[2]))
-	    ret['b'].append(float(columns[3]))
-	    ret['ra_icrs'].append(float(columns[4]))
-	    ret['de_icrs'].append(float(columns[5]))
-	    ret['ra_j'].append(str(columns[6]))
-	    ret['de_j'].append(str(columns[7]))
-
-	file.close()
-
-	return ret	
+## Read info of 26 no-CO sources #
+ # l,b, nhi, and nhi_error
+ #
+ # params string fname Filename
+ # return dict infocd 
+ # 
+ # version 1/2017
+ # Author Van Hiep ##
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
+	data = restore(fname, 2, cols, fmt)
+	dat  = data.read()
+	return dat
 
 #================= MAIN ========================#	
 map_file = 'data/HFI_CompMap_ThermalDustModel_2048_R1.20.fits'

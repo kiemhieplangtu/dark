@@ -1,5 +1,5 @@
 import sys, os
-sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
 
 import matplotlib.pyplot as plt
 import numpy             as np
@@ -12,18 +12,20 @@ from numpy    import array
 from restore  import restore
 from plotting import cplot
 
-## Read info of 26 sources #
+## Read info of 26 no-CO sources #
+ # l,b, nhi, and nhi_error
  #
  # params string fname Filename
- #
- # return void
+ # return dict infocd 
  # 
+ # version 1/2017
  # Author Van Hiep ##
-def read_info_no_co(fname = '../sub_data/26src_no_co_info.dat'):
-	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j','nhi_heiles','nhi_warm','nhi_cold','er_nhi','err_nhi','oh']
-	fmt  = ['i','s','f','f','f','f','s','s','f','f','f','f','f','i']
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
 	data = restore(fname, 2, cols, fmt)
-	return data.read()
+	dat  = data.read()
+	return dat
 
 ## Read info of 23 LOW NHI sources #
  # l,b, nhi, and nhi_error

@@ -46,61 +46,20 @@ def read_info(fname = '79src_info.txt'):
 	return ret
 
 
-# Read info of 26 sources #
-#
-# params string fname Filename
-#
-# return void
-# 
-# Author Van Hiep
-##
-def read_info_no_co(fname = '26src_no_co_info.dat'):
-	ret = {}
-
-	ret['idx']      = []
-	ret['src']      = []
-	ret['l']        = []
-	ret['b']        = []
-	ret['ra_icrs']  = []
-	ret['de_icrs']  = []
-	ret['ra_j']     = []
-	ret['de_j']     = []
-
-	ret['nhi_heiles'] = []
-	ret['nhi_warm']   = []
-	ret['nhi_cold']   = []
-
-	ret['er_nhi']     = [] # error in %
-	ret['err_nhi']    = []
-	ret['oh']         = []
-
-	file = open (fname,'r')
-	file.readline() # comment line
-	file.readline() # comment line
-
-	for line in file:
-	    line    = line.strip()
-	    columns = line.split()
-
-	    ret['idx'].append(int(columns[0]))
-	    ret['src'].append(columns[1])
-	    ret['l'].append(float(columns[2]))
-	    ret['b'].append(float(columns[3]))
-	    ret['ra_icrs'].append(float(columns[4]))
-	    ret['de_icrs'].append(float(columns[5]))
-	    ret['ra_j'].append(str(columns[6]))
-	    ret['de_j'].append(str(columns[7]))
-	    ret['nhi_heiles'].append(float(columns[8]))
-	    ret['nhi_warm'].append(float(columns[9]))
-	    ret['nhi_cold'].append(float(columns[10]))
-
-	    ret['er_nhi'].append(float(columns[11])) # error in %
-	    ret['err_nhi'].append(float(columns[12]))
-	    ret['oh'].append(int(columns[13]))
-
-	file.close()
-
-	return ret
+## Read info of 26 no-CO sources #
+ # l,b, nhi, and nhi_error
+ #
+ # params string fname Filename
+ # return dict infocd 
+ # 
+ # version 1/2017
+ # Author Van Hiep ##
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
+	data = restore(fname, 2, cols, fmt)
+	dat  = data.read()
+	return dat
 
 # Plot the relation between CNM and WNM #
 #
@@ -372,7 +331,7 @@ def get_gas_column_density(map_file, src_num, info):
 map_file = 'data/HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
 
 # Info of 26 sources with no CO - l/b/name #
-info       = read_info_no_co('26src_no_co_info.dat')
+info       = read_info_no_co('../../co12/result/26src_no_co_with_sponge.dat')
 num_of_src = len(info['src'])
 
 get_gas_column_density(map_file, num_of_src, info)

@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import scipy
 import pymc3 as pm
 import numpy as np

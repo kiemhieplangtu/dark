@@ -1,5 +1,5 @@
 import sys, os
-sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
 
 import matplotlib.pyplot as plt
 import matplotlib        as mpl
@@ -73,13 +73,13 @@ def read_info_no_co_79(fname = '79src_info.txt'):
  # l,b, nhi, and nhi_error
  #
  # params string fname Filename
- # return dict info
+ # return dict infocd 
  # 
- # version 11/2016
+ # version 1/2017
  # Author Van Hiep ##
-def read_info_no_co(fname = '26src_no_co_info.dat'):
-	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j','nhi','wnm','cnm','e_nhi','nhi_er','oh']
-	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',   'f',  'f',  'f',  'f',    'f',    'f']
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
 	data = restore(fname, 2, cols, fmt)
 	dat  = data.read()
 	return dat
@@ -89,7 +89,7 @@ deg2rad  = np.pi/180.
 pth      = os.getenv("HOME")+'/hdata/dust/'
 map_file = pth + 'HFI_CompMap_ThermalDustModel_2048_R1.20.fits'
 
-info     = read_info_no_co('26src_no_co_info.dat')
+info     = read_info_no_co('../../co12/result/26src_no_co_with_sponge.dat')
 dbeam    = 3.5/120.0 # Beam = 3.5' -> dbeam = beam/60/2
 #dbeam = 0.1
 

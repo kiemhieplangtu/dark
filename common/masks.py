@@ -1,5 +1,5 @@
 ## Import libs ##
-import sys
+import sys, os
 import numpy             as     np
 import matplotlib.pyplot as     plt
 import healpy            as     hp

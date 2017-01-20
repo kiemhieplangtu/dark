@@ -1,5 +1,5 @@
-import sys
-sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+import sys, os
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
 
 import numpy             as np
 import matplotlib.pyplot as plt
@@ -144,7 +144,7 @@ def get_spec_data(src, srcs, data):
 	x1 = vlsr1[n] ## OH 1665 MHz
 	x2 = vlsr2[n] ## OH 1667 MHz
 
-	# On-/Off-source Tb and Background Continuum #
+	# On-/Off-source Tb and Background Baseline #
 	t_on0   = ab_avg0[n]        ## In fact: ab_avg = [Ton - Toff] = Tc*e(-tau)
 	t_off0  = em_avg0[n]
 	bg_on0  = cal_bg(x0,t_on0)  ## bg_on = Tc

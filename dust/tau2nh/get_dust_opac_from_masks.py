@@ -1,5 +1,5 @@
 import os, sys
-sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
 
 import matplotlib.pyplot as plt
 import numpy             as np
@@ -16,11 +16,11 @@ from masks               import masks
  # params string fname Filename
  # return dict infocd 
  # 
- # version 11/2016
+ # version 1/2017
  # Author Van Hiep ##
-def read_info_no_co(fname = '../gas_col_density/26src_no_co_info.dat'):
-	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j','nhi','wnm','cnm','e_nhi','nhi_er','oh']
-	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',   'f',  'f',  'f',  'f',    'f',    'f']
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
 	data = restore(fname, 2, cols, fmt)
 	dat  = data.read()
 	return dat
@@ -35,7 +35,7 @@ deg2rad = np.pi/180.
 pi      = 2.0*np.arccos(0.)
 
 ## Read infor of 26 no-CO sources
-info    = read_info_no_co('../../gas_col_density/26src_no_co_info.dat')
+info    = read_info_no_co('../../co12/result/26src_no_co_with_sponge.dat')
 
 ## All Masks
 pth      = os.getenv("HOME")+'/hdata/dust/'

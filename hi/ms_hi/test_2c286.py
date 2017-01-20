@@ -1,0 +1,176 @@
+import sys, os
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
+
+import numpy             as np
+import matplotlib.pyplot as plt
+
+from scipy.io.idl   import readsav
+from numpy          import array
+from restore        import restore
+from gauss_fit      import gfit
+
+## Get the index of a given velocity #
+ #
+ # params list v-axis List of Velocity_axis
+ # params float vel Velocity
+ #
+ # return int idx Index of vel in List of velocity_axis
+ # 
+ # Author Van Hiep ##
+def get_vel_index(v_axis, vel):
+    idx = (np.abs(np.array(v_axis)-vel)).argmin()
+    return idx
+
+## Get Vrange Indexes ##
+ #
+ # params 1-D-array v     VLSR
+ # params float     lowv  Lower limit
+ # params float     upv   Upper limit
+ #
+ # return list
+ #
+ # version 01/2017 
+ # author Nguyen Van Hiep ##
+def get_vrange_id(v, lowv, upv):
+	vmax = get_vel_index(v, lowv)
+	vmin = get_vel_index(v, upv)
+	return [vmin, vmax]
+
+## Multiple (N) Gaussians + offset. ##
+ #
+ # params list  v    VLSR
+ # params float zr   estimated constant zero offset of the data points.
+ # params list  h    the array of N estimated heights of the Gaussians.
+ # params list  v0   the array of N estimated centers of the Gaussians.
+ # params list  w    the array of N estimated halfwidths of the Gaussians.
+ #
+ # return 1-D-array  tf  The calculated points.
+ #
+ # version 01/2017 
+ # author Nguyen Van Hiep ##
+def gcurv(v, zr, h, v0, w):
+	#DETERMINE NR OF GAUSSIANS...
+	ng = len(h)
+
+	v  = np.array(v)
+	h  = np.array(h)
+	v0 = np.array(v0)
+	w  = np.array(w)
+
+	tf = 0.*v + zr
+	for i in range(ng):
+		if (w[i] > 0.):
+			tf = tf + h[i]*np.exp(- ( (v-v0[i])/(0.6005612*w[i]))**2) # 0.6005612 - 1/e width
+
+	return tf
+
+
+## ============= MAIN ================ ##
+## Class
+fit  = gfit()
+
+src  = '3C286'
+print 'Fitting...' + src
+
+data = readsav('../idl/gfit_idl_claire/3C286.sav')
+# % RESTORE: Restored variable: VLSR.
+# % RESTORE: Restored variable: SPEC1.
+# % RESTORE: Restored variable: EM_SPEC.
+# % RESTORE: Restored variable: SIGMA.
+# % RESTORE: Restored variable: EMSIGMA.
+# % RESTORE: Restored variable: PSR1.
+# % RESTORE: Restored variable: VLSREM.
+# % RESTORE: Restored variable: CONT.
+# % RESTORE: Restored variable: RMS.
+
+## ABS
+vlsr    = data.vlsr[:,0]
+tau     = data.spec1[:,0,0]
+sigtau  = data.sigma
+
+## EM - Set the velocity range for the emission spectra (to trim Carl's data)
+vlsrem  = data.vlsrem
+vmin, \
+vmax    = get_vrange_id(vlsrem, -100., 75.)
+Te      = data.em_spec
+
+## ABS line
+plt.plot(vlsr,tau, 'b-', linewidth=2, label='data, Absorption line')
+plt.title(src, fontsize=30)
+plt.ylabel(r'$\tau$', fontsize=35)
+plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+# plt.xlim(0.0, 2.0)
+# plt.xlim(-1.0, 6.0)
+plt.grid(True)
+plt.tick_params(axis='x', labelsize=18)
+plt.tick_params(axis='y', labelsize=15)
+plt.legend(loc='upper left', fontsize=18)
+plt.show()
+
+## EM line
+plt.plot(vlsrem,Te, 'b-', linewidth=2, label='data, Emission line')
+plt.plot(vlsrem[vmin:vmax],Te[vmin:vmax], 'r-', linewidth=2, label='data, Emission line')
+plt.title(src, fontsize=30)
+plt.ylabel(r'T_{em} [K]', fontsize=35)
+plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+# plt.xlim(0.0, 2.0)
+# plt.xlim(-1.0, 6.0)
+plt.grid(True)
+plt.tick_params(axis='x', labelsize=18)
+plt.tick_params(axis='y', labelsize=15)
+plt.legend(loc='upper left', fontsize=18)
+plt.show()
+
+# Retrieve initial Gaussian guesses for the absorption spectrum
+zro0   = 0.0
+hgt0   = [1.0,    1.0,   1.0]
+cen0   = [-30.0, -15.0, -5.0]
+wid0   = [1.0,    1.0,   1.0]
+look   = 0
+
+nrg    = len(hgt0)
+zro0yn = 0
+hgt0yn = [1]*nrg
+cen0yn = [1]*nrg
+wid0yn = [1]*nrg
+corder = 'no'
+
+## Fit these guesses
+tau0  = fit.gcurv(vlsr, zro0, hgt0, cen0, wid0)
+tfit0 = np.exp(-tau0)
+
+## ABS line - From Guesses
+plt.plot(vlsr, tfit0, 'b-', linewidth=2, label='data, Tau abs line')
+plt.title(src, fontsize=30)
+plt.ylabel(r'$\tau$', fontsize=35)
+plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+# plt.xlim(0.0, 2.0)
+# plt.xlim(-1.0, 6.0)
+plt.grid(True)
+plt.tick_params(axis='x', labelsize=18)
+plt.tick_params(axis='y', labelsize=15)
+plt.legend(loc='upper left', fontsize=18)
+plt.show()
+
+tfita, sigma, \
+zro1, hgt1, cen1, wid1,\
+sigzro1, sighgt1, sigcen1, sigwid1,\
+zro1, hgt1, cen1, wid1,\
+cov, problem,\
+nparams = fit.abfit(look, vlsr, tau, [0, len(tau)-1], zro0, hgt0, cen0, wid0, zro0yn, hgt0yn, cen0yn, wid0yn)
+
+print 'problem...', problem
+
+## ABS line fit
+plt.plot(vlsr, tfita, 'r-', linewidth=2, label='data, fit')
+plt.plot(vlsr,tau, 'b-', linewidth=2, label='data, Absorption line')
+plt.title(src, fontsize=30)
+plt.ylabel(r'$\tau$', fontsize=35)
+plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+# plt.xlim(0.0, 2.0)
+# plt.xlim(-1.0, 6.0)
+plt.grid(True)
+plt.tick_params(axis='x', labelsize=18)
+plt.tick_params(axis='y', labelsize=15)
+plt.legend(loc='upper left', fontsize=18)
+plt.show()

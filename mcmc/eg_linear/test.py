@@ -1,7 +1,7 @@
 import model
 from pymc import MCMC
 import pprint
-import sys
+import sys, os
 
 # Run sampling for 40000 iterations, with a burn-in of 2000 iterations and thinning for every 10 iterations.
 M = MCMC(model)

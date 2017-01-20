@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import random
 from pymc import stochastic, deterministic,Normal, Uniform
 import numpy as np

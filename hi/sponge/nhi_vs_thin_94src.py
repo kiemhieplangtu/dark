@@ -1,5 +1,5 @@
 import sys, os
-sys.path.insert(0, r'/home/vnguyen/dark/common') # add folder of Class
+sys.path.insert(0, os.getenv("HOME")+'/dark/common') # add folder of Class
 
 import matplotlib.pyplot as plt
 import matplotlib        as mpl
@@ -93,11 +93,11 @@ def read_info_94src(fname = '../rearrange/nhi_lb_thin_78src.txt'):
  # params string fname Filename
  # return dict info
  # 
- # version 11/2016
+ # version 1/2017
  # Author Van Hiep ##
-def read_info_no_co(fname = '../../dust/sub_data/26src_no_co_info.dat'):
-	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j','nhi','wnm','cnm','e_nhi','nhi_er','oh']
-	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',   'f',  'f',  'f',  'f',    'f',    'f']
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
 	data = restore(fname, 2, cols, fmt)
 	dat  = data.read()
 	return dat
@@ -163,19 +163,45 @@ def uncertainty_of_factors(factr, nhi, nhi_er, nh, nh_er):
 ## ======== MAIN ============= ##
 
 ## 94 MS+SPONGE Sources, MS prior
-sc94 = read_info_94src(fname = '../result/nhi_thin_cnm_wnm_94src.txt')
-sc     = sc94['src']
-xl     = sc94['l']
-xb     = sc94['b']
-hi     = sc94['nhi']
-hier   = sc94['nhi_er']
-thin   = sc94['thin']
-thiner = sc94['thin_er']
-cnm    = sc94['cnm']
-cnmer  = sc94['cnm_er']
-wnm    = sc94['wnm']
-wnmer  = sc94['wnm_er']
+sc94   = read_info_94src(fname = '../result/nhi_thin_cnm_wnm_94src.txt')
+# sc     = sc94['src']
+# xl     = sc94['l']
+# xb     = sc94['b']
+# hi     = sc94['nhi']
+# hier   = sc94['nhi_er']
+# thin   = sc94['thin']
+# thiner = sc94['thin_er']
+# cnm    = sc94['cnm']
+# cnmer  = sc94['cnm_er']
+# wnm    = sc94['wnm']
+# wnmer  = sc94['wnm_er']
 
+## Consider |b| > 10 Only
+sc     = []
+xl     = []
+xb     = []
+hi     = []
+hier   = []
+thin   = []
+thiner = []
+cnm    = []
+cnmer  = []
+wnm    = []
+wnmer  = []
+for i in range(len(sc94['src'])):
+	if(np.abs(sc94['b'][i]) > 10.):
+		sc.append(sc94['src'][i])
+		xl.append(sc94['l'][i])
+		xb.append(sc94['b'][i])
+		hi.append(sc94['nhi'][i])
+		hier.append(sc94['nhi_er'][i])
+		thin.append(sc94['thin'][i])
+		thiner.append(sc94['thin_er'][i])
+		cnm.append(sc94['cnm'][i])
+		cnmer.append(sc94['cnm_er'][i])
+		wnm.append(sc94['wnm'][i])
+		wnmer.append(sc94['wnm_er'][i])
+		
 # Fit and Plot #
 params = linear_fit(thin,hi)
 a      = params['a']
@@ -211,17 +237,37 @@ plt.show()
 
 ## 94 MS+SPONGE Sources, 21SPONGE* prior
 sc94 = read_info_94src(fname = '../result/nhi_thin_cnm_wnm_94src_sponge_prior.txt')
-sc     = sc94['src']
-xl     = sc94['l']
-xb     = sc94['b']
-hi     = sc94['nhi']
-hier   = sc94['nhi_er']
-thin   = sc94['thin']
-thiner = sc94['thin_er']
-cnm    = sc94['cnm']
-cnmer  = sc94['cnm_er']
-wnm    = sc94['wnm']
-wnmer  = sc94['wnm_er']
+# sc     = sc94['src']
+# xl     = sc94['l']
+# xb     = sc94['b']
+# hi     = sc94['nhi']
+# hier   = sc94['nhi_er']
+# thin   = sc94['thin']
+# thiner = sc94['thin_er']
+# cnm    = sc94['cnm']
+# cnmer  = sc94['cnm_er']
+# wnm    = sc94['wnm']
+# wnmer  = sc94['wnm_er']
+sc     = []
+xl     = []
+xb     = []
+hi     = []
+hier   = []
+thin   = []
+thiner = []
+cnm    = []
+cnmer  = []
+wnm    = []
+wnmer  = []
+for i in range(len(sc94['src'])):
+	if(np.abs(sc94['b'][i]) > 10.):
+		sc.append(sc94['src'][i])
+		xl.append(sc94['l'][i])
+		xb.append(sc94['b'][i])
+		hi.append(sc94['nhi'][i])
+		hier.append(sc94['nhi_er'][i])
+		thin.append(sc94['thin'][i])
+		thiner.append(sc94['thin_er'][i])
 
 # Fit and Plot #
 params = linear_fit(thin,hi)
@@ -302,93 +348,108 @@ plt.legend(loc='upper left', fontsize=18)
 # plt.savefig("test.png",bbox_inches='tight')
 plt.show()
 
+########### MPFIT ############
+xdata = xdata
+ydata = ydata
 
+# Error bar for x-axis and y-axis
+xerr = xerr
+yerr = yerr
 
 ## Fit ##
-# lguess  = [ 0.3, 0.8]
+lguess  = [ 0.33, 0.85]
 
-# npar    =  len(lguess)
-# guessp  = np.array(lguess, dtype='float64')
-# plimd   = [[False,False]]*npar
-# plims   = [[0.,0.]]*npar
-# parbase = {'value': 0., 'fixed': 0, 'parname': '', 'limited': [0, 0], 'limits': [0., 0.]}
-# pname   = ['slope','offset']
-# pfix    = [False]*npar
+npar    =  len(lguess)
+guessp  = np.array(lguess, dtype='float64')
+plimd   = [[False,False]]*npar
+plims   = [[0.,0.]]*npar
+parbase = {'value': 0., 'fixed': 0, 'parname': '', 'limited': [0, 0], 'limits': [0., 0.]}
+pname   = ['slope','offset']
+pfix    = [False]*npar
 
-# parinfo = []
-# for i in range(len(guessp)):
-# 	parinfo.append(copy.deepcopy(parbase))
+parinfo = []
+for i in range(len(guessp)):
+	parinfo.append(copy.deepcopy(parbase))
 
-# for i in range(len(guessp)):
-# 	parinfo[i]['value']   = guessp[i]
-# 	parinfo[i]['fixed']   = pfix[i]
-# 	parinfo[i]['parname'] = pname[i]
-# 	parinfo[i]['limited'] = plimd[i]
+for i in range(len(guessp)):
+	parinfo[i]['value']   = guessp[i]
+	parinfo[i]['fixed']   = pfix[i]
+	parinfo[i]['parname'] = pname[i]
+	parinfo[i]['limited'] = plimd[i]
 
-# x    = xdata.astype(np.float64)
-# y    = ydata.astype(np.float64)
-# er   = yerr.astype(np.float64)
+x    = xdata.astype(np.float64)
+y    = ydata.astype(np.float64)
+er   = yerr.astype(np.float64)
 
-# fa = {'x':x, 'y':y, 'err':er}
-# mp = mpfit(myfunc, guessp, parinfo=parinfo, functkw=fa, quiet=True)
+fa = {'x':x, 'y':y, 'err':er}
+mp = mpfit(myfunc, guessp, parinfo=parinfo, functkw=fa, quiet=True)
 
-# ## ********* Results ********* ##
-# print '********* Results *********'
-# abp   = mp.params
-# abper = mp.perror
-# for i in range(len(parinfo)):
-# 	print "%s = %f +/- %f" % (parinfo[i]['parname'],abp[i],abper[i])
-# ## Plot ##
-# a     = np.array([ abp[0]-abper[0], abp[0]+abper[0] ])
-# b     = np.array([ abp[1]-abper[1], abp[1]+abper[1] ])
-# xfit  = np.linspace(xdata.min(), xdata.max(), 20)
-# yfit  = a[:, None] * xfit + b[:, None]
-# mu    = yfit.mean(0)
-# sig   = 1.0*yfit.std(0)
-# fit   = abp[0]*x+abp[1]
+## ********* Results ********* ##
+print '********* Results *********'
+abp   = mp.params
+abper = mp.perror
+for i in range(len(parinfo)):
+	print "%s = %f +/- %f" % (parinfo[i]['parname'],abp[i],abper[i])
+## Plot ##
+a     = np.array([ abp[0]-abper[0], abp[0]+abper[0] ])
+b     = np.array([ abp[1]-abper[1], abp[1]+abper[1] ])
+xfit  = np.linspace(xdata.min(), xdata.max(), 20)
+yfit  = a[:, None] * xfit + b[:, None]
+mu    = yfit.mean(0)
+sig   = 1.0*yfit.std(0)
+fit   = abp[0]*x+abp[1]
 
-# m  = round(abp[0],2)
-# b  = round(abp[1],2)
-# ea = round(abper[0],2)
-# eb = round(abper[1],2)
+m  = round(abp[0],2)
+b  = round(abp[1],2)
+ea = round(abper[0],2)
+eb = round(abper[1],2)
 
-# # plt.plot(xdata,ydata, 'ok', ls='None', marker='.', lw=1, label='Factor $f = N_{HI}$/$N^*_{HI}$')
-# plt.errorbar(xdata,ydata,xerr=xerr, yerr=yerr, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='Ratio $f = N_{H}$/$N_{HI}$')
-# plt.plot(xfit, mu, '-b', mew=2, linewidth=2, linestyle='solid', marker='o', markerfacecolor='b', markersize=0, label='MPFIT linear fit')
-# plt.fill_between(xfit, mu - sig, mu + sig, color='0.5', alpha=0.5)
-# # plt.plot(xfit, alpha*xfit[:, None] + beta, c='blue', alpha=0.01)
-# # plt.plot(xfit, alpha_stats['mean']*xfit + beta_stats['mean'], linewidth=2, c='red')
+# plt.plot(xdata,ydata, 'ok', ls='None', marker='.', lw=1, label='Factor $f = N_{HI}$/$N^*_{HI}$')
+plt.errorbar(xdata,ydata,xerr=xerr, yerr=yerr, color='r', marker='o', ls='None', markersize=8, markeredgecolor='b', markeredgewidth=1, label='Ratio $f = N_{HI}$/$N^*_{HI}$')
+plt.plot(xfit, mu, '-b', mew=2, linewidth=2, linestyle='solid', marker='o', markerfacecolor='b', markersize=0, label='MPFIT linear fit')
+plt.fill_between(xfit, mu - sig, mu + sig, color='0.5', alpha=0.5)
+# plt.plot(xfit, alpha*xfit[:, None] + beta, c='blue', alpha=0.01)
+# plt.plot(xfit, alpha_stats['mean']*xfit + beta_stats['mean'], linewidth=2, c='red')
 
-# plt.title('Correlation between Total HI column densities $N_{HI}$ and \n HI optically thin column densities $N^*_{HI}$ along 79 Millennium Survey lines-of-sight', fontsize=30)
-# plt.ylabel('$Ratio f = N_{HI}$/$N^*_{HI}$', fontsize=35)
-# plt.xlabel('$log_{10}(N^*_{HI}/10^{20} cm^{-2}$)', fontsize=35)
-# # plt.xlim(0, 1.6)
-# # plt.ylim(0, 3)
-# plt.grid(True)
-# plt.tick_params(axis='x', labelsize=18)
-# plt.tick_params(axis='y', labelsize=15)
+plt.title('Correlation between Total HI column densities $N_{HI}$ and \n HI optically thin column densities $N^*_{HI}$ along 94 (Millennium Survey & 21-SPONGE) lines-of-sight', fontsize=30)
+plt.ylabel('$Ratio f = N_{HI}$/$N^*_{HI}$', fontsize=35)
+plt.xlabel('$log_{10}(N^*_{HI}/10^{20} cm^{-2}$)', fontsize=35)
+plt.xlim(0.0, 2.0)
+plt.ylim(-1.0, 6.0)
+plt.grid(True)
+plt.tick_params(axis='x', labelsize=18)
+plt.tick_params(axis='y', labelsize=15)
 
-# plt.text(0.2, 0.4, '$f = ['+str(m)+'\pm'+str(ea) +']\cdot log_{10}(N_{HI}/10^{20})+['+str(b)+'\pm'+str(eb)+']$', fontsize=20 )
-# plt.legend(loc='lower right', fontsize=18)
-# # plt.savefig("test.png",bbox_inches='tight')
-# # for i in range(len(sc)):
-# # 	plt.annotate('('+str(sc[i])+')', xy=(xdata[i], ydata[i]), xycoords='data',
-# #             xytext=(-50.,30.), textcoords='offset points',
-# #             arrowprops=dict(arrowstyle="->"),fontsize=18,
-# #             )
-# plt.show()
-
-
-
-
-
-
+plt.text(0.0, 3.0, '$f = ['+str(m)+'\pm'+str(ea) +']\cdot log_{10}(N^*_{HI}/10^{20}) + ['+str(b)+'\pm'+str(eb)+']$', color='blue', fontsize=20)
+plt.text(0.0, 3.2, r'$f = [0.32\pm0.06]\cdot log_{10}(N^*_{HI}/10^{20}) + [0.81\pm0.05]$, Lee et al.', color='blue', fontsize=20)
+plt.legend(loc='lower right', fontsize=18)
+# plt.savefig("test.png",bbox_inches='tight')
+# for i in range(len(sc)):
+# 	plt.annotate('('+str(sc[i])+')', xy=(xdata[i], ydata[i]), xycoords='data',
+#             xytext=(-50.,30.), textcoords='offset points',
+#             arrowprops=dict(arrowstyle="->"),fontsize=18,
+#             )
+plt.show()
+########### END - MPFIT ############
 
 
 
 
 ## Check Low NHI sources, NHI < 3.0 e20 cm-2
-src26 = read_info_no_co('../../dust/sub_data/26src_no_co_info.dat')
+## 94 MS+SPONGE Sources, 21SPONGE* prior
+sc94 = read_info_94src(fname = '../result/nhi_thin_cnm_wnm_94src_sponge_prior.txt')
+sc     = sc94['src']
+xl     = sc94['l']
+xb     = sc94['b']
+hi     = sc94['nhi']
+hier   = sc94['nhi_er']
+thin   = sc94['thin']
+thiner = sc94['thin_er']
+cnm    = sc94['cnm']
+cnmer  = sc94['cnm_er']
+wnm    = sc94['wnm']
+wnmer  = sc94['wnm_er']
+src26 = read_info_no_co('../../co12/result/26src_no_co_with_sponge.dat')
 sc26  = src26['src']
 k     = 0
 for i in range(len(sc)):

@@ -1,5 +1,5 @@
 ## Import libs ##
-import sys
+import sys, os
 import pymc
 import numpy             as     np
 import matplotlib.pyplot as     plt

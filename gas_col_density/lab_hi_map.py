@@ -46,23 +46,20 @@ def read_info(fname = '79src_info.txt'):
 
 	return ret
 
-# Find 26 sources with no CO #
-#
-# params string fname Filename
-#
-# return void
-# 
-# Author Van Hiep
-##
-def read_info_no_co(fname = '79src_info.txt'):
-	info = read_info()
-	#print map(operator.sub, info['b'], info['bc'])
-
-	j=0
-	for i in range(0,79):
-		if (info['yn'][i] == 0) :
-			print('{0}\t{1}\t\t{2}\t\t{3}\t\t{4}\t\t{5}\t\t{6}\t\t{6}'.format(j, info['src'][i], info['l'][i], info['b'][i], info['ra_icrs'][i], info['de_icrs'][i], info['ra_j'][i], info['de_j'][i]))
-			j = j + 1
+## Read info of 26 no-CO sources #
+ # l,b, nhi, and nhi_error
+ #
+ # params string fname Filename
+ # return dict infocd 
+ # 
+ # version 1/2017
+ # Author Van Hiep ##
+def read_info_no_co(fname = '../../co12/result/26src_no_co_with_sponge.dat'):
+	cols = ['idx','src','l','b','ra_icrs','de_icrs','ra_j','de_j', 'oh', 'nhi','nhi_er','thin','thin_er', 'cnm','cnm_er','wnm','wnm_er']
+	fmt  = ['i',  's',  'f','f', 'f',    'f',       's',    's',    'i', 'f',   'f',     'f',    'f'    , 'f',   'f',     'f',  'f'    ]
+	data = restore(fname, 2, cols, fmt)
+	dat  = data.read()
+	return dat
 
 
 # Read info of 79 sources #
@@ -103,44 +100,46 @@ def read_info_no_co(fname = '26src_no_co_info.dat'):
 
 	return ret	
 
-#================= MAIN ========================#	
+###================= MAIN ========================####
+pth  = os.getenv("HOME")+'/hdata/dust/LAB_Healpix/'
+dirs = os.listdir( pth )
 # map_file = 'data/LAB_Healpix/LAB_cut+440.fits' #LAB_cut+30.fits
-map_file = 'data/LAB_Healpix/LAB_IV.fits' #
-# map_file = 'data/LAB_Healpix/LAB_fullvel.fits' #
-whi = hp.read_map(map_file, field = 0, h=False)
-whi  = whi*1.8224e18
+# map_file = 'data/LAB_Healpix/LAB_IV.fits' #
+# map_file = pth + 'LAB_IV.fits'
+# map_file = pth + 'LAB_fullvel.fits'
+# whi = hp.read_map(map_file, field = 0, h=False)
+# whi  = whi*1.8224e18*1.030571969
 # whii = hp.read_map('data/LAB_Healpix/LAB_IV.fits', field = 0, h=False)
 # whii  = whii*1.8224e18
-title = map_file
+# title = map_file
 
-# Open a file
-path = "/home/vnguyen/dark/gas_col_density/data/LAB_Healpix/"
-dirs = os.listdir( path )
 
-# # This would print all the files and directories
-# namelist = []
-# vlist    = []
-# for names in dirs:
-#     if (names.endswith(".fits") and names.startswith('LAB_cut')) :
-#         namelist.append(names)
-#         names = names.replace("LAB_cut","")
-#         names = names.replace(".fits","")
-#         vlist.append(float(names))
 
-# # print len(namelist)
+# This would print all the files and directories
+namelist = []
+vlist    = []
+for names in dirs:
+    if (names.endswith(".fits") and names.startswith('LAB_cut')) :
+        namelist.append(names)
+        names = names.replace("LAB_cut","")
+        names = names.replace(".fits","")
+        vlist.append(float(names))
 
-# whi = 0.
-# title = ''
-# for i in range(len(namelist)):
-# 	# print i, namelist[i], vlist[i]
-# 	# if (np.abs(vlist[i]) < 35.):
-# 	# if ( (np.abs(vlist[i]) < 75.) and (np.abs(vlist[i]) > 30.) ):
-# 	if ( (vlist[i] < -30.) and (vlist[i] > -100.) ):
-# 		map_file = 'data/LAB_Healpix/' + namelist[i]
-# 		title = title + str(vlist[i])+', '
-# 		whi = whi + hp.read_map(map_file, field = 0, h=False)
+print len(namelist)
+
+whi = 0.
+title = ''
+for i in range(len(namelist)):
+	# print i, namelist[i], vlist[i]
+	# if (np.abs(vlist[i]) < 35.):
+	# if ( (np.abs(vlist[i]) < 75.) and (np.abs(vlist[i]) > 30.) ):
+	if ( (vlist[i] < 160.) and (vlist[i] > -160.) ):
+		map_file = pth + namelist[i]
+		title = title + str(vlist[i])+', '
+		whi = whi + hp.read_map(map_file, field = 0, h=False)
 
 # whi  = whi*1.8224e18
+whi  = whi*1.030571969*1.8224e18
 # wmax = np.max(whi)
 # wmin = np.min(whi)
 # dw   = (wmax - wmin)/100.
@@ -170,11 +169,11 @@ dirs = os.listdir( path )
 # print 100.*npix/len(whi)
 
 # whi  = np.log10(whi)
-whi = whi/1e20
+# whi = whi/1e20
 cmap = plt.cm.get_cmap('jet')
 # hp.mollview(whi, title=title, coord='G', unit='', rot=[0,0,0], norm=None,  xsize=800)
 # hp.mollview(whi, title=map_file, coord='G', unit='', rot=[0,0,0], norm=None, min=0.,max=2.e20, xsize=800, cmap = cmap)
-hp.mollview(whi, title=title, coord='G', unit='', rot=[0,0,0], norm=None, min=0., max=2.)
+hp.mollview(whi, title=title, coord='G', unit='', rot=[0,0,0], norm=None) #, min=0., max=2.)
 
 # hp.cartview(whi, title=title, coord='G', unit='', rot=[0.,0., 0.], nest=False, flip=None,
 # 				norm=None, return_projected_map=True)
