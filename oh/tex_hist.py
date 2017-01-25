@@ -284,5 +284,5 @@ def component_tex_diff():
   fig.iplot(data,layout) 
 
 #================= MAIN ========================#
-# tex_hist()
-component_tex_diff()
+tex_hist()
+# component_tex_diff()

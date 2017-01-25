@@ -251,25 +251,25 @@ def get_src_info(data, src, src_list):
 	oh_f2   = data.la.cfr_bd2
 	vlsr2   = data.la.vlsr_bd2
 
-	# em_avg1 = 0.5*correct_ctrl_chnl(data.la.i_em_avg_bd1)
-	# em_med1 = 0.5*correct_ctrl_chnl(data.la.i_em_med_bd1)
-	# ab_avg1 = 0.5*correct_ctrl_chnl(data.la.i_abs_avg_bd1)
-	# ab_med1 = 0.5*correct_ctrl_chnl(data.la.i_abs_med_bd1)
+	em_avg1 = 0.5*correct_ctrl_chnl(data.la.i_em_avg_bd1)
+	em_med1 = 0.5*correct_ctrl_chnl(data.la.i_em_med_bd1)
+	ab_avg1 = 0.5*correct_ctrl_chnl(data.la.i_abs_avg_bd1)
+	ab_med1 = 0.5*correct_ctrl_chnl(data.la.i_abs_med_bd1)
 
-	# em_avg2 = 0.5*correct_ctrl_chnl(data.la.i_em_avg_bd2)
-	# em_med2 = 0.5*correct_ctrl_chnl(data.la.i_em_med_bd2)
-	# ab_avg2 = 0.5*correct_ctrl_chnl(data.la.i_abs_avg_bd2)
-	# ab_med2 = 0.5*correct_ctrl_chnl(data.la.i_abs_med_bd2)
+	em_avg2 = 0.5*correct_ctrl_chnl(data.la.i_em_avg_bd2)
+	em_med2 = 0.5*correct_ctrl_chnl(data.la.i_em_med_bd2)
+	ab_avg2 = 0.5*correct_ctrl_chnl(data.la.i_abs_avg_bd2)
+	ab_med2 = 0.5*correct_ctrl_chnl(data.la.i_abs_med_bd2)
 
-	em_avg1 = correct_ctrl_chnl(data.la.i_em_avg_bd1)
-	em_med1 = correct_ctrl_chnl(data.la.i_em_med_bd1)
-	ab_avg1 = correct_ctrl_chnl(data.la.i_abs_avg_bd1)
-	ab_med1 = correct_ctrl_chnl(data.la.i_abs_med_bd1)
+	# em_avg1 = correct_ctrl_chnl(data.la.i_em_avg_bd1)
+	# em_med1 = correct_ctrl_chnl(data.la.i_em_med_bd1)
+	# ab_avg1 = correct_ctrl_chnl(data.la.i_abs_avg_bd1)
+	# ab_med1 = correct_ctrl_chnl(data.la.i_abs_med_bd1)
 
-	em_avg2 = correct_ctrl_chnl(data.la.i_em_avg_bd2)
-	em_med2 = correct_ctrl_chnl(data.la.i_em_med_bd2)
-	ab_avg2 = correct_ctrl_chnl(data.la.i_abs_avg_bd2)
-	ab_med2 = correct_ctrl_chnl(data.la.i_abs_med_bd2)
+	# em_avg2 = correct_ctrl_chnl(data.la.i_em_avg_bd2)
+	# em_med2 = correct_ctrl_chnl(data.la.i_em_med_bd2)
+	# ab_avg2 = correct_ctrl_chnl(data.la.i_abs_avg_bd2)
+	# ab_med2 = correct_ctrl_chnl(data.la.i_abs_med_bd2)
 
 	return n,ell[n],bee[n],oh_f1[n],vlsr1[n],oh_f2[n],vlsr2[n],em_avg1[n],ab_avg1[n],em_avg2[n],ab_avg2[n]
 
@@ -342,16 +342,16 @@ def peak_guessp(sc,fname='../data/gauss_1665_peaks.txt'):
  #
  # version 08/2016 
  # author Nguyen Van Hiep ##
-def read_ningyu_tex(sc,fname='../sub_data/tex_oh1165.txt'):
+def read_carl_tex(sc,fname='../sub_data/carl_tex.txt'):
 	ret = {}
 
-	cols = ['idx','src','tau','v0','wid','tex1','texer1', 'tex2', 'texer2', 'tbg', 'tex65', 'tau65']
-	fmt  = ['i',  's',   'f', 'f', 'f',   'f',   'f',     'f',     'f',      'f',   'f',      'f'  ]
-	dat  = restore(fname, 3, cols, fmt)
+	cols = ['ng1','ng2', 'ng', 'src','l','b','zro1','tau1', 'cen1', 'wid1', 'tex1', 'tex1er', 'tex2', 'tex2er']
+	fmt  = ['i',  'i',   'i',  's',  'f','f', 'f',   'f',   'f',     'f',    'f',   'f',     'f',      'f'  ]
+	dat  = restore(fname, 2, cols, fmt)
 	info = dat.read()
 	src  = info['src']
-	tau  = info['tau65']
-	tex  = info['tex65']
+	tau  = info['tau1']
+	tex  = info['tex1']
 	for i in range(len(src)):
 		if info['src'][i] not in ret.keys():
 			ret[src[i]] = {}
@@ -388,6 +388,9 @@ def cal_tex(data, inf408, bd=1):
 	 	## Vel range to cal. Baseline-background
 	 	xmin, xmax = vel_range(n)
 
+	 	# if(src != '3C105'):
+	 	# 	continue
+
 	 	if(xmin==0 and xmax==0):
 	 		continue
 
@@ -407,7 +410,7 @@ def cal_tex(data, inf408, bd=1):
 			pfl = '../data/gauss_1667_peaks.txt'
 
 		## Ningyu Tex
-		ntau, ntex = read_ningyu_tex(src,fname='../sub_data/tex_oh1165.txt')
+		ntau, ntex = read_carl_tex(src,fname='../sub_data/carl_tex.txt')
 
 		## Background ##
 		# tbg1665    = 2.8+get_tb_408(ell,bee,inf408.tb_408)*(408./frq)**2.8 # Tbg from 408MHz
@@ -417,7 +420,10 @@ def cal_tex(data, inf408, bd=1):
 		# tc1665,tc_er        = baseline_from_linear_fit(v, Ta, avmin1, avmax1, avmin2, avmax2,fit=False)
 		# bg_off1665,bgoff_er = baseline_from_linear_fit(v, Te, evmin1, evmax1, evmin2, evmax2,fit=False)
 		tau, v0, wid, base_range, v1,v2, tc1665, bg_off1665, tbg1665, base = peak_guessp(src,pfl)
-		trx = bg_off1665 - tbg1665
+		tc1665     = tc1665/2.
+		bg_off1665 = bg_off1665/2.
+		base       = base/2.
+		trx        = bg_off1665 - tbg1665
 
 		tbg = tbg1665
 		continuum_em = tbg

@@ -66,6 +66,7 @@ def gcurv(v, zr, h, v0, w):
 
 
 ## ============= MAIN ================ ##
+iplot = 0
 ## Class
 fit  = gfit()
 
@@ -94,32 +95,6 @@ vmin, \
 vmax    = get_vrange_id(vlsrem, -100., 75.)
 Te      = data.em_spec
 
-## ABS line
-plt.plot(vlsr,tau, 'b-', linewidth=2, label='data, Absorption line')
-plt.title(src, fontsize=30)
-plt.ylabel(r'$\tau$', fontsize=35)
-plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
-# plt.xlim(0.0, 2.0)
-# plt.xlim(-1.0, 6.0)
-plt.grid(True)
-plt.tick_params(axis='x', labelsize=18)
-plt.tick_params(axis='y', labelsize=15)
-plt.legend(loc='upper left', fontsize=18)
-plt.show()
-
-## EM line
-plt.plot(vlsrem,Te, 'b-', linewidth=2, label='data, Emission line')
-plt.plot(vlsrem[vmin:vmax],Te[vmin:vmax], 'r-', linewidth=2, label='data, Emission line')
-plt.title(src, fontsize=30)
-plt.ylabel(r'T_{em} [K]', fontsize=35)
-plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
-# plt.xlim(0.0, 2.0)
-# plt.xlim(-1.0, 6.0)
-plt.grid(True)
-plt.tick_params(axis='x', labelsize=18)
-plt.tick_params(axis='y', labelsize=15)
-plt.legend(loc='upper left', fontsize=18)
-plt.show()
 
 # Retrieve initial Gaussian guesses for the absorption spectrum
 zro0   = 0.0
@@ -139,38 +114,101 @@ corder = 'no'
 tau0  = fit.gcurv(vlsr, zro0, hgt0, cen0, wid0)
 tfit0 = np.exp(-tau0)
 
-## ABS line - From Guesses
-plt.plot(vlsr, tfit0, 'b-', linewidth=2, label='data, Tau abs line')
-plt.title(src, fontsize=30)
-plt.ylabel(r'$\tau$', fontsize=35)
-plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
-# plt.xlim(0.0, 2.0)
-# plt.xlim(-1.0, 6.0)
-plt.grid(True)
-plt.tick_params(axis='x', labelsize=18)
-plt.tick_params(axis='y', labelsize=15)
-plt.legend(loc='upper left', fontsize=18)
-plt.show()
-
 tfita, sigma, \
 zro1, hgt1, cen1, wid1,\
 sigzro1, sighgt1, sigcen1, sigwid1,\
-zro1, hgt1, cen1, wid1,\
 cov, problem,\
 nparams = fit.abfit(look, vlsr, tau, [0, len(tau)-1], zro0, hgt0, cen0, wid0, zro0yn, hgt0yn, cen0yn, wid0yn)
 
-print 'problem...', problem
+print 'Absorption line: problem...', problem
 
-## ABS line fit
-plt.plot(vlsr, tfita, 'r-', linewidth=2, label='data, fit')
-plt.plot(vlsr,tau, 'b-', linewidth=2, label='data, Absorption line')
-plt.title(src, fontsize=30)
-plt.ylabel(r'$\tau$', fontsize=35)
-plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
-# plt.xlim(0.0, 2.0)
-# plt.xlim(-1.0, 6.0)
-plt.grid(True)
-plt.tick_params(axis='x', labelsize=18)
-plt.tick_params(axis='y', labelsize=15)
-plt.legend(loc='upper left', fontsize=18)
-plt.show()
+if (iplot):
+	## ABS line
+	plt.plot(vlsr,tau, 'b-', linewidth=2, label='data, Absorption line')
+	plt.title(src, fontsize=30)
+	plt.ylabel(r'$\tau$', fontsize=35)
+	plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+	# plt.xlim(0.0, 2.0)
+	# plt.xlim(-1.0, 6.0)
+	plt.grid(True)
+	plt.tick_params(axis='x', labelsize=18)
+	plt.tick_params(axis='y', labelsize=15)
+	plt.legend(loc='upper left', fontsize=18)
+	plt.show()
+
+	## EM line
+	plt.plot(vlsrem,Te, 'b-', linewidth=2, label='data, Emission line')
+	plt.plot(vlsrem[vmin:vmax],Te[vmin:vmax], 'r-', linewidth=2, label='data, Emission line')
+	plt.title(src, fontsize=30)
+	plt.ylabel(r'T_{em} [K]', fontsize=35)
+	plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+	# plt.xlim(0.0, 2.0)
+	# plt.xlim(-1.0, 6.0)
+	plt.grid(True)
+	plt.tick_params(axis='x', labelsize=18)
+	plt.tick_params(axis='y', labelsize=15)
+	plt.legend(loc='upper left', fontsize=18)
+	plt.show()
+
+
+	## ABS line - From Guesses
+	plt.plot(vlsr, tfit0, 'b-', linewidth=2, label='data, Tau abs line')
+	plt.title(src, fontsize=30)
+	plt.ylabel(r'$\tau$', fontsize=35)
+	plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+	# plt.xlim(0.0, 2.0)
+	# plt.xlim(-1.0, 6.0)
+	plt.grid(True)
+	plt.tick_params(axis='x', labelsize=18)
+	plt.tick_params(axis='y', labelsize=15)
+	plt.legend(loc='upper left', fontsize=18)
+	plt.show()
+
+	## ABS line fit & residuals
+	fig1 = plt.figure(1)
+	frame1=fig1.add_axes((.1,.3,.8,.7))
+	plt.plot(vlsr, tfita, 'r-', linewidth=2, label='data, fit')
+	plt.plot(vlsr,tau, 'b-', linewidth=2, label='data, Absorption line')
+	plt.ylabel(r'$\tau$', fontsize=35)
+	plt.tick_params(axis='y', labelsize=15)
+	plt.tick_params(axis='x', labelsize=18, labelbottom='off')
+	plt.legend(loc='upper left', fontsize=18)
+	plt.grid()
+
+	frame2=fig1.add_axes((.1,.1,.8,.2))
+	difference = tau - tfita
+	plt.plot(vlsr, difference, 'r-', linewidth=2, label='')
+	frame2.set_ylabel('$Residual$',fontsize=20)
+	plt.xlabel('$V_{lsr} (km/s)$', fontsize=35)
+	plt.tick_params(axis='x', labelsize=18)
+	plt.tick_params(axis='y', labelsize=15)
+	# plt.legend(loc='upper left', fontsize=18)
+	plt.axhline(y=sigma, xmin=-100, xmax=100, c='k', ls='-.', linewidth=3)
+	plt.axhline(y=-sigma, xmin=-100, xmax=100, c='k', ls='-.', linewidth=3)
+	plt.grid()
+	plt.show()
+
+print '1. sigma ', sigma
+print '2. Zro ', zro1
+print '2b. ZroSig ', sigzro1
+print '3. tau ', hgt1
+print '3b. tauSig ', sighgt1
+print '4. cen ', cen1
+print '4b. cenSig ', sigcen1
+print '5. wid ', wid1
+print '5b. widSig ', sigwid1
+
+print ''
+print ''
+# zrownm1   = 0.0
+# hgtwnm1   = [1,1]
+# cenwnm1   = [-5,-20]
+# widwnm1   = [10,10]
+# look      = 0
+# nrgwnm    = n_elements(hgtwnm1)
+# zrownm1yn = 1
+# hgtwnm1yn = 1+intarr(nrgwnm)
+# cenwnm1yn = 1+intarr(nrgwnm)
+# widwnm1yn = 1+intarr(nrgwnm)
+# fwnm1     = fwnm1
+# fwnm1yn   = intarr(nrgwnm)

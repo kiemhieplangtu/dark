@@ -124,22 +124,23 @@ class gfit:
 	 # version 01/2017 
 	 # author Nguyen Van Hiep ##
 	def gcurv(self, v, zr, h, v0, w):
+		dp600 = np.float64(0.60056120)
 		if(np.isscalar(v)):
-			v  = np.array([v])
+			v  = np.array([v], dtype=np.float64)
 		if(np.isscalar(h)):
-			h  = np.array([h])
+			h  = np.array([h], dtype=np.float64)
 		if(np.isscalar(v0)):
-			v0 = np.array([v0])
+			v0 = np.array([v0], dtype=np.float64)
 		if(np.isscalar(w)):
-			w  = np.array([w])
+			w  = np.array([w], dtype=np.float64)
 
 		#DETERMINE NR OF GAUSSIANS...
 		ng = len(h)
-
+		
 		tf = 0.*v + zr
 		for i in range(ng):
 			if (w[i] > 0.):
-				tf = tf + h[i]*np.exp(- ( (v-v0[i])/(0.6005612*w[i]))**2) # 0.6005612 - 1/e width
+				tf = tf + h[i]*np.exp(- ( (v-v0[i])/(dp600*w[i]))**2) # 0.6005612 - 1/e width
 
 		return tf
 
@@ -339,7 +340,7 @@ class gfit:
 
 			for ng in range(ngaussians):
 				xdel                 = (xdata - cen1[ng])/wid1[ng]
-				edel                 = np.exp(-xdel**2)
+				edel                 = np.exp(-xdel*xdel)
 				sum1                 = edel
 				sum2                 = edel*xdel
 				sum3                 = sum2*xdel
@@ -349,7 +350,7 @@ class gfit:
 				sfull[ :, (3*ng+3) ] = expfactor*sum3*sum6     ## WIDTH
 
 			s = sfull[:,sfull_to_s]
-			        
+
 			## CREATE AND SOLVE THE NORMAL EQUATION MATRICES...
 			t   = tdata-t_predicted
 			ss  = np.dot(np.transpose(s),s)
@@ -449,9 +450,18 @@ class gfit:
 		t_predicted      = np.exp(-sum_of_gaussians)
 		        
 		resid  = tdata - t_predicted
-		resid2 = np.square(resid)
-		sigsq  = resid2.sum()/(datasize - nparams)
+		resid2 = resid**2
+		ressum = resid2.sum()
+		sigsq  = ressum/(datasize - nparams)
 		sigma  = sigsq**0.5
+
+		plt.plot(xdata, t_predicted)
+		plt.show()
+
+		print nloop
+		print resid
+		for i in range(256):
+			print i, resid[i], t_predicted[i]
 
 		ltemp  = list(range(nparams))
 		ltemp  = [x*(nparams+1) for x in ltemp]
@@ -465,7 +475,6 @@ class gfit:
 			if (x<0.):
 				countsqrt = countsqrt + 1
 				indxsqrt.append(jj)
-
 			jj = jj + 1
 
 		sigarray = np.sqrt( abs(sigarray))
@@ -527,7 +536,6 @@ class gfit:
 		return tfita, sigma, \
 				zro1, hgt1, cen1, wid1,\
 				sigzro1, sighgt1, sigcen1, sigwid1,\
-				zro1, hgt1, cen1, wid1,\
 				cov, problem,\
 				nparams
 

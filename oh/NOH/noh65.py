@@ -104,7 +104,7 @@ def get_tb_408(ell,bee,tb_408):
 	iell= round(( modangle(ell)/360.)* 1080.)
 	ibee= round( (( modangle( bee, 360., negpos=True)+90.)/180.)* 540)
 
-	return tb_408[ibee, iell]
+	return tb_408[int(ibee), int(iell)]
 
 ## Convert angle to a specified range by finding the angle modulo the extent of the range. ##
  #
@@ -504,8 +504,8 @@ def cal_tex_print(data,inf408,xplot=False, tau_sig=2., bd=1):
 	 	avmin1,avmax1,avmin2,avmax2,evmin1,evmax1,evmin2,evmax2           = read_bins_to_cal_bg(n)
 	 	xmin, xmax                                                        = vel_range(n)
 
-	 	if (src != '3C109'):
-			continue
+	 	# if (src != '3C109'):
+			# continue
 		if (xmin == 0. and xmax == 0.):
 			continue
 
@@ -531,7 +531,7 @@ def cal_tex_print(data,inf408,xplot=False, tau_sig=2., bd=1):
 		tbg1665    = 2.8+get_tb_408(ell,bee,inf408.tb_408)*(408./frq)**2.8 # Tbg from 408MHz
 		tbg1665    = 2.8+bg408[src]*(408./frq)**2.8 # Tbg from 408MHz
 		if(src=='3C123'):
-			tbg1665 = 18.
+			tbg1665 = 25.0 #18.
 
 		## BACKGROUNDS and THEIR UNCERTAINTIES ##
 		tc1665,tc_er        = baseline_from_linear_fit(xd, td, avmin1, avmax1, avmin2, avmax2,fit=False)
@@ -747,6 +747,9 @@ def cal_tex_print(data,inf408,xplot=False, tau_sig=2., bd=1):
 #============== MAIN ==============#
 data   = readsav('../data/makelines.sav')              # data.la
 inf408 = readsav('../data/tb_408.sav')                 # l_cntr, b_cntr, tb_408, Continuum at 408MHz
-cal_tex_print(data, inf408, xplot=1, tau_sig=2., bd=1) # bd1=65, bd2=67
+print '================================================================= Results ==========================================================='
+print 'n 	src 		tau_fit		v0_fit		wid_fit 	tex_peak 	texsig_peak 	noh_peak 	noh_sig'
+print '====================================================================================================================================='
+cal_tex_print(data, inf408, xplot=0, tau_sig=2., bd=1) # bd1=65, bd2=67
 
 sys.exit()
